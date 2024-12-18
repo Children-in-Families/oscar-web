@@ -97,7 +97,7 @@ module AdvancedSearches
 
     def case_history_date_type_list
       date_list = ['accepted_date', 'exit_date']
-      enter_ngo_count = EnterNgo.group(:client_id).count.max.last
+      enter_ngo_count = EnterNgo.group(:client_id).count.values.max
       if enter_ngo_count > 1
         (1..enter_ngo_count).each do |ordered_number|
           date_list.push("initial_referral_date_#{ordered_number}")
@@ -159,7 +159,7 @@ module AdvancedSearches
 
     def case_history_dropdown_list
       yes_no_options = { true: 'Yes', false: 'No' }
-      enter_ngo_count = EnterNgo.group(:client_id).count.max.last
+      enter_ngo_count = EnterNgo.group(:client_id).count.values.max
 
       users_list = [
         ['user_id', user_select_options],

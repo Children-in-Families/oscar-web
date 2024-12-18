@@ -15,28 +15,25 @@ module AdvancedSearches
 
       case @operator
       when 'equal'
-        clients = @clients.joins(:enter_ngos).where("(select #{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) = ?", @number_of_referral.to_i - 1, @values).distinct
+        clients = @clients.joins(:enter_ngos).where("(select enter_ngos.#{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) = ?", @number_of_referral.to_i - 1, @values).distinct
       when 'not_equal'
-        client_ids = @clients.joins(:enter_ngos).where("(select #{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) = ?", @number_of_referral.to_i - 1, @values).distinct.ids
-        clients = @clients.where.not(id: client_ids)
+        clients = @clients.joins(:enter_ngos).where("(select enter_ngos.#{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) != ?", @number_of_referral.to_i - 1, @values).distinct
       when 'less'
-        clients = @clients.joins(:enter_ngos).where.not("shared_clients.#{@field} < ?", @values)
+        clients = @clients.joins(:enter_ngos).where("(select enter_ngos.#{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) < ?", @number_of_referral.to_i - 1, @values).distinct
       when 'less_or_equal'
-        clients = @clients.joins(:enter_ngos).where.not("shared_clients.#{@field} <= ?", @values)
-      when 'greater'
-        clients = @clients.joins(:enter_ngos).where.not("shared_clients.#{@field} > ?", @values)
+        clients = @clients.joins(:enter_ngos).where("(select enter_ngos.#{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) <= ?", @number_of_referral.to_i - 1, @values).distinct
       when 'greater_or_equal'
-        clients = @clients.joins(:enter_ngos).where.not("shared_clients.#{@field} >= ?", @values)
+        clients = @clients.joins(:enter_ngos).where("(select enter_ngos.#{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) >= ?", @number_of_referral.to_i - 1, @values).distinct
       when 'contains'
-        clients = @clients.joins(:enter_ngos).where("shared_clients.#{@field} ILIKE ?", "%#{@values.squish}%")
+        clients = @clients.joins(:enter_ngos).where("(select enter_ngos.#{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) ILIKE ?", @number_of_referral.to_i - 1, "%#{@values}%").distinct
       when 'not_contains'
-        clients = @clients.joins(:enter_ngos).where("shared_clients.#{@field} NOT ILIKE ?", "%#{@values.squish}%")
+        clients = @clients.joins(:enter_ngos).where("(select enter_ngos.#{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) NOT ILIKE ?", @number_of_referral.to_i - 1, "%#{@values.squish}%").distinct
       when 'is_empty'
         clients = @clients.joins(:enter_ngos).where("(select #{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) = NULL", @number_of_referral.to_i - 1).distinct
       when 'is_not_empty'
         clients = @clients.joins(:enter_ngos).where("(select #{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) != NULL", @number_of_referral.to_i - 1).distinct
       when 'between'
-        clients = @clients.joins(:enter_ngos).where("shared_clients.#{@field} BETWEEN ? AND ?", @values.first, @values.last)
+        clients = @clients.joins(:enter_ngos).where("(select enter_ngos.#{@field} from enter_ngos where enter_ngos.client_id = clients.id ORDER BY enter_ngos.id asc OFFSET ?) BETWEEN ? AND ?", @number_of_referral.to_i - 1, @values.first, @values.last).distinct
       end
       { id: sql_string, values: clients.pluck(:slug) }
     end

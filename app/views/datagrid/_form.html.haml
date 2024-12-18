@@ -221,7 +221,7 @@
               = check_box_tag 'phone_owner_', 'phone_owner', checked = saved_search_column_visibility('phone_owner_'), class: 'i-checks'
               = label_tag 'phone_owner_', t('datagrid.columns.phone_owner')
 
-          - enter_ngo_count = EnterNgo.group(:client_id).count.max.last
+          - enter_ngo_count = EnterNgo.group(:client_id).count.values.max
           - if enter_ngo_count > 1
             - (1..enter_ngo_count).each do |ordered_number|
               %li.enter_ngo_count

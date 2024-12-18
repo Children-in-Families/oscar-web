@@ -659,7 +659,7 @@ class ClientGrid < BaseGrid
   end
 
   dynamic do
-    enter_ngo_count = EnterNgo.group(:client_id).count.max.last
+    enter_ngo_count = EnterNgo.group(:client_id).count.values.max
     if enter_ngo_count > 1
       (1..enter_ngo_count).each do |ordered_number|
         column("initial_referral_date_#{ordered_number}".to_sym, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('datagrid.columns.clients.initial_referral_date') }) do |object|
