@@ -36,26 +36,39 @@ module Api
       end
 
       def update
-        case_note = @client.case_notes.find(params[:id])
+        attributes = case_note_params.merge(last_auto_save_at: Time.current)
+        saved = if save_draft?
+                  @case_note.assign_attributes(attributes)
+                  PaperTrail.without_tracking { @case_note.save(validate: false) }
 
-        if case_note.update_attributes(case_note_params)
+                  true
+                else
+                  @case_note.update_attributes(case_note_params.merge(draft: false))
+                end
+
+        if saved
+          attach_custom_field_files
           if params.dig(:case_note, :case_note_domain_groups_attributes)
-            case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
+            @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
           end
-          create_bulk_task(params[:task], case_note) if params.key?(:task)
-          case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
-          # create_task_task_progress_notes
+
+          create_bulk_task(params[:task], @case_note) if params.key?(:task)
+          @case_note.complete_screening_tasks(params) if params[:case_note].key?(:tasks_attributes)
+
+          # As we don't allow edit progress note once saved,
+          # do not save it if request sent by autosave
+          create_task_task_progress_notes unless save_draft?
           delete_events if session[:authorization]
 
-          render json: case_note
+          render json: { resource: @case_note, edit_url: edit_client_case_note_url(@client, @case_note) }, status: 200
         else
-          render json: case_note.errors, status: :unprocessable_entity
+          render json: @case_note.errors, status: 422
         end
       end
 
       def upload_attachment
         files = @case_note.attachments
-        files += params.dig(:case_note, :attachments)
+        files += params.dig(:case_note, :attachments) || []
         @case_note.attachments = files
         @case_note.save(validate: false)
 
