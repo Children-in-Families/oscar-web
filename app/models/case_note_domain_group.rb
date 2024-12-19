@@ -9,7 +9,7 @@ class CaseNoteDomainGroup < ActiveRecord::Base
 
   validates :domain_group, presence: true
 
-  accepts_nested_attributes_for :tasks, reject_if: proc { |attribute| attribute['name'].blank? && attribute['case_note_domain_group_id'].blank? } , allow_destroy: true
+  accepts_nested_attributes_for :tasks, reject_if: proc { |attribute| attribute['name'].blank? && attribute['case_note_domain_group_id'].blank? }, allow_destroy: true
 
   delegate :family, to: :case_note, allow_nil: true
   delegate :id, to: :family, prefix: true, allow_nil: true
@@ -43,7 +43,7 @@ class CaseNoteDomainGroup < ActiveRecord::Base
   def domains(case_note)
     return [] unless domain_group
 
-    if case_note.custom?
+    if case_note && case_note.custom?
       return domain_group.domains.custom_csi_domains.where(custom_assessment_setting_id: case_note.custom_assessment_setting_id) if case_note.custom_assessment_setting_id.present?
 
       if case_note.family_id?
