@@ -54,7 +54,7 @@ class CaseNotesController < AdminController
             end
 
     if saved
-      attach_custom_field_files
+      # attach_custom_field_files
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
       end
