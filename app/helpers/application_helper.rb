@@ -532,4 +532,8 @@ module ApplicationHelper
     now = Time.now.utc
     distance_of_time_in_words_hash(now, dob)
   end
+
+  def save_draft?
+    request.format.json? && params[:draft].present?
+  end
 end
