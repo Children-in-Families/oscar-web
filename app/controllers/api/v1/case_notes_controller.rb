@@ -55,7 +55,7 @@ module Api
 
       def upload_attachment
         files = @case_note.attachments
-        files += params.dig(:case_note, :attachments)
+        files += params.dig(:case_note, :attachments) || []
         @case_note.attachments = files
         @case_note.save(validate: false)
 
