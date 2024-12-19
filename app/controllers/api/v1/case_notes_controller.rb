@@ -14,7 +14,6 @@ module Api
 
       def create
         case_note = @client.case_notes.new(case_note_params)
-        case_note.draft = case_note_params[:draft]
         case_note.assessment = @client.assessments.custom_latest_record
         case_note.meeting_date = "#{case_note.meeting_date.strftime('%Y-%m-%d')}, #{Time.now.strftime('%H:%M:%S')}"
         if case_note.save

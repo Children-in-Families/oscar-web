@@ -1,7 +1,7 @@
 module CaseNoteConcern
   def case_note_params
     default_params = permit_case_note_params
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, attachments: [], case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, :draft, attachments: [], case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params = assign_params_to_case_note_domain_groups_params(default_params) if default_params.dig(:case_note, :domain_group_ids)
     default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
     meeting_date = "#{default_params[:meeting_date]} #{Time.now.strftime('%T %z')}"
@@ -14,7 +14,7 @@ module CaseNoteConcern
     #   task_progress_notes_attributes: [:id, :progress_note, :task_id, :_destroy]
     # ]
     params.require(:case_note).permit(
-      :meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, :draft,
+      :meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
       case_note_domain_groups_attributes: [
         :id, :note, :domain_group_id, :task_ids
       ]
