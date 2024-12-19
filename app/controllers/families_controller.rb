@@ -1,5 +1,5 @@
 class FamiliesController < AdminController
-  load_and_authorize_resource except: :show
+  load_and_authorize_resource except: [:show, :custom_fields]
   include FamilyAdvancedSearchesConcern
 
   before_action :redirect_to_index, except: [:index, :assessments]
@@ -22,11 +22,11 @@ class FamiliesController < AdminController
 
   def custom_fields
     if current_user.admin? || current_user.strategic_overviewer?
-      @available_editable_forms  = CustomField.all
-      @readable_forms            = @family.custom_field_properties
+      @available_editable_forms = CustomField.all
+      @readable_forms = @family.custom_field_properties
     else
-      @available_editable_forms  = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
-      @readable_forms            = @family.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true))
+      @available_editable_forms = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
+      @readable_forms = @family.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true))
     end
   end
 
