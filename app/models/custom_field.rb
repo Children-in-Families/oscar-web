@@ -84,7 +84,7 @@ class CustomField < ActiveRecord::Base
   end
 
   def allowed_edit?(user)
-    return true if allowed_edit_until.nil? || !user.case_worker?
+    return true if allowed_edit_until.empty? || !user.case_worker?
 
     eval(allowed_edit_until).from_now(created_at) > Date.today
   end
