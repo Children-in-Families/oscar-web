@@ -14,7 +14,7 @@ module CaseNoteConcern
     #   task_progress_notes_attributes: [:id, :progress_note, :task_id, :_destroy]
     # ]
     params.require(:case_note).permit(
-      :meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id,
+      :meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, :draft,
       case_note_domain_groups_attributes: [
         :id, :note, :domain_group_id, :task_ids
       ]
