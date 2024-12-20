@@ -7,13 +7,11 @@
         = f.input :form_title, label: t('.form_title'), disabled: used_custom_form?(@custom_field), input_html: { list: 'livesearch', autocomplete: 'off' }
         %ul.nav
           #livesearch{ data: { 'preview-translation': t('.preview'), 'copy-translation': t('.copy') }}
-      .col-xs-12.col-sm-6
-        = f.input :frequency, collection: CustomField::FREQUENCIES, label: t('.frequency')
-        %p.frequency-note.hidden
-          %i
-            %span.main This needs to be done once every
-            %span.frequency
-      .col-xs-12.col-sm-6
+      .col-xs-12.col-sm-4
+        = f.input :allowed_edit_until, collection: allowed_edit_until_options, label: t('.allowed_edit_until')
+      .col-xs-12.col-sm-4
+        = f.input :frequency, collection: CustomField::FREQUENCIES, label: t('.frequency'), hint: 'This needs to be done once every'
+      .col-xs-12.col-sm-4
         = f.input :time_of_frequency, label: t('.time_of_frequency')
     = f.input :fields, as: :hidden
     = hidden_field_tag :custom_field_id, @custom_field.id

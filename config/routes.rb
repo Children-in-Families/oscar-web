@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'organizations#index'
 
   devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions', passwords: 'passwords' }
-  
+
   use_doorkeeper do
     skip_controllers :applications, :authorized_applications
   end
@@ -423,6 +423,9 @@ Rails.application.routes.draw do
         scope module: 'families' do
           resources :exit_ngos, only: [:create, :update]
           resources :enter_ngos, only: [:create, :update]
+          resources :case_notes, only: [:index, :show, :create, :update, :destroy, :delete_attachment] do
+            delete 'attachments/:file_index', action: :delete_attachment, on: :member
+          end
         end
       end
       resources :users, only: [:index, :show]
@@ -430,6 +433,7 @@ Rails.application.routes.draw do
         get :listing, on: :collection
         resources :assessments
         resources :case_notes, only: [:show, :create, :update, :destroy, :delete_attachment] do
+          post :upload_attachment, on: :member
           delete 'attachments/:file_index', action: :delete_attachment, on: :member
         end
         resources :custom_field_properties, except: :show

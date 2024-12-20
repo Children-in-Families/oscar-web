@@ -24,7 +24,7 @@ module AdvancedSearches
     SHARED_FIELDS = %w(given_name family_name local_given_name local_family_name gender birth_province_id date_of_birth live_with telephone_number)
     CALL_FIELDS = Call::FIELDS
     OVERDUE_FIELDS = %w[has_overdue_assessment has_overdue_forms has_overdue_task no_case_note].freeze
-    RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_disability has_hiv_or_aid has_known_chronic_disease].freeze
+    RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_hiv_or_aid has_known_chronic_disease].freeze
 
     def initialize(clients, basic_rules)
       @clients = clients

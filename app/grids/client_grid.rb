@@ -912,6 +912,12 @@ class ClientGrid < BaseGrid
     object.has_been_in_orphanage.nil? ? '' : object.has_been_in_orphanage? ? 'Yes' : 'No'
   end
 
+  column(:has_disability, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_disability') }) do |object|
+    object.has_disability.nil? ? '' : format(object.has_disability ? 'Yes' : 'No')
+  end
+
+  column(:disability_specification, header: -> { I18n.t('risk_assessments._attr.if_yes') })
+
   column(:has_been_in_government_care, header: -> { I18n.t('datagrid.columns.clients.has_been_in_government_care') }) do |object|
     object.has_been_in_government_care.nil? ? '' : object.has_been_in_government_care? ? 'Yes' : 'No'
   end
@@ -1165,7 +1171,7 @@ class ClientGrid < BaseGrid
       cn_custom_field.data_fields.each do |field|
         column_name = "case_note_custom_field_#{field['label'].parameterize.underscore}"
         column(column_name.to_sym, header: -> { field['label'] }, html: true) do |object|
-          render partial: "clients/case_note_custom_field", locals: { object: object, custom_field: cn_custom_field, field: field }
+          render partial: 'clients/case_note_custom_field', locals: { object: object, custom_field: cn_custom_field, field: field }
         end
       end
     end
@@ -1305,11 +1311,6 @@ class ClientGrid < BaseGrid
     risk_assessment = object.risk_assessment
     assessments = [risk_assessment, *object.assessments.select(&:client_risk_assessment?)]
     render partial: 'clients/risk_assessment_list', locals: { assessments: assessments.compact }
-  end
-
-  column(:has_disability, preload: :risk_assessment, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_disability') }) do |object|
-    risk_assessment = object.risk_assessment
-    format(risk_assessment&.has_disability ? 'Yes' : 'No')
   end
 
   column(:has_hiv_or_aid, preload: :risk_assessment, class: 'text-center', header: -> { I18n.t('risk_assessments._attr.has_hiv_or_aid') }) do |object|
