@@ -116,7 +116,7 @@ module Api
           if params[:client][:assessment_id]
             Assessment.find(params[:client][:assessment_id])
           else
-            render json: { slug: client.slug }, status: :ok
+            render json: client
           end
         else
           render json: client.errors, status: :unprocessable_entity
@@ -158,7 +158,7 @@ module Api
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
             :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :referral_source_category_id,
-            :global_id, :referee_relationship, :client_email, :address_type,
+            :global_id, :referee_relationship, :client_email, :address_type, :has_disability, :disability_specification,
             interviewee_ids: [],
             client_type_ids: [],
             donor_ids: [],

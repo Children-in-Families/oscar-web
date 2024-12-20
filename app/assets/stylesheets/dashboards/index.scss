@@ -216,4 +216,18 @@ body[id="dashboards-index"] {
     }
   }
 
+  #select2-drop {
+    .select2-highlighted a {
+      color: white !important;
+    }
+
+    .select2-result-label {
+
+      a:focus,
+      a:hover {
+        color: white !important;
+      }
+    }
+  }
+
 }

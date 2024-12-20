@@ -66,4 +66,12 @@ module CustomFormBuilderHelper
       'This can be done many times and anytime.'
     end
   end
+
+  def allowed_edit_until_options
+    [
+      ['24 Hours', '24.hours'], ['48 Hours', '48.hours'],
+      ['1 Week', '1.week'], ['1 Month', '1.month'],
+      ['3 Months', '3.months'], ['6 Months', '6.months'], ['1 Year', '1.year']
+    ]
+  end
 end

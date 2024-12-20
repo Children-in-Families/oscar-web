@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { DateInput } from "semantic-ui-calendar-react";
+import T from "i18n-react";
 import "./datepicker.scss";
 
 export default (props) => {
@@ -12,7 +13,6 @@ export default (props) => {
     onChange,
     value,
     getCurrentDate,
-    T,
     hintText,
     inlineClassName,
     disabled,
@@ -94,15 +94,15 @@ export default (props) => {
 
 const styles = {
   errorText: {
-    color: "red",
+    color: "red"
   },
   errorInput: {
-    borderColor: "red",
+    borderColor: "red"
   },
   box: {
-    boxShadow: "none",
+    boxShadow: "none"
   },
   notAllow: {
-    cursor: "not-allowed",
+    cursor: "not-allowed"
   }
 };

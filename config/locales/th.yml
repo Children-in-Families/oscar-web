@@ -1,4 +1,4 @@
-th-TH:
+th:
   able_screening_questions:
     able_screening_question_field:
       alert_manager: ผู้จัดการการแจ้งเตือน
@@ -18,7 +18,7 @@ th-TH:
       alert_manager: ผู้จัดการการแจ้งเตือน
       cancel: ยกเลิก
       general_question: คำถามทั่วไป
-      group: กลุ่ม©
+      group: กลุ่ม
       mode: โหมด
       question: คำถาม
       questions: คำถาม
