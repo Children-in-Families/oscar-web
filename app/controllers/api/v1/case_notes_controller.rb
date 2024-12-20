@@ -94,7 +94,7 @@ module Api
       private
 
       def find_case_note
-        @case_note = CaseNote.find(params[:id])
+        @case_note = CaseNote.unscoped.find(params[:id])
       end
 
       def remove_attachment_at_index(case_note, index)
