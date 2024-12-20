@@ -26,7 +26,7 @@ class FamiliesController < AdminController
       @readable_forms = @family.custom_field_properties
     else
       @available_editable_forms = CustomField.where(id: current_user.custom_field_permissions.where(editable: true).pluck(:custom_field_id))
-      @readable_forms = @family.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true))
+      @readable_forms = @family.custom_field_properties.where(custom_field_id: current_user.custom_field_permissions.where(readable: true).pluck(:custom_field_id))
     end
   end
 
