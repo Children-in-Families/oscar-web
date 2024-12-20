@@ -57,6 +57,8 @@ class CaseNoteDomainGroup < ActiveRecord::Base
   end
 
   def domain_identities(custom_assessment_setting_id = nil)
+    return Domain.none unless case_note
+
     return domain_group.custom_domain_identities(custom_assessment_setting_id) if case_note.custom? && case_note.client_id?
 
     if case_note.family_id?

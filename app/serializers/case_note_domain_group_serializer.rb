@@ -4,6 +4,8 @@ class CaseNoteDomainGroupSerializer < ActiveModel::Serializer
   has_many :tasks
 
   def domain_scores
+    return [] unless object.case_note
+
     object.domains(object.case_note).map do |domain|
       ad = domain.assessment_domains.find_by(assessment_id: object.case_note.assessment_id)
       { domain_id: ad.domain_id, score: ad.score } if ad.present?
