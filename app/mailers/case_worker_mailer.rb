@@ -14,7 +14,7 @@ class CaseWorkerMailer < ApplicationMailer
 
     return if @user.nil? || @user&.disable? || @user&.task_notify == false
 
-    @overdue_tasks = user.tasks.where(client_id: user_clients(user).active_accepted_status.ids).overdue_incomplete_ordered
+    @overdue_tasks = user.tasks.overdue_incomplete_ordered
     @short_name = short_name
     return unless @overdue_tasks.present?
 
