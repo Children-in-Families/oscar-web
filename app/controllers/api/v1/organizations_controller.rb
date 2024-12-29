@@ -1,13 +1,24 @@
 module Api
   module V1
     class OrganizationsController < Api::V1::BaseApiController
+      include ApplicationHelper
+
       skip_before_action :authenticate_user!
       before_action :authenticate_admin_user!, only: [:create, :update, :destroy]
       before_action :find_organization, only: [:update, :destroy]
       before_action :authenticate_api_admin_user!, :set_current_aut_user, only: [:clients, :upsert, :update_link]
 
       def index
-        render json: Organization.visible.order(:created_at)
+        if Rails.env.production?
+          render json: Organization.visible.order(:created_at)
+        else
+          render json: Organization.visible.order(:created_at), each_serializer: DemoOrganizationSerializer
+        end
+      end
+
+      def listing
+        ngos = mapping_ngos(select_ngos)
+        render json: ngos
       end
 
       def clients

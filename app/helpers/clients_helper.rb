@@ -16,10 +16,10 @@ module ClientsHelper
       referee: @referee.as_json(methods: [:existing_referree]), carer: @carer, users: case_workers_option(@client.id),
       referralSourceCategory: @referral_source_category, referralSource: ReferralSource.all, birthProvinces: @birth_provinces,
       currentProvinces: @current_provinces || get_address('province'), cities: @cities, districts: @districts.presence || get_address('district'),
-      subDistricts: @subdistricts, communes: @communes.presence || get_address('commune'), villages: @villages.presence || get_address('village'),
+      subDistricts: @subdistricts || [], communes: @communes.presence || get_address('commune'), villages: @villages.presence || get_address('village'),
       currentStates: @states, currentTownships: @townships, refereeTownships: @referee_townships, carerTownships: @carer_townships, refereeCities: @referee_cities,
-      refereeDistricts: @referee_districts, refereeSubdistricts: @referee_subdistricts, refereeCommunes: @referee_communes,
-      refereeVillages: @referee_villages, carerCities: @carer_cities, carerDistricts: @carer_districts, carerSubdistricts: @carer_subdistricts, carerCommunes: @carer_communes,
+      refereeDistricts: @referee_districts, refereeSubdistricts: @referee_subdistricts || [], refereeCommunes: @referee_communes,
+      refereeVillages: @referee_villages, carerCities: @carer_cities, carerDistricts: @carer_districts, carerSubdistricts: @carer_subdistricts || [], carerCommunes: @carer_communes,
       carerVillages: @carer_villages, donors: @donors, agencies: @agencies,
       quantitativeType: QuantitativeType.cach_by_visible_on('client'), quantitativeCase: QuantitativeCase.cache_all,
       ratePoor: [
@@ -48,7 +48,7 @@ module ClientsHelper
           **I18n.t('risk_assessments._attr'),
           **I18n.t('tasks')
         },
-        tasks_attributes: @risk_assessment.try(:tasks) || []
+        tasks_attributes: @risk_assessment.try(:tasks).presence || [{ name: '', expected_date: '' }]
       },
       customData: @custom_data&.fields || [],
       clientCustomFields: @client_custom_data_properties || {}
@@ -116,6 +116,7 @@ module ClientsHelper
   def rails_i18n_translations
     # Change slice inputs to adapt your need
     return {} unless I18n.backend.send(:translations).present?
+    return {} unless I18n.backend.send(:translations).key?(I18n.locale)
 
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
       :clients,
@@ -936,9 +937,9 @@ module ClientsHelper
       sql_string = object.where(query_array).where(default: false).where(sub_query_array)
     else
       if object.is_a?(Array)
-        sql_string = object.first.class.where(query_array).where(sub_query_array)
+        sql_string = object.first.class.where(id: object.map(&:id)).where(query_array).where(sub_query_array)
       else
-        sql_string = object.where(query_array).where(sub_query_array)
+        sql_string = object.where(id: object.map(&:id)).where(query_array).where(sub_query_array)
       end
     end
 

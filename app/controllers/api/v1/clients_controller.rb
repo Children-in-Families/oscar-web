@@ -20,6 +20,7 @@ module Api
       end
 
       def create
+        client_saved = false
         referral_id = params.dig(:client, :referral_id)
         saved_referral = referral_id && check_is_referral_saved?(referral_id)
 
@@ -30,7 +31,46 @@ module Api
 
         client = Client.new(client_params)
         assign_global_id_from_referral(client, params)
-        if client.save
+        client.transaction do
+          if params.dig(:referee, :id).present?
+            referee = Referee.find(params.dig(:referee, :id))
+            referee.update(referee_params)
+          else
+            if referee_params[:anonymous] == 'true'
+              referee = Referee.new(referee_params)
+            else
+              referee = Referee.find_or_initialize_by(referee_params)
+            end
+            referee.save
+          end
+
+          carer = Carer.find_or_initialize_by(carer_params)
+          carer.save
+
+          client.referee_id = referee.id
+          client.carer_id = carer.id
+          client_saved = client.save
+        end
+
+        if client_saved
+          qtt_free_text_cases = params[:client_quantitative_free_text_cases]
+
+          if qtt_free_text_cases.present?
+            qtt_free_text_cases.select(&:present?).each do |client_qt_free_text_attr|
+              client_qt_free_text = client.client_quantitative_free_text_cases.find_or_initialize_by(quantitative_type_id: client_qt_free_text_attr[:quantitative_type_id])
+              client_qt_free_text.content = client_qt_free_text_attr[:content]
+              client_qt_free_text.save
+            end
+          end
+
+          if risk_assessment_params
+            risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'create')
+            risk_assessment.store
+          end
+
+          custom_data = CustomData.first
+          client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id)) if custom_data && params.key?(:custom_data)
+
           render json: client
         else
           render json: client.errors, status: :unprocessable_entity
@@ -39,14 +79,13 @@ module Api
 
       def update
         client = Client.find(params[:client][:id] || params[:id])
-        if client
-          referee = Referee.find_or_create_by(id: params.dig(:referee, :id))
-          referee.update_attributes(referee_params) if referee_params
+        if params[:client][:id]
+          referee = Referee.find_or_create_by(id: client.referee_id)
+          referee.update_attributes(referee_params)
           client.referee_id = referee.id
-          carer = Carer.find_or_create_by(id: client.carer_id || params.dig(:carer, :id))
-          carer.update_attributes(carer_params) if carer_params
+          carer = Carer.find_or_create_by(id: client.carer_id)
+          carer.update_attributes(carer_params)
           client.carer_id = carer.id
-          client.current_family_id ? client_params : client_params.except(:family_ids)
         end
 
         if client.update_attributes(client_params.except(:referee_id, :carer_id))
@@ -64,7 +103,21 @@ module Api
             risk_assessment = RiskAssessmentReducer.new(client, risk_assessment_params, 'update')
             risk_assessment.store
           end
-          render json: client
+
+          custom_data = CustomData.first
+          if custom_data && params.key?(:custom_data)
+            if client.client_custom_data&.persisted?
+              client.client_custom_data.update_attributes(custom_data_params)
+            else
+              client.create_client_custom_data(custom_data_params.merge(custom_data_id: custom_data.id))
+            end
+          end
+
+          if params[:client][:assessment_id]
+            Assessment.find(params[:client][:assessment_id])
+          else
+            render json: client
+          end
         else
           render json: client.errors, status: :unprocessable_entity
         end
@@ -105,7 +158,7 @@ module Api
             :gov_caseworker_name, :gov_caseworker_phone, :gov_carer_name, :gov_carer_relationship, :gov_carer_home,
             :gov_carer_street, :gov_carer_village, :gov_carer_commune, :gov_carer_district, :gov_carer_city, :gov_carer_phone,
             :gov_information_source, :gov_referral_reason, :gov_guardian_comment, :gov_caseworker_comment, :referral_source_category_id,
-            :global_id, :referee_relationship, :client_email, :address_type,
+            :global_id, :referee_relationship, :client_email, :address_type, :has_disability, :disability_specification,
             interviewee_ids: [],
             client_type_ids: [],
             donor_ids: [],

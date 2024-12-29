@@ -1,0 +1,8 @@
+- custom_field = CaseNotes::CustomField.first
+- if custom_field
+  - custom_field.data_fields.each do |field|
+    - column = "case_note_custom_field_#{field['label'].parameterize.underscore}"
+    %li
+      .visibility.col-sm-12
+        = check_box_tag "#{column}_", column, checked = saved_search_column_visibility("#{column}_"), class: 'i-checks'
+        = label_tag "#{column}_", field['label']

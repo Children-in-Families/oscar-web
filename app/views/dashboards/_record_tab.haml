@@ -5,7 +5,7 @@
     .col-xs-12.col-md-3
       .client-option
         - if can? :manage, Client
-          = link_to "#{I18n.t('clients.index.add_new_client')}", new_client_path, class: 'btn btn-primary'
+          = link_to "#{I18n.t('clients.index.add_new_client')}", new_client_path(step: 'clientInfo'), class: 'btn btn-primary'
     .col-xs-12.col-md-3
       - if can? :manage, Family
         = link_to "#{I18n.t('families.index.add_new_family')}", new_family_path, class: 'btn btn-primary'

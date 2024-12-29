@@ -24,7 +24,7 @@ module AdvancedSearches
     SHARED_FIELDS = %w(given_name family_name local_given_name local_family_name gender birth_province_id date_of_birth live_with telephone_number)
     CALL_FIELDS = Call::FIELDS
     OVERDUE_FIELDS = %w[has_overdue_assessment has_overdue_forms has_overdue_task no_case_note].freeze
-    RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_disability has_hiv_or_aid has_known_chronic_disease].freeze
+    RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_hiv_or_aid has_known_chronic_disease].freeze
 
     def initialize(clients, basic_rules)
       @clients = clients
@@ -54,6 +54,11 @@ module AdvancedSearches
           Organization.switch_to short_name
           @sql_string << shared_client_filter[:id]
           @values << shared_client_filter[:values]
+        elsif form_builder.first == 'case_note_custom_field'
+          custom_form = ::CaseNotes::CustomField.find(form_builder.second)
+          custom_field = AdvancedSearches::CaseNotes::EntityCustomFormSqlBuilder.new(custom_form, rule).get_sql
+          @sql_string << custom_field[:id]
+          @values << custom_field[:values]
         elsif form_builder.first == 'formbuilder'
           if form_builder.last == 'Has This Form'
             custom_form_value = CustomField.find_by(form_title: value, entity_type: 'Client')&.id

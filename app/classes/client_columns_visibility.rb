@@ -163,6 +163,7 @@ class ClientColumnsVisibility
       referee_phone_: :referee_phone,
       referee_email_: :referee_email,
       **Call::FIELDS.map { |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
+      **cn_custom_field_columns.map { |field| ["#{field}_".to_sym, field.to_sym] }.to_h,
       call_count: :call_count,
       carer_name_: :carer_name,
       carer_phone_: :carer_phone,
@@ -204,6 +205,7 @@ class ClientColumnsVisibility
         defualt_columns = client_default_columns
       end
     end
+
     add_custom_builder_columns.each do |key, value|
       @grid.column_names << value if client_default(key, defualt_columns) || @params[key]
     end
@@ -237,7 +239,17 @@ class ClientColumnsVisibility
         columns.merge!("#{field}_": field.to_sym)
       end
     end
+
     columns
+  end
+
+  def cn_custom_field_columns
+    custom_field = CaseNotes::CustomField.first
+    return [] if custom_field.nil?
+
+    custom_field.data_fields.map do |field|
+      "case_note_custom_field_#{field['label'].parameterize.underscore}"
+    end
   end
 
   def client_default(column, setting_client_default_columns)

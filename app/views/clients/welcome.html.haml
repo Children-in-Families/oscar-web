@@ -12,7 +12,7 @@
   .col-xs-12.col-md-2
     .pull-right.client-option
       - if can? :manage, Client
-        = link_to t('clients.index.add_new_client'), new_client_path, class: 'btn btn-primary'
+        = link_to t('clients.index.add_new_client'), new_client_path(step: 'clientInfo'), class: 'btn btn-primary'
 
 .row
   .col-xs-12

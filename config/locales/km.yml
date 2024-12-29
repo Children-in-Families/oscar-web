@@ -4354,7 +4354,7 @@ km:
       body_third: អ្នកបានបញ្ជូនគ្រួសារនេះរួចហើយសូមរង់ចាំការឆ្លើយតប
       title: ប្រុងប្រយ័ត្ន!
     consent_form_fields:
-      consent_form: ទម្រង់យល់ព្រម
+      consent_form: ទម្រង់យល់ព្រមនឹងឯកសារផ្សេងៗ
     create:
       failed_create: ការបញ្ជូនមិនជោគជ័យ
       successfully_created: ការបញ្ជូនត្រូវបានបញ្ជូនដោយជោគជ័យ
@@ -5062,6 +5062,7 @@ km:
       agencies: អង្គភាព
       caller_referees: អ្នកបញ្ជូនករណី
       calls: ការហៅទូរស័ព្ទ
+      case_note_form: Case Note Form
       changelogs: ប្រវត្តិកំណែ
       calls: ការហៅទូរស័ព្ទ
       clients: ឣតិថិជន

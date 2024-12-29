@@ -108,7 +108,6 @@ module Api
         carer = Carer.find_or_create_by(id: client.carer_id)
         carer.update_attributes(carer_params)
         client.carer_id = carer.id
-        new_params = client.current_family_id ? client_params : client_params.except(:family_ids)
       end
 
       if client.update_attributes(client_params.except(:referee_id, :carer_id))
@@ -217,7 +216,8 @@ module Api
         :concern_province_id, :concern_district_id, :concern_commune_id, :concern_village_id,
         :concern_street, :concern_house, :concern_address, :concern_address_type,
         :concern_phone, :concern_phone_owner, :concern_email, :concern_email_owner, :concern_location,
-        :national_id, :reason_for_referral, :for_testing, :from_referral_id,
+        :national_id, :reason_for_referral, :for_testing, :from_referral_id, :has_disability,
+        :disability_specification,
         :birth_cert,
         :arrival_at,
         :flight_nb,

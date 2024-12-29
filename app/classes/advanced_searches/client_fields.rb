@@ -49,7 +49,7 @@ module AdvancedSearches
       default_domain_scores_options = enable_default_assessment? ? AdvancedSearches::DomainScoreFields.render : []
       custom_domain_scores_options = enable_custom_assessment? ? AdvancedSearches::CustomDomainScoreFields.render : []
 
-      search_fields = text_fields.flatten + drop_list_fields + number_fields + date_picker_fields
+      search_fields = text_fields.flatten + drop_list_fields + number_fields + date_picker_fields + AdvancedSearches::CaseNotes::CustomFields.new.render
 
       (search_fields.sort_by { |f| f[:label].downcase } + school_grade_options + csi_options + default_domain_scores_options + custom_domain_scores_options).select do |field|
         policy(Client).show?(field[:id].to_sym)
@@ -180,7 +180,8 @@ module AdvancedSearches
         ['created_by', user_select_options],
         ['type_of_service', get_type_of_services],
         ['has_overdue_forms', yes_no_options],
-        ['has_overdue_task', yes_no_options]
+        ['has_overdue_task', yes_no_options],
+        ['has_disability', yes_no_options]
       ]
     end
 
