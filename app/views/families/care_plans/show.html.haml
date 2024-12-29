@@ -13,9 +13,9 @@
       .ibox-title
         .row
           .col-xs-10
+            = link_to family_path(@care_plan.family) do
+              %b= "#{t('care_plans.show.care_plan', care_plan: t('care_plans.care_plan'))} #{@care_plan.family.name}"
             %p
-              %b= "#{t('care_plans.show.care_plan')} #{@care_plan.family.name}"
-              %br
               = "#{t('care_plans.show.care_plan_created_by')} #{whodunnit('CarePlan', @care_plan)} #{t('care_plans.show.on_date')} #{date_format(@care_plan.created_at)}"
           .col-xl-1.button-position
             .pull-right
@@ -36,7 +36,7 @@
                   = link_to_if(false, family_care_plan_path(@care_plan.family, @care_plan), method: 'delete', data: { confirm: t('care_plans.show.are_you_sure') }, class: 'btn btn-outline btn-danger disabled') do
                     = fa_icon('trash')
       .ibox-content
-        - @care_plan.assessment.assessment_domains_in_order.each do |ad|
+        - @care_plan.assessment.assessment_domains_in_order.includes(:goals).each do |ad|
           - next if ad.goals.empty?
           .row
             .col-xs-12

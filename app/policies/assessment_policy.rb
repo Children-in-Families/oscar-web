@@ -33,13 +33,16 @@ class AssessmentPolicy < ApplicationPolicy
   end
 
   def edit?
+    return true if user.admin?
+
     setting = Setting.first
     enable_assessment = record.default? ? setting.enable_default_assessment? : setting.enable_custom_assessment?
-    return true if enable_assessment && user.admin?
+
+    return true if enable_assessment
 
     return false if can_edit?(user, record)
 
-    editable_user = user.admin? ? true : user.permission&.assessments_editable
+    editable_user = user.permission&.assessments_editable
     enable_assessment && (editable_user && !record.client&.exit_ngo? || user.admin?)
   end
 
