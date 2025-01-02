@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20240903043909) do
+ActiveRecord::Schema.define(version: 20241030040018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
-  enable_extension "uuid-ossp"
   enable_extension "pgcrypto"
+  enable_extension "uuid-ossp"
 
   create_table "able_screening_questions", force: :cascade do |t|
     t.string   "question"
@@ -131,8 +131,8 @@ ActiveRecord::Schema.define(version: 20240903043909) do
 
   create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
     t.string   "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "assessment_domains", force: :cascade do |t|
@@ -419,13 +419,13 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.integer  "client_id"
     t.string   "interaction_type",             default: ""
     t.boolean  "custom",                       default: false
-    t.string   "selected_domain_group_ids",    default: [],                 array: true
     t.text     "note",                         default: ""
     t.integer  "custom_assessment_setting_id"
+    t.string   "selected_domain_group_ids",    default: [],                 array: true
     t.integer  "family_id"
+    t.boolean  "draft",                        default: false, null: false
     t.datetime "last_auto_save_at"
     t.string   "attachments",                  default: [],                 array: true
-    t.boolean  "draft",                        default: false, null: false
   end
 
   add_index "case_notes", ["assessment_id"], name: "index_case_notes_on_assessment_id", using: :btree
@@ -856,7 +856,6 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.string   "external_case_worker_id"
     t.boolean  "other_phone_whatsapp",                  default: false
     t.string   "preferred_language",                    default: "English"
-    t.boolean  "referred_external",                     default: false
     t.boolean  "national_id",                           default: false,      null: false
     t.boolean  "birth_cert",                            default: false,      null: false
     t.boolean  "family_book",                           default: false,      null: false
@@ -875,6 +874,7 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.string   "local_consent_files",                   default: [],                      array: true
     t.string   "police_interview_files",                default: [],                      array: true
     t.string   "other_legal_doc_files",                 default: [],                      array: true
+    t.boolean  "referred_external",                     default: false
     t.string   "marital_status"
     t.string   "nationality"
     t.string   "ethnicity"
@@ -917,9 +917,9 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.string   "detail_form_of_mosavy_dosavy_files",    default: [],                      array: true
     t.string   "short_form_of_judicial_police_option"
     t.string   "short_form_of_judicial_police_files",   default: [],                      array: true
+    t.boolean  "screening_interview_form",              default: false
     t.string   "detail_form_of_judicial_police_option"
     t.string   "detail_form_of_judicial_police_files",  default: [],                      array: true
-    t.boolean  "screening_interview_form",              default: false
     t.string   "screening_interview_form_option"
     t.string   "screening_interview_form_files",        default: [],                      array: true
     t.boolean  "ngo_partner",                           default: false
@@ -944,6 +944,8 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.datetime "deleted_at"
     t.integer  "archived_by_id"
     t.integer  "city_id"
+    t.boolean  "has_disability",                        default: false
+    t.string   "disability_specification"
   end
 
   add_index "clients", ["birth_province_id"], name: "index_clients_on_birth_province_id", using: :btree
@@ -1130,16 +1132,17 @@ ActiveRecord::Schema.define(version: 20240903043909) do
   add_index "custom_field_properties", ["user_id"], name: "index_custom_field_properties_on_user_id", using: :btree
 
   create_table "custom_fields", force: :cascade do |t|
-    t.string   "entity_type",       default: ""
-    t.text     "properties",        default: ""
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-    t.string   "form_title",        default: ""
-    t.string   "frequency",         default: ""
-    t.integer  "time_of_frequency", default: 0
-    t.string   "ngo_name",          default: ""
+    t.string   "entity_type",        default: ""
+    t.text     "properties",         default: ""
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.string   "form_title",         default: ""
+    t.string   "frequency",          default: ""
+    t.integer  "time_of_frequency",  default: 0
+    t.string   "ngo_name",           default: ""
     t.jsonb    "fields"
-    t.boolean  "hidden",            default: false
+    t.boolean  "hidden",             default: false
+    t.string   "allowed_edit_until"
   end
 
   add_index "custom_fields", ["form_title"], name: "index_custom_fields_on_form_title", using: :btree
@@ -1289,12 +1292,15 @@ ActiveRecord::Schema.define(version: 20240903043909) do
   add_index "donor_organizations", ["organization_id"], name: "index_donor_organizations_on_organization_id", using: :btree
 
   create_table "donors", force: :cascade do |t|
-    t.string   "name",        default: ""
-    t.text     "description", default: ""
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "code",        default: ""
+    t.string   "name",                   default: ""
+    t.text     "description",            default: ""
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "code",                   default: ""
+    t.string   "global_id",   limit: 32, default: ""
   end
+
+  add_index "donors", ["global_id"], name: "index_donors_on_global_id", using: :btree
 
   create_table "enrollment_trackings", force: :cascade do |t|
     t.integer  "enrollment_id"
@@ -1420,7 +1426,6 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.integer  "village_id"
     t.integer  "user_id"
     t.datetime "deleted_at"
-    t.string   "slug",                            default: ""
     t.integer  "received_by_id"
     t.integer  "followed_up_by_id"
     t.date     "initial_referral_date"
@@ -1433,6 +1438,7 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.string   "id_poor"
     t.text     "relevant_information"
     t.string   "referee_phone_number"
+    t.string   "slug",                            default: ""
     t.string   "documents",                       default: [],                     array: true
     t.integer  "assessments_count",               default: 0,         null: false
     t.integer  "care_plans_count",                default: 0,         null: false
@@ -1588,16 +1594,20 @@ ActiveRecord::Schema.define(version: 20240903043909) do
   add_index "global_identities", ["ulid"], name: "index_global_identities_on_ulid", unique: true, using: :btree
 
   create_table "global_identity_organizations", force: :cascade do |t|
-    t.string   "global_id"
-    t.integer  "organization_id"
-    t.integer  "client_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string  "global_id"
+    t.integer "organization_id"
+    t.integer "client_id"
   end
 
   add_index "global_identity_organizations", ["client_id"], name: "index_global_identity_organizations_on_client_id", using: :btree
   add_index "global_identity_organizations", ["global_id"], name: "index_global_identity_organizations_on_global_id", using: :btree
   add_index "global_identity_organizations", ["organization_id"], name: "index_global_identity_organizations_on_organization_id", using: :btree
+
+  create_table "global_identity_tmp", force: :cascade do |t|
+    t.binary  "ulid"
+    t.string  "ngo_name"
+    t.integer "client_id"
+  end
 
   create_table "global_services", id: false, force: :cascade do |t|
     t.uuid "uuid"
@@ -2334,6 +2344,7 @@ ActiveRecord::Schema.define(version: 20240903043909) do
   add_index "referrals", ["external_id"], name: "index_referrals_on_external_id", using: :btree
   add_index "referrals", ["mosvy_number"], name: "index_referrals_on_mosvy_number", using: :btree
   add_index "referrals", ["referee_id"], name: "index_referrals_on_referee_id", using: :btree
+  add_index "referrals", ["referred_from_uid"], name: "index_referrals_on_referred_from_uid", using: :btree
 
   create_table "referrals_services", id: false, force: :cascade do |t|
     t.integer "referral_id"
@@ -2495,21 +2506,20 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.boolean  "use_previous_care_plan"
     t.integer  "internal_referral_limit",              default: 0
     t.string   "internal_referral_frequency",          default: "week"
+    t.integer  "custom_field_limit",                   default: 0
+    t.string   "custom_field_frequency",               default: "week"
     t.boolean  "disabled_future_completion_date",      default: false
     t.integer  "case_note_edit_limit",                 default: 0
     t.string   "case_note_edit_frequency",             default: "week"
-    t.integer  "custom_field_limit",                   default: 0
-    t.string   "custom_field_frequency",               default: "week"
     t.boolean  "disabled_add_service_received",        default: false
     t.boolean  "test_client",                          default: false
-    t.boolean  "cbdmat_one_off",                       default: false
-    t.boolean  "cbdmat_ongoing",                       default: false
     t.boolean  "disabled_task_date_field",             default: true
     t.integer  "tracking_form_edit_limit",             default: 0
     t.string   "tracking_form_edit_frequency",         default: "week"
-    t.boolean  "disabled_progress_note_and_next_step", default: false
     t.boolean  "required_case_note_note",              default: true
     t.boolean  "hide_case_note_note",                  default: false
+    t.boolean  "cbdmat_one_off",                       default: false
+    t.boolean  "cbdmat_ongoing",                       default: false
     t.boolean  "enabled_risk_assessment",              default: false
     t.string   "assessment_type_name",                 default: "csi"
     t.integer  "selected_domain_ids",                  default: [],                               array: true
@@ -2628,7 +2638,7 @@ ActiveRecord::Schema.define(version: 20240903043909) do
 
   create_table "tasks", force: :cascade do |t|
     t.string   "name",                      default: ""
-    t.date     "completion_date"
+    t.date     "expected_date"
     t.datetime "remind_at"
     t.boolean  "completed",                 default: false
     t.integer  "user_id"
@@ -2644,7 +2654,7 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.datetime "deleted_at"
     t.integer  "goal_id"
     t.integer  "family_id"
-    t.datetime "expected_date"
+    t.datetime "completion_date"
     t.string   "domain_group_identity"
     t.integer  "completed_by_id"
     t.integer  "previous_id"
@@ -2679,24 +2689,22 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "position",   null: false
   end
 
-  add_index "thredded_messageboard_groups", ["name"], name: "index_thredded_messageboard_group_on_name", unique: true, using: :btree
-
   create_table "thredded_messageboards", force: :cascade do |t|
-    t.string   "name",                  limit: 191,             null: false
+    t.string   "name",                  limit: 255,                 null: false
     t.string   "slug",                  limit: 191
     t.text     "description"
     t.integer  "topics_count",                      default: 0
     t.integer  "posts_count",                       default: 0
+    t.boolean  "closed",                            default: false, null: false
     t.integer  "last_topic_id"
     t.integer  "messageboard_group_id"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.integer  "position",                                      null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
   end
 
+  add_index "thredded_messageboards", ["closed"], name: "index_thredded_messageboards_on_closed", using: :btree
   add_index "thredded_messageboards", ["last_topic_id"], name: "index_thredded_messageboards_on_last_topic_id", using: :btree
   add_index "thredded_messageboards", ["messageboard_group_id"], name: "index_thredded_messageboards_on_messageboard_group_id", using: :btree
   add_index "thredded_messageboards", ["slug"], name: "index_thredded_messageboards_on_slug", using: :btree
@@ -2766,7 +2774,6 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.string   "hash_id",      limit: 191,             null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
-    t.datetime "last_post_at"
   end
 
   add_index "thredded_private_topics", ["hash_id"], name: "index_thredded_private_topics_on_hash_id", using: :btree
@@ -2806,7 +2813,6 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.integer  "moderation_state",                             null: false
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
-    t.datetime "last_post_at"
   end
 
   add_index "thredded_topics", ["hash_id"], name: "index_thredded_topics_on_hash_id", using: :btree
@@ -2833,24 +2839,22 @@ ActiveRecord::Schema.define(version: 20240903043909) do
   add_index "thredded_user_details", ["user_id"], name: "index_thredded_user_details_on_user_id", using: :btree
 
   create_table "thredded_user_messageboard_preferences", force: :cascade do |t|
-    t.integer  "user_id",                                 null: false
-    t.integer  "messageboard_id",                         null: false
-    t.boolean  "follow_topics_on_mention", default: true, null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.boolean  "followed_topic_emails",    default: true, null: false
+    t.integer  "user_id",                          null: false
+    t.integer  "messageboard_id",                  null: false
+    t.boolean  "notify_on_mention", default: true, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "thredded_user_messageboard_preferences", ["messageboard_id"], name: "index_thredded_user_messageboard_preferences_on_messageboard_id", using: :btree
   add_index "thredded_user_messageboard_preferences", ["user_id", "messageboard_id"], name: "thredded_user_messageboard_preferences_user_id_messageboard_id", unique: true, using: :btree
 
   create_table "thredded_user_preferences", force: :cascade do |t|
-    t.integer  "user_id",                                 null: false
-    t.boolean  "follow_topics_on_mention", default: true, null: false
-    t.boolean  "notify_on_message",        default: true, null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.boolean  "followed_topic_emails",    default: true, null: false
+    t.integer  "user_id",                          null: false
+    t.boolean  "notify_on_mention", default: true, null: false
+    t.boolean  "notify_on_message", default: true, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
   add_index "thredded_user_preferences", ["user_id"], name: "index_thredded_user_preferences_on_user_id", using: :btree
@@ -2895,15 +2899,16 @@ ActiveRecord::Schema.define(version: 20240903043909) do
   add_index "townships", ["state_id"], name: "index_townships_on_state_id", using: :btree
 
   create_table "trackings", force: :cascade do |t|
-    t.string   "name",              default: ""
-    t.jsonb    "fields",            default: {}
-    t.string   "frequency",         default: ""
+    t.string   "name",               default: ""
+    t.jsonb    "fields",             default: {}
+    t.string   "frequency",          default: ""
     t.integer  "time_of_frequency"
     t.integer  "program_stream_id"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.datetime "deleted_at"
-    t.boolean  "hidden",            default: false
+    t.boolean  "hidden",             default: false
+    t.string   "allowed_edit_until"
   end
 
   add_index "trackings", ["deleted_at"], name: "index_trackings_on_deleted_at", using: :btree
@@ -2975,9 +2980,9 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.string   "gender",                         default: ""
     t.boolean  "enable_gov_log_in",              default: false
     t.boolean  "enable_research_log_in",         default: false
+    t.datetime "deleted_at"
     t.datetime "activated_at"
     t.datetime "deactivated_at"
-    t.datetime "deleted_at"
     t.string   "preferred_language",             default: "en"
     t.string   "organization_name"
     t.string   "profile"
@@ -2995,11 +3000,10 @@ ActiveRecord::Schema.define(version: 20240903043909) do
     t.integer "version_id"
     t.string  "foreign_key_name", null: false
     t.integer "foreign_key_id"
-    t.string  "foreign_type"
   end
 
   add_index "version_associations", ["foreign_key_id"], name: "index_version_associations_on_foreign_key_id", using: :btree
-  add_index "version_associations", ["foreign_key_name", "foreign_key_id", "foreign_type"], name: "index_version_associations_on_foreign_key", using: :btree
+  add_index "version_associations", ["foreign_key_name", "foreign_key_id"], name: "index_version_associations_on_foreign_key", using: :btree
   add_index "version_associations", ["version_id"], name: "index_version_associations_on_version_id", using: :btree
 
   create_table "versions", force: :cascade do |t|

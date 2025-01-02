@@ -34,12 +34,14 @@ module CarePlanHelper
   def care_plan_editable?
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
+
     current_user.permission.assessments_editable
   end
 
   def care_plan_deleted?
     return true if current_user.admin?
-    return false if current_user.strategic_overviewer?
+
+    false if current_user.strategic_overviewer?
   end
 
   def care_plan_status(care_plan)

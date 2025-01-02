@@ -29,7 +29,7 @@ module CifWeb
       Globalize.fallbacks = { id: :en, my: :en, ne: :en, th: :en }
     end
 
-    # config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to]
+    # config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     # Autoload path
     config.enable_dependency_loading = true
     config.autoload_paths << "#{Rails.root}/lib"
