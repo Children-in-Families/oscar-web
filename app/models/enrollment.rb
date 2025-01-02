@@ -56,9 +56,9 @@ class Enrollment < ActiveRecord::Base
   # def short_enrollment_date
   #   enrollment_date.end_of_month.strftime '%b-%y'
   # end
-  def self.cache_program_steams
-    Rails.cache.fetch([Apartment::Tenant.current, 'Enrollment', 'cache_program_steams']) do
-      program_ids = Enrollment.pluck(:program_stream_id).uniq
+  def self.cache_program_steams(type = 'Family')
+    Rails.cache.fetch([Apartment::Tenant.current, 'Enrollment', type, 'cache_program_steams']) do
+      program_ids = Enrollment.where(programmable_type: type).pluck(:program_stream_id).uniq
       ProgramStream.where(id: program_ids).order(:name).to_a
     end
   end
@@ -89,6 +89,7 @@ class Enrollment < ActiveRecord::Base
   end
 
   def flash_cache
-    Rails.cache.delete([Apartment::Tenant.current, 'Enrollment', 'cache_program_steams'])
+    cache_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/.*cache_program_steams/].blank? }
+    cache_keys.each { |key| Rails.cache.delete(key) }
   end
 end
