@@ -18,7 +18,7 @@ module CaseNoteConcern
       :last_auto_save_at,
       case_note_domain_groups_attributes: [
         :id, :note, :domain_group_id, :task_ids
-      ]
+       ]
     )
   end
 
