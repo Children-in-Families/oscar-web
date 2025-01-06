@@ -79,7 +79,7 @@ module Api
           remove_attachment_at_index(@case_note, params[:file_index].to_i)
         end
 
-        head 204 if case_note.destroy
+        head 204 if @case_note.destroy
       end
 
       def delete_attachment
