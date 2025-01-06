@@ -15,7 +15,7 @@ module Families
 
     def new
       @assessment = @family.assessments.find_by(id: params[:assessment])
-      @care_plan = @family.care_plans.new()
+      @care_plan = @family.care_plans.new
     end
 
     def create
@@ -53,7 +53,6 @@ module Families
 
     def destroy
       if @care_plan.present?
-
         @care_plan.goals.each do |goal|
           goal.tasks.each do |task|
             task.destroy_fully!
@@ -68,11 +67,11 @@ module Families
     private
 
     def care_plan_params
-      params.require(:care_plan).permit(:assessment_id, :family_id)
+      params.require(:care_plan).permit(:assessment_id, :family_id, :care_plan_date)
     end
 
     def care_plan_update_params
-      params.require(:care_plan).permit(:assessment_id, :family_id, goals_attributes: [:id, :assessment_domain_id, :assessment_id, :description, :_destroy, tasks_attributes: [:id, :domain_id, :name, :expected_date, :relation, :_destroy]])
+      params.require(:care_plan).permit(:assessment_id, :family_id, :care_plan_date, goals_attributes: [:id, :assessment_domain_id, :assessment_id, :description, :_destroy, tasks_attributes: [:id, :domain_id, :name, :expected_date, :relation, :_destroy]])
     end
 
     def set_family
@@ -80,7 +79,7 @@ module Families
     end
 
     def find_all_assessments
-      @assessments = @family.assessments.completed.order(:created_at)
+      @assessments = @family.assessments.includes(:care_plan).completed.order(:created_at)
     end
 
     def find_assessment
