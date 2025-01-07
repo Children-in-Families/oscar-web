@@ -18,7 +18,7 @@ module Api
       def create
         case_note = if params[:id] == 'draft'
                       @client.find_or_create_draft_case_note(
-                        **case_note_params,
+                        **case_note_params.deep_symbolize_keys,
                         custom_assessment_setting_id: set_custom_assessment_setting&.id,
                         custom: params[:custom]
                       )
