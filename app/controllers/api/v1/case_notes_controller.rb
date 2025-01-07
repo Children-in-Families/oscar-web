@@ -6,7 +6,10 @@ module Api
       include GoogleCalendarServiceConcern
 
       before_action :find_client, only: [:create, :update]
-      before_action :find_case_note, only: [:show, :update, :upload_attachment, :destroy, :delete_attachment]
+      before_action :set_case_note, only: [:show, :update, :upload_attachment, :destroy, :delete_attachment]
+      before_action :authorize_case_note, only: [:edit, :update]
+      before_action -> { case_notes_permission('readable') }, only: [:index]
+      before_action -> { case_notes_permission('editable') }, except: [:index]
 
       def show
         render json: @case_note
@@ -93,10 +96,6 @@ module Api
 
       private
 
-      def find_case_note
-        @case_note = CaseNote.unscoped.find(params[:id])
-      end
-
       def remove_attachment_at_index(case_note, index)
         remain_attachments = case_note.attachments
         if index.zero? && case_note.attachments.size == 1
@@ -105,6 +104,16 @@ module Api
           deleted_attachment = remain_attachments.delete_at(index)
           deleted_attachment.try(:remove!)
           case_note.attachments = remain_attachments
+        end
+      end
+
+      def case_notes_permission(permission)
+        return if current_user.admin? || current_user.strategic_overviewer?
+
+        if permission == 'readable'
+          render json: { message: t('unauthorized.default') }, status: :unprocessable_entity unless current_user.permission.case_notes_readable
+        else
+          render json: { message: t('unauthorized.default') }, status: :unprocessable_entity unless current_user.permission.case_notes_editable
         end
       end
     end
