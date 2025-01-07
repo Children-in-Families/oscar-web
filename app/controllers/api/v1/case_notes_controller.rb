@@ -124,6 +124,10 @@ module Api
           render json: { message: t('unauthorized.default') }, status: :unprocessable_entity unless current_user.permission.case_notes_editable
         end
       end
+
+      def authorize_case_note
+        authorize @case_note
+      end
     end
   end
 end

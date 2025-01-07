@@ -131,6 +131,10 @@ class CaseNotesController < AdminController
     authorize @client, :create?
   end
 
+  def authorize_case_note
+    authorize @case_note
+  end
+
   def case_notes_permission(permission)
     return if current_user.admin? || current_user.strategic_overviewer?
 
