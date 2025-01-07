@@ -125,27 +125,6 @@ class CaseNotesController < AdminController
     @client = Client.accessible_by(current_ability).friendly.find(params[:client_id])
   end
 
-  def set_case_note
-    @case_note = CaseNote.unscoped do
-      if params[:id] == 'draft'
-        @client.find_or_create_draft_case_note(
-          custom_assessment_setting_id: set_custom_assessment_setting&.id,
-          custom: params[:custom]
-        )
-      else
-        @client.case_notes.find(params[:id])
-      end
-    end
-  end
-
-  def set_custom_assessment_setting
-    @custom_assessment_setting = CustomAssessmentSetting.find_by(custom_assessment_name: params[:custom_name])
-  end
-
-  def authorize_case_note
-    authorize @case_note
-  end
-
   def authorize_client
     return true if current_user.admin?
 
