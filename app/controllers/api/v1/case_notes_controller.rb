@@ -7,7 +7,6 @@ module Api
 
       before_action :find_client, only: [:create, :update]
       before_action :set_case_note, only: [:show, :update, :upload_attachment, :destroy, :delete_attachment]
-      before_action :authorize_case_note, only: [:edit, :update]
       before_action -> { case_notes_permission('readable') }, only: [:index]
       before_action -> { case_notes_permission('editable') }, except: [:index]
 
@@ -123,10 +122,6 @@ module Api
         else
           render json: { message: t('unauthorized.default') }, status: :unprocessable_entity unless current_user.permission.case_notes_editable
         end
-      end
-
-      def authorize_case_note
-        authorize @case_note
       end
     end
   end
