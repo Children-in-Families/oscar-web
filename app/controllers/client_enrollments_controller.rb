@@ -52,14 +52,16 @@ class ClientEnrollmentsController < AdminController
   def create
     client_enrollments = @client.client_enrollments.reload
     client_enrollment = client_enrollments.find_by(client_enrollment_params.slice(:client_id, :program_stream_id, :enrollment_date))
-    redirect_to client_client_enrolled_program_path(@client, client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created') if client_enrollment
-
-    @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
-    authorize(@client) && authorize(@client_enrollment)
-    if @client_enrollment.save
-      redirect_to client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created')
+    if client_enrollment
+      redirect_to client_client_enrolled_program_path(@client, client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created') if client_enrollment
     else
-      render :new
+      @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
+      authorize(@client) && authorize(@client_enrollment)
+      if @client_enrollment.save
+        redirect_to client_client_enrolled_program_path(@client, @client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created')
+      else
+        render :new
+      end
     end
   end
 

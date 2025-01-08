@@ -16,17 +16,17 @@ class LeaveEnrolledProgramsController < AdminController
   end
 
   def create
-    if @enrollment.reload.leave_program.persisted?
+    if @enrollment.reload.leave_program
       path = find_path(@enrollment.leave_program)
       redirect_to path, notice: t('.successfully_created', entity: params[:family_id] ? t('.family') : params[:community_id] ? t('.community') : t('.client')) if @enrollment.leave_program.persisted?
-    end
-
-    @leave_program = @enrollment.build_leave_program(leave_program_params)
-    if @leave_program.save
-      path = find_path(@leave_program)
-      redirect_to path, notice: t('.successfully_created', entity: params[:family_id] ? t('.family') : params[:community_id] ? t('.community') : t('.client'))
     else
-      render :new
+      @leave_program = @enrollment.build_leave_program(leave_program_params)
+      if @leave_program.save
+        path = find_path(@leave_program)
+        redirect_to path, notice: t('.successfully_created', entity: params[:family_id] ? t('.family') : params[:community_id] ? t('.community') : t('.client'))
+      else
+        render :new
+      end
     end
   end
 
