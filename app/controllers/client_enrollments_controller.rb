@@ -50,10 +50,11 @@ class ClientEnrollmentsController < AdminController
   end
 
   def create
-    client_enrollments = @client.client_enrollments.reload
-    client_enrollment = client_enrollments.find_by(client_enrollment_params.slice(:client_id, :program_stream_id, :enrollment_date))
-    if client_enrollment
-      redirect_to client_client_enrolled_program_path(@client, client_enrollment, program_stream_id: @program_stream), notice: t('.successfully_created') if client_enrollment
+    @cache_key = "#{Apartment::Tenant.current}_cache_client_id_#{params[:client_id]}"
+    client_id = Rails.cache.fetch([@cache_key, *client_enrollment_params.slice(:program_stream_id, :enrollment_date).values])
+    Rails.cache.write([@cache_key, *client_enrollment_params.slice(:program_stream_id, :enrollment_date).values], params[:client_id], expires_in: 5.seconds)
+    if client_id
+      head 204
     else
       @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
       authorize(@client) && authorize(@client_enrollment)
