@@ -59,7 +59,7 @@ module LeaveProgramsConcern
     end
   end
 
-  def find_path(leave_program)
+  def find_leave_program_path(leave_program)
     if params[:family_id]
       family_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, leave_program)
     elsif params[:community_id]
