@@ -1,7 +1,6 @@
 class CaseNoteSerializer < ActiveModel::Serializer
   attributes :id, :attendee, :meeting_date, :interaction_type, :note, :client_id, :assessment_id, :case_note_domain_groups,
-             :selected_domain_group_ids, :attachments, :draft, :tasks, :created_at, :updated_at
-
+             :selected_domain_group_ids, :attachments, :draft, :tasks, :created_at, :updated_at, :last_auto_save_at
 
   private
 
