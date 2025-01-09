@@ -26,6 +26,7 @@ module Api
                     end
         case_note.assessment = @client.assessments.custom_latest_record
         case_note.meeting_date = "#{case_note.meeting_date.strftime('%Y-%m-%d')}, #{Time.now.strftime('%H:%M:%S')}"
+
         if (case_note.persisted? && case_note.save(validate: false)) || case_note.save
           case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
           create_bulk_task(params[:task], case_note) if params.key?(:task)
