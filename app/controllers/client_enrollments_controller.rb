@@ -62,7 +62,7 @@ class ClientEnrollmentsController < AdminController
         render :new
       end
     else
-      redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_created')
+      redirect_to client_client_enrollments_path(@client), notice: t('.successfully_created')
     end
   end
 
