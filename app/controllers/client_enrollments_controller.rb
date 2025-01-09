@@ -53,9 +53,7 @@ class ClientEnrollmentsController < AdminController
     @cache_key = "#{Apartment::Tenant.current}_cache_client_id_#{params[:client_id]}"
     client_id = Rails.cache.fetch([@cache_key, *client_enrollment_params.slice(:program_stream_id, :enrollment_date).values])
     Rails.cache.write([@cache_key, *client_enrollment_params.slice(:program_stream_id, :enrollment_date).values], params[:client_id], expires_in: 5.seconds)
-    if client_id
-      head 204
-    else
+    if client_id.nil?
       @client_enrollment = @client.client_enrollments.new(client_enrollment_params)
       authorize(@client) && authorize(@client_enrollment)
       if @client_enrollment.save
@@ -63,6 +61,8 @@ class ClientEnrollmentsController < AdminController
       else
         render :new
       end
+    else
+      redirect_to report_client_client_enrollments_path(@client, program_stream_id: @program_stream), notice: t('.successfully_created')
     end
   end
 
