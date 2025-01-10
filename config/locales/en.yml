@@ -504,7 +504,7 @@ en:
       family: Family
       family_basic_fields: Family Basic Fields
       common_searches: Common Searches
-      family_id: Manual ID
+      family_id: Family ID
       family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
@@ -3190,7 +3190,7 @@ en:
         village_id: Village
         'yes': 'Yes'
       family: Family
-      family_id: Manual ID
+      family_id: Family ID
       family_preservation: Family Preservation
       form_title: Form Title
       history_of_disability_and_or_illness: History of disability and/or illness
