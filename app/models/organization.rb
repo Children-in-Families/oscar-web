@@ -8,6 +8,7 @@ class Organization < ActiveRecord::Base
   has_paper_trail on: :update, only: :integrated
   mount_uploader :logo, ImageUploader
 
+  has_many :children, class_name: 'Organization', foreign_key: 'parent_id', dependent: :restrict_with_error
   has_many :employees, class_name: 'User'
 
   has_many :donor_organizations, dependent: :destroy
@@ -285,6 +286,7 @@ class Organization < ActiveRecord::Base
     Rails.cache.delete(['current_organization', short_name])
     Rails.cache.delete([Apartment::Tenant.current, 'cache_mapping_ngo_names', Organization.only_deleted.count])
     Rails.cache.delete([Apartment::Tenant.current, 'Organization', 'visible', Organization.only_deleted.count])
+    Rails.cache.delete(['current_organization', short_name, Organization.only_deleted.count])
     Rails.cache.delete(['current_organization', Apartment::Tenant.current, Organization.only_deleted.count])
     cached_organization_short_names_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_organization_short_names/].blank? }
     cached_organization_short_names_keys.each { |key| Rails.cache.delete(key) }
