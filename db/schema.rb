@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20250116073527) do
+ActiveRecord::Schema.define(version: 20250120045729) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2189,7 +2189,7 @@ ActiveRecord::Schema.define(version: 20250116073527) do
     t.integer  "partners_count",           default: 0
     t.integer  "users_count",              default: 0,  null: false
     t.string   "country"
-    t.string   "code",           limit: 2
+    t.string   "code",           limit: 7
   end
 
   create_table "quantitative_cases", force: :cascade do |t|

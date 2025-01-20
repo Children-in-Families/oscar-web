@@ -114,6 +114,9 @@ class Organization < ActiveRecord::Base
           when 'indonesia'
             Rake::Task['indonesian_addresses:import'].invoke(org.short_name)
             Rake::Task['indonesian_addresses:import'].reenable
+          when 'vietnam'
+            Rake::Task['vietnam_address:import'].invoke(org.short_name)
+            Rake::Task['indonesian_addresses:import'].reenable
           else
             Importer::Import.new('Province', general_data_file).provinces
             Rake::Task['communes_and_villages:import'].invoke(org.short_name)
