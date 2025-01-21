@@ -1346,20 +1346,12 @@ ActiveRecord::Schema.define(version: 20250120045729) do
     t.datetime 'deleted_at'
     t.integer 'acceptable_id'
     t.string 'acceptable_type'
-    t.datetime 'follow_up_date'
-    t.datetime 'initial_referral_date'
-    t.integer 'received_by_id'
-    t.integer 'followed_up_by_id'
   end
 
   add_index 'enter_ngos', ['acceptable_id', 'acceptable_type'], name: 'index_enter_ngos_on_acceptable_id_and_acceptable_type', using: :btree
   add_index 'enter_ngos', ['acceptable_id'], name: 'index_enter_ngos_on_acceptable_id', using: :btree
   add_index 'enter_ngos', ['client_id'], name: 'index_enter_ngos_on_client_id', using: :btree
   add_index 'enter_ngos', ['deleted_at'], name: 'index_enter_ngos_on_deleted_at', using: :btree
-  add_index 'enter_ngos', ['follow_up_date'], name: 'index_enter_ngos_on_follow_up_date', using: :btree
-  add_index 'enter_ngos', ['followed_up_by_id'], name: 'index_enter_ngos_on_followed_up_by_id', using: :btree
-  add_index 'enter_ngos', ['initial_referral_date'], name: 'index_enter_ngos_on_initial_referral_date', using: :btree
-  add_index 'enter_ngos', ['received_by_id'], name: 'index_enter_ngos_on_received_by_id', using: :btree
 
   create_table 'exit_ngos', force: :cascade do |t|
     t.integer 'client_id'
