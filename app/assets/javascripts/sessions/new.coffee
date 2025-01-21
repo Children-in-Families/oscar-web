@@ -3,6 +3,21 @@ CIF.SessionsNew = CIF.SessionsCreate = do ->
     _removeUnsupportLanguageNotification()
     _initICheckBox()
 
+    selectedCountry = localStorage.getItem('selectedCountry');
+    if selectedCountry
+      selectedInput = $('input[type=radio][value=' + selectedCountry + ']')
+      selectedInput.prop('checked', true)
+      url = selectedInput.data('url')
+      $('form#new_user').attr('action', url);
+
+    $('input[type=radio]').on 'click', (e) ->
+      if $(e.target).is(':checked')
+        localStorage.setItem('selectedCountry', e.target.value);
+        url = e.target.dataset.url
+        $('form#new_user').attr('action', url);
+
+      return
+
   _removeUnsupportLanguageNotification = ->
     locale           = $('.alert-warning').data('locale')
     return if locale == 'en'
