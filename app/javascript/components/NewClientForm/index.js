@@ -685,6 +685,7 @@ const Forms = (props) => {
       handleCheckValue(clientData);
 
       setOnSave(true);
+
       const action = clientData.id ? "PUT" : "POST";
       const message = clientData.id
         ? T.translate("index.successfully_updated")
@@ -735,7 +736,7 @@ const Forms = (props) => {
           .filter(([key, _]) => key !== "_attachments")
           .reduce((res, [key, value]) => ({ ...res, [key]: value }), {});
 
-        if (!handleClientDataValidation(customDataObj)) return false;
+        handleClientDataValidation(customDataObj);
 
         formData = objectToFormData(customDataObj, {}, formData, "custom_data");
       }
@@ -757,7 +758,6 @@ const Forms = (props) => {
         .fail((error) => {
           setLoading(false);
           setOnSave(false);
-
           if (error.statusText == "Request Entity Too Large") {
             alert(
               "Your data is too large, try upload your attachments part by part."
