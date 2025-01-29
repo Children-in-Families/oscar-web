@@ -28,5 +28,9 @@
         = f.input :custom_age, placeholder: 'Age', label: false
     .col-xs-12.col-sm-1
       .form-group
-        = link_to_remove_association '', f, class: 'btn btn-outline btn-danger btn-sm fa fa-times', data: {confirm: t('.are_you_sure')}
+        - if f.object.case_notes.any?
+          %span{ data: { toggle: "popover", trigger: "hover", placement: 'auto', title: "Notice!", content: "This custom assessment has been attached with care plan or case note." } }
+            = link_to_remove_association '', f, class: "btn btn-outline btn-danger btn-sm fa fa-times disabled", data: { confirm: t('.are_you_sure') }
+        - else
+          = link_to_remove_association '', f, class: "btn btn-outline btn-danger btn-sm fa fa-times", data: { confirm: t('.are_you_sure') }
         = f.check_box :enable_custom_assessment, class: "i-checks", as: :boolean, id: "checkbox_custom_assessment_setting", data: { current_setting: @current_setting&.id }
