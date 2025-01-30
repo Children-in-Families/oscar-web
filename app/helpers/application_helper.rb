@@ -419,7 +419,7 @@ module ApplicationHelper
       ]
     end
 
-    options = options.unshift([0, setting.default_assessment, { 'data-type' => :default, 'data-select-group' => t('advanced_search.fields.csi_domain_scores') }]) if setting.enable_default_assessment?
+    options.unshift([0, setting.default_assessment, { 'data-type' => :default, 'data-select-group' => t('advanced_search.fields.csi_domain_scores') }]) if setting.enable_default_assessment?
     options
   end
 
