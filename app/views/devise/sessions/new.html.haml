@@ -5,6 +5,16 @@
         = image_tag(current_organization&.logo || 'OSCaR.png')
       .ibox-content
         = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+          - if current_organization.children.any?
+            %div{ style: "width: 100%; display: flex; justify-content: space-evenly; align-items: center; " }
+              - current_organization.children.each do |child_ngo|
+                %label
+                  %input{ checked: false, name: "country", type: "radio", value: child_ngo.country, class: child_ngo.short_name, data: { url: request.url.gsub(/\/\/\w+\./, "//#{child_ngo.short_name}.") } }/
+                  %img{ alt: "Option 1", src: image_url(country_to_flag(child_ngo.country)) }/
+              %label
+                %input{ checked: false, name: "country", type: "radio", value: 'dashboard', class: 'dashboard', data: { url: request.url } }/
+                %img{ alt: "Option 1", src: image_url('dashboard_icon.png') }/
+
           = f.error_notification
           .form-inputs
             = f.input :email, required: false, autofocus: true, label: t('.email')
