@@ -16,17 +16,19 @@ class LeaveEnrolledProgramsController < AdminController
   end
 
   def create
-    if @enrollment.leave_program.persisted?
-      path = find_path(@enrollment.leave_program)
-      redirect_to path, notice: t('.successfully_created', entity: params[:family_id] ? t('.family') : params[:community_id] ? t('.community') : t('.client')) if @enrollment.leave_program.persisted?
-    end
-
-    @leave_program = @enrollment.build_leave_program(leave_program_params)
-    if @leave_program.save
-      path = find_path(@leave_program)
-      redirect_to path, notice: t('.successfully_created', entity: params[:family_id] ? t('.family') : params[:community_id] ? t('.community') : t('.client'))
+    @cache_key = "#{Apartment::Tenant.current}_cache_#{@entity.class.name.downcase}_id_#{@entity.id}"
+    entity_id = Rails.cache.fetch([@cache_key, *leave_program_params.slice(:program_stream_id, :exit_date).values])
+    Rails.cache.write([@cache_key, *leave_program_params.slice(:program_stream_id, :exit_date).values], @entity.id, expires_in: 5.seconds)
+    if entity_id.nil?
+      @leave_program = @enrollment.build_leave_program(leave_program_params)
+      if @leave_program.save
+        path = find_leave_program_path(@leave_program)
+        redirect_to path, notice: t('.successfully_created', entity: params[:family_id] ? t('.family') : params[:community_id] ? t('.community') : t('.client'))
+      else
+        render :new
+      end
     else
-      render :new
+      redirect_to @entity, alert: "#{@entity.class.name} is already exited from the program."
     end
   end
 
