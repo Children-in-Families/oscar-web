@@ -972,6 +972,7 @@ class CIF.ClientAdvanceSearch
 
     if (_.isEmpty(basicRules.rules) and !basicRules.valid) or (!(_.isEmpty(basicRules.rules)) and basicRules.valid)
       $(builderElement).find('.has-error').removeClass('has-error')
+      basicRules.selected_assessment_id = if $("#assessment-checkbox").prop('checked') then parseInt($("#assessment-select").val()) else -1;
       $('#client_advanced_search_basic_rules').val(self.handleStringfyRules(basicRules))
 
       true
@@ -1164,6 +1165,7 @@ class CIF.ClientAdvanceSearch
 
       $('#advanced_search_custom_forms').val(customFormValues)
       $('#advanced_search_program_streams').val(programValues)
+
       $('#advanced_search_queries').val(self.handleStringfyRules(basicRules))
       self.handleAddColumnPickerToInput()
 
