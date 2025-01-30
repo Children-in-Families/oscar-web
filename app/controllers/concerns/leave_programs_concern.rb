@@ -58,4 +58,14 @@ module LeaveProgramsConcern
       redirect_to root_path, alert: t('unauthorized.default') unless permission_set
     end
   end
+
+  def find_leave_program_path(leave_program)
+    if params[:family_id]
+      family_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, leave_program)
+    elsif params[:community_id]
+      community_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, leave_program)
+    else
+      client_client_enrolled_program_leave_enrolled_program_path(@entity, @enrollment, leave_program)
+    end
+  end
 end
