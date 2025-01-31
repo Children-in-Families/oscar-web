@@ -508,6 +508,8 @@ Rails.application.routes.draw do
           get :services
         end
       end
+
+      get :custom_data, to: 'custom_data#show'
     end
 
     resources :community_advanced_searches, only: [] do
