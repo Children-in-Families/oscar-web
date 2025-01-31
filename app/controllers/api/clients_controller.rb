@@ -307,22 +307,6 @@ module Api
       { similar_fields: similar_fields }
     end
 
-    def custom_data_params
-      if params.dig(:custom_data, :properties)
-        param_array = []
-        params.dig(:custom_data, :properties).each { |k, v| param_array << [k, v.first.is_a?(Hash) ? v.first.keys : []] if v.is_a?(Array) }
-        property_keys = params.dig(:custom_data, :properties).try(:keys)
-        params.require(:custom_data).permit(
-          properties: property_keys << param_array.to_h,
-          form_builder_attachments_attributes: [:id, :name, { file: [] }]
-        )
-      else
-        params.require(:custom_data).permit(
-          form_builder_attachments_attributes: [:id, :name, { file: [] }]
-        )
-      end
-    end
-
     def find_client_in_organization
       results = []
       similar_fields = Client.find_shared_client(params)
