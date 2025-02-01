@@ -1525,11 +1525,11 @@ ActiveRecord::Schema.define(version: 20250120045729) do
     t.string   "ngo_name",                     default: ""
     t.integer  "referee_id"
     t.boolean  "saved",                        default: false
-    t.string   "consent_form",                 default: [],                      array: true
+    t.string   "consent_form",                 default: [],                 array: true
     t.integer  "family_id"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.string   "referral_status",   limit: 15, default: "Referred"
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.string   "referral_status",   limit: 15
     t.integer  "referred_from_uid"
   end
 
@@ -3226,6 +3226,7 @@ ActiveRecord::Schema.define(version: 20250120045729) do
   add_foreign_key "risk_assessments", "clients"
   add_foreign_key "service_delivery_tasks", "service_deliveries"
   add_foreign_key "service_delivery_tasks", "tasks"
+  add_foreign_key "services", "global_services", column: "uuid", primary_key: "uuid"
   add_foreign_key "settings", "communes"
   add_foreign_key "settings", "districts"
   add_foreign_key "settings", "provinces"
