@@ -70,7 +70,7 @@ module Api
           create_task_task_progress_notes unless save_draft?
           delete_events if session[:authorization]
 
-          render json: { resource: @case_note, edit_url: edit_client_case_note_url(@client, @case_note) }, status: 200
+          render json: @case_note, status: 200
         else
           render json: @case_note.errors, status: 422
         end
