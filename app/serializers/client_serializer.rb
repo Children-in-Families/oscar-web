@@ -24,6 +24,7 @@ class ClientSerializer < ActiveModel::Serializer
   has_one :referee
   has_one :risk_assessment
   has_one :family_member
+  has_one :client_custom_data
 
   has_many :assessments
   has_many :client_quantitative_free_text_cases
