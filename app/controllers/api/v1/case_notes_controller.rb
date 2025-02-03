@@ -17,7 +17,6 @@ module Api
       def create
         case_note = if params[:id] == 'draft'
                       @client.find_or_create_draft_case_note(
-                        **case_note_params.deep_symbolize_keys,
                         custom_assessment_setting_id: set_custom_assessment_setting&.id,
                         custom: params[:custom]
                       )
@@ -25,7 +24,7 @@ module Api
                       @client.case_notes.new(case_note_params)
                     end
         case_note.assessment = @client.assessments.custom_latest_record
-        case_note.meeting_date = "#{case_note.meeting_date.strftime('%Y-%m-%d')}, #{Time.now.strftime('%H:%M:%S')}"
+        case_note.meeting_date = "#{case_note.meeting_date.strftime('%Y-%m-%d')}, #{Time.now.strftime('%H:%M:%S')}" if case_note.meeting_date
 
         if (case_note.persisted? && case_note.save(validate: false)) || case_note.save
           case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
@@ -123,6 +122,10 @@ module Api
         else
           render json: { message: t('unauthorized.default') }, status: :unprocessable_entity unless current_user.permission.case_notes_editable
         end
+      end
+
+      def save_draft?
+        params[:draft].present?
       end
     end
   end
