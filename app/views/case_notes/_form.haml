@@ -63,8 +63,8 @@
                     .col-xs-12{ class: field['type'] == 'paragraph' ? '' : 'col-md-6' }
                       - field['label'] = convert_bracket(field['label'])
                       - if field['type'] == 'file'
-                        - attachment_by_label = @attachments.file_by_name(field['label'])
-                        = ff.simple_fields_for :form_builder_attachments, attachment_by_label|| @attachments.build do |attachment|
+                        - attachment_by_label = (@attachments || FormBuilderAttachment.none).file_by_name(field['label'])
+                        = ff.simple_fields_for :form_builder_attachments, attachment_by_label|| (@attachments || FormBuilderAttachment.none).build do |attachment|
                           = render '/case_notes/custom_fields/attachment', f: attachment, attachment_by_label: attachment_by_label, property: field, entity: ff, resource: @case_note.custom_field_property
                       - else
                         = render "/shared/fields/#{field['type'].underscore}", f: prop_f, field_props: field, errors: @case_note.custom_field_property.errors.messages

@@ -1,6 +1,6 @@
 class SessionsController < Devise::SessionsController
   include LocaleConcern
-  
+
   before_action :set_whodunnit, :detect_browser
   after_action :increase_visit_count, only: :create
   skip_before_action :set_locale, only: :create
