@@ -5243,12 +5243,14 @@ th:
       view_calendar: มุมมองปฏิทิน
     top_navbar:
       burmese: ภาษาพม่า
+      country: Country
       edit_profile: ปรับปรุงโปรไฟล์
       english: ภาษาอังกฤษ
       khmer: ខ្មែរ
       language: ภาษา
       log_out: ออกจากระบบ
       thai: ภาษาไทย
+      vietnames: Vietnamese
   leave_enrolled_programs:
     create:
       client: ผู้ใช้บริการ

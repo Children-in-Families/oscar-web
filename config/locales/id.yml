@@ -5252,12 +5252,14 @@ id:
     top_navbar:
       bahasa: Bahasa
       burmese: Burmese
+      country: Country
       edit_profile: Edit Profil
       english: Inggris
       khmer: ខ្មែរ
       language: Bahasa
       log_out: Keluar
       thai: Thai
+      vietnames: Vietnamese
   leave_enrolled_programs:
     create:
       client: Klien

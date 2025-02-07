@@ -5229,12 +5229,14 @@ my:
     top_navbar:
       bahasa: Bahasa
       burmese: ဗမာစာ
+      country: Country
       edit_profile: ပ႐ိုဖိုင္ျပင္ဆင္ရန္
       english: အဂၤလိပ္စာ
       khmer: ခမာစာ
       language: ဘာသာစကား
       log_out: ထြက္ရန္
       thai: ထိုင္းစာ
+      vietnames: Vietnamese
   leave_enrolled_programs:
     create:
       client: အမႈသည္သည္

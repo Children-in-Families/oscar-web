@@ -28,4 +28,13 @@ body[id='sessions-create'] {
   li#language-selection-dropdown {
     padding: 10px;
   }
+
+  #country-selection button {
+    padding: 0px 10px;
+
+    img {
+      padding: 0px 1px;
+      width: 31px;
+    }
+  }
 }

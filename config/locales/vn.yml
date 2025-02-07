@@ -5254,12 +5254,14 @@ en:
     top_navbar:
       bahasa: Bahasa
       burmese: Burmese
+      country: Country
       edit_profile: Edit Profile
       english: English
       khmer: ខ្មែរ
       language: Language
       log_out: Log out
       thai: Thai
+      vietnames: Vietnamese
   leave_enrolled_programs:
     create:
       client: Client

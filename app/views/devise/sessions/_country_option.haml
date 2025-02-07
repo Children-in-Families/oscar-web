@@ -9,16 +9,9 @@
           Choose your country
       .modal-body
         %ul.nav
-          %li.nav-header
-          %li
-            %a{href: "index.html"}
-              = image_tag image_url(country_to_flag('cambodia'))
-              %span.nav-label Cambodia
-          %li
-            %a{href: "index.html"}
-              = image_tag image_url(country_to_flag('vietnam'))
-              %span.nav-label Vietnam
-          %li
-            %a{href: "index.html"}
-              = image_tag image_url(country_to_flag('thailand'))
-              %span.nav-label Thailand
+          - if current_organization.children.any?
+            - current_organization.children.each do |child_ngo|
+              %li
+                %a.country-option{ data: { value: child_ngo.country, url: request.url.gsub(/\/\/\w+\./, "//#{child_ngo.short_name}."), flag: image_tag(image_url(country_to_flag(child_ngo.country))) } }
+                  = image_tag image_url(country_to_flag(child_ngo.country))
+                  = child_ngo.country.capitalize
