@@ -3,7 +3,7 @@ CIF.SessionsNew = CIF.SessionsCreate = do ->
     _removeUnsupportLanguageNotification()
     _initICheckBox()
 
-    $('#country-select').modal('show')
+    $('#country-select').modal({backdrop: 'static', keyboard: false}).modal('show')
     selectedCountry = localStorage.getItem('selectedCountry');
     if selectedCountry
       selectedInput = $('input[type=radio][value=' + selectedCountry + ']')

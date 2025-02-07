@@ -1,17 +1,25 @@
 body[id='sessions-new'],
 body[id='sessions-create'] {
-  .icheckbox_square-green{
+  .modal-content.panel-background .panel-heading {
+    background-color: #186e6d;
+  }
+
+  .icheckbox_square-green {
     margin-right: 10px;
   }
+
   .ibox-title {
     min-height: 81px;
+
     img {
       max-width: 64px;
     }
   }
+
   .normal-space {
     margin-top: 10%;
   }
+
   .alert-warning {
     margin-top: 20px;
     margin-bottom: 0;
