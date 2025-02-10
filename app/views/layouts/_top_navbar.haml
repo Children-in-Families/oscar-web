@@ -16,6 +16,19 @@
             %a.dropdown-toggle.count-info{"data-toggle" => "dropdown", :href => "#"}
               %i.fa.fa-spinner.fa-spin
         = render partial: 'layouts/notification' unless @lazy_load_notification
+      - if current_organization && current_organization.children.any?
+        %li#country-selection-dropdown
+          .btn-group#country-selection
+            %button.btn.btn-default.dropdown-toggle.btn-sm{ "aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button" }
+              = t('.country')
+
+              %span.caret
+            %ul.dropdown-menu
+              - current_organization.children.each do |child_ngo|
+                %li
+                  %a.country-option{ data: { value: child_ngo.country, url: request.url.gsub(/\/\/\w+\./, "//#{child_ngo.short_name}."), flag: image_tag(image_url(country_to_flag(child_ngo.country))) } }
+                    = image_tag image_url(country_to_flag(child_ngo.country))
+                    = child_ngo.country.capitalize
 
       %li#language-selection-dropdown
         .btn-group#language-selection
@@ -33,6 +46,9 @@
                   = supported_languages_data.dig(supported_lang.to_sym, :label)
 
       - if user_signed_in?
+        %li
+          %small Country:
+          = image_tag image_url(country_to_flag(current_organization.country))
         %li
           = link_to destroy_user_session_path, method: :delete do
             %i.fa.fa-sign-out

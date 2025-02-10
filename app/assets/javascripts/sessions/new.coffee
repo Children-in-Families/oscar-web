@@ -3,18 +3,24 @@ CIF.SessionsNew = CIF.SessionsCreate = do ->
     _removeUnsupportLanguageNotification()
     _initICheckBox()
 
-    selectedCountry = localStorage.getItem('selectedCountry');
+    selectedCountry = JSON.parse localStorage.getItem('selectedCountry');
     if selectedCountry
-      selectedInput = $('input[type=radio][value=' + selectedCountry + ']')
-      selectedInput.prop('checked', true)
-      url = selectedInput.data('url')
+      url = selectedCountry.url
+      flag = selectedCountry.flag;
       $('form#new_user').attr('action', url);
+      $("#country-selection span.caret").before(flag);
+    else
+      $('#country-select').modal({backdrop: 'static', keyboard: false}).modal('show')
 
-    $('input[type=radio]').on 'click', (e) ->
-      if $(e.target).is(':checked')
-        localStorage.setItem('selectedCountry', e.target.value);
-        url = e.target.dataset.url
+    $('a.country-option').on 'click', (e) ->
+      value = @.dataset.value
+      if value
+        url = @.dataset.url
+        localStorage.setItem('selectedCountry', JSON.stringify({ value: value, url: url, flag: @.dataset.flag }));
         $('form#new_user').attr('action', url);
+        $('#country-select').modal('hide');
+        $("#country-selection button img").remove();
+        $("#country-selection span.caret").before(@.dataset.flag);
 
       return
 
