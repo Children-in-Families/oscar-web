@@ -4,6 +4,7 @@ module Api
       include AssessmentConcern
 
       before_action :find_client
+      before_action :find_assessment, only: [:create, :update, :show, :destroy, :upload_attachment]
 
       def index
         assessments = @client.assessments.includes(:case_notes)
@@ -16,13 +17,33 @@ module Api
       end
 
       def create
-        assessment = @client.assessments.new(assessment_params)
-        assessment.default = assessment_params[:custom_assessment_setting_id].blank?
-        assessment.skip_assessment_domain_populate = true
-        if assessment.save
-          render json: assessment
+        @assessment.default = assessment_params[:custom_assessment_setting_id].blank?
+        @assessment.skip_assessment_domain_populate = true
+
+        if current_organization.try(:aht) == true
+          case_conference = CaseConference.find(assessment_params[:case_conference_id])
+          if case_conference.assessment.nil? && @assessment.save(validate: false)
+            render json: @assessment
+          elsif case_conference.assessment
+            params[:assessment][:assessment_domains_attributes].each do |assessment_domain|
+              add_more_attachments(assessment_domain.second[:attachments], assessment_domain.second[:id])
+            end
+
+            assessment = case_conference.assessment.reload
+            assessment_domains_attributes = assessment_params[:assessment_domains_attributes].select { |k, v| v['score'].present? }
+            assessment.update(updated_at: DateTime.now)
+            assessment.assessment_domains.update_all(assessment_id: assessment.id)
+            assessment_domains_attributes.each do |_, v|
+              attr = v.slice('domain_id', 'score')
+              assessment.assessment_domains.reload.find_by(domain_id: attr['domain_id']).update_attributes(attr)
+            end
+
+            render json: assessment
+          else
+            render json: assessment.errors, status: :unprocessable_entity
+          end
         else
-          render json: assessment.errors, status: :unprocessable_entity
+          render json: @assessment
         end
       end
 
@@ -31,12 +52,23 @@ module Api
           add_more_attachments(assessment_domain[:attachments], assessment_domain[:id]) if assessment_domain.key?(:id)
         end
 
-        assessment = @client.assessments.find(params[:id])
-        if assessment.update_attributes(assessment_params)
-          assessment.update(updated_at: DateTime.now)
-          render json: assessment
+        attributes = assessment_params.merge(last_auto_save_at: DateTime.now)
+        saved = false
+        if params[:draft].present?
+          @assessment.assign_attributes(attributes)
+          PaperTrail.without_tracking { @assessment.save(validate: false) }
+
+          saved = true
         else
-          render json: assessment.errors, status: :unprocessable_entity
+          saved = @assessment.update_attributes(attributes.merge(draft: false))
+          @assessment.run_callbacks(:commit)
+        end
+
+        if saved
+          create_bulk_task(params[:task], @assessment) if params.key?(:task)
+          render json: @assessment
+        else
+          render json: @assessment.errors, status: :unprocessable_entity
         end
       end
 
@@ -54,6 +86,17 @@ module Api
         default_params = params.require(:assessment).permit(:default, :assessment_date, :case_conference_id, :custom_assessment_setting_id, :level_of_risk, :description, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last])
         default_params = params.require(:assessment).permit(:default, :assessment_date, :case_conference_id, :custom_assessment_setting_id, :level_of_risk, :description, assessment_domains_attributes: [:id, :domain_id, :score, :reason, :goal, :goal_required, :required_task_last, attachments: []]) if action_name == 'create'
         default_params
+      end
+
+      def find_assessment
+        @assessment = Assessment.unscoped do
+          if params[:id] == 'draft'
+            @custom_assessment_setting = find_custom_assessment_setting
+            @client.find_or_create_assessment(default: assessment_params[:default], case_conference_id: params[:case_conference], custom_assessment_setting_id: @custom_assessment_setting.try(:id))
+          else
+            @client.assessments.find(params[:id])
+          end
+        end.decorate
       end
 
       def remove_attachment_at_index(index)

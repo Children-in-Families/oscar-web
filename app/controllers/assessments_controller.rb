@@ -129,23 +129,6 @@ class AssessmentsController < AdminController
     end
   end
 
-  def upload_attachment
-    assessment_domain = @assessment.assessment_domains.find_or_initialize_by(domain_id: params[:domain_id])
-    assessment_domain.save(validate: false)
-    attachments = params.dig('assessment', 'assessment_domains_attributes').map do |_index, assessment_domain_attributes|
-      assessment_domain_attributes[:attachments]
-    end.flatten.compact
-
-    if attachments.any?
-      files = assessment_domain.attachments
-      files += attachments
-      assessment_domain.attachments = files
-      assessment_domain.save(validate: false)
-    end
-
-    render json: { message: t('.successfully_uploaded') }, status: '200'
-  end
-
   private
 
   def find_client
