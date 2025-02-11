@@ -560,7 +560,7 @@ const Forms = (props) => {
     return true;
   };
 
-  const checkClientExist = () => (callback) => {
+  const checkClientExist = (callback) => {
     const data = {
       slug: clientData.slug || "",
       given_name: clientData.given_name,
@@ -610,10 +610,14 @@ const Forms = (props) => {
           setClientExist(false);
         });
       } else {
-        callback();
+        setLoading(false);
+        setLoading(true);
+        handleSave()();
       }
     } else {
-      callback();
+      setLoading(false);
+      setLoading(true);
+      handleSave()();
     }
   };
 
@@ -1162,7 +1166,7 @@ const Forms = (props) => {
             className="clientButton saveButton"
             onClick={
               params("step") === "clientInfo"
-                ? () => checkClientExist()(setClientExist(true))
+                ? () => checkClientExist(setClientExist(true))
                 : () => handleSave()()
             }
           >
