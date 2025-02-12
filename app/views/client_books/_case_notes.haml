@@ -16,6 +16,7 @@
               %i.fa.fa-chevron-up
         .ibox-content
           %p= display_case_note_attendee(case_note)
+          = render 'case_notes/custom_fields/field_display', case_note: case_note
           - combined_notes = case_note.case_note_domain_groups.pluck(:note).uniq.join(' ')
           .row
             .col-xs-12
@@ -38,7 +39,7 @@
                 .panel-body
                   = select_tag "", tag_domain_group(case_note), multiple: true, disabled: true
 
-          - case_note.case_note_domain_groups.includes(:case_note, :domain_group).each do |cdg|
+          - case_note.case_note_domain_groups.includes(:domain_group).each do |cdg|
             - list_goals = []
             - cdg.domains(case_note).each do |domain|
               - assessment_domain = domain.assessment_domains.find_by(assessment_id: case_note.assessment_id)
