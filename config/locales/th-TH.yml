@@ -1088,6 +1088,7 @@ th-TH:
       type: 'ประเภท (หมายเหตุ: เลือก ''เยี่ยม'' เท่านั้นหากคุณได้พบกับลูกค้า)'
       type_options:
         visit: เข้าชม
+        come_to_us: Come to us
         non_face_to_face: ไม่ต้องพบหน้าต่อหน้า
         rd_party: บุคคลที่สาม
         supervision: ควบคุมการดูแล
