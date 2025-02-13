@@ -2973,7 +2973,7 @@ id:
         current_province: Provinsi Sekarang
         current_province_en: Provinsi Sekarang (Inggris)
         current_province_kh: Provinsi Sekarang (Local)
-        custom_assessment: Custom %{assessment}
+        custom_assessment: "%{assessment} Name"
         custom_assessment_created_at: Custom %{assessment} Dibuat di
         date_of_assessments: "Tanggal dari%{assessment}"
         date_of_birth: Tanggal Lahir

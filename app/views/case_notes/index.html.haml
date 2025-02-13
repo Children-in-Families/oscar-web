@@ -52,22 +52,30 @@
           .panel.panel-info
             .panel-heading
               .row
-                .col-xs-7
-                  %h3= display_case_note_attendee(case_note)
-                  %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format(case_note.created_at)}"
-                .col-xs-5.text-right
-                  %h4
-                    = t('shared.x_on', x: t('clients.form.case_note'))
-                    = date_format(case_note.meeting_date) if case_note.meeting_date
-                    - if case_note.draft?
-                      %span.label.label-warning (draft)
-                    = link_to '#', class: 'btn btn-warning printable-button', data: { printable_id: "printable-case-note-#{case_note.id}" } do
-                      = fa_icon 'print'
-                    - if (can? :edit?, CaseNote)
-                      - cdg = case_note.case_note_domain_groups.first
-                      = edit_link(@client, case_note, cdg)
-                    - if current_user.admin? || case_note.draft?
-                      = destroy_link(@client, case_note)
+                .col-xs-12
+                  .row
+                    .col-md-6
+                      %h3= display_case_note_attendee(case_note)
+                    .col-md-6.text-right
+                      %h4
+                        = t('shared.x_on', x: t('clients.form.case_note'))
+                        = date_format(case_note.meeting_date) if case_note.meeting_date
+                        - if case_note.draft?
+                          %span.label.label-warning (draft)
+                        = link_to '#', class: 'btn btn-warning printable-button', data: { printable_id: "printable-case-note-#{case_note.id}" } do
+                          = fa_icon 'print'
+                        - if (can? :edit?, CaseNote)
+                          - cdg = case_note.case_note_domain_groups.first
+                          = edit_link(@client, case_note, cdg)
+                        - if current_user.admin? || case_note.draft?
+                          = destroy_link(@client, case_note)
+
+                  .row
+                    .col-md-6
+                      %p= "#{t('created_by')} #{whodunnit('CaseNote', case_note.id)} #{t('at')} #{date_format(case_note.created_at)}"
+                    .col-md-6.text-right
+                      %h3= case_note.assessment_name
+
             .panel-body
               - custom_field_property = case_note.custom_field_property
               - if custom_field_property
