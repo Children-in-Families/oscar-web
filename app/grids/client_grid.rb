@@ -1081,7 +1081,7 @@ class ClientGrid < BaseGrid
 
   column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
     assessment_names = []
-    if JSON.parse($param_rules[:assessment_selected]).first.zero?
+    if $param_rules[:assessment_selected] && JSON.parse($param_rules[:assessment_selected]).first.zero?
       assessment_names = object.assessments.defaults.map { |assessment| ['CSI Assessment', assessment.created_at] }
       assessment_names = assessment_names.blank? ? object.case_notes.default.map { |case_note| ['CSI Assessment', case_note.created_at] } : assessment_names
     else
