@@ -1,5 +1,5 @@
 module CaseNoteHelper
-  def edit_link(obj, case_note, cdg=nil)
+  def edit_link(obj, case_note, cdg = nil)
     custom_assessment_setting_id = find_custom_assessment_setting_id(cdg, case_note) if cdg
     custom_name = CustomAssessmentSetting.find(custom_assessment_setting_id).try(:custom_assessment_name) if custom_assessment_setting_id
     if case_notes_editable? && policy(case_note).edit?
@@ -136,7 +136,7 @@ module CaseNoteHelper
   end
 
   def selected_domain_groups(case_note)
-    case_note.selected_domain_group_ids.presence || []
+    case_note.selected_domain_group_ids.presence || case_note.domain_groups.ids || []
   end
 
   def list_goals_and_tasks(cdg, case_note)
@@ -198,7 +198,7 @@ module CaseNoteHelper
     return false if current_user.strategic_overviewer?
   end
 
-  def translate_domain_name(domains, case_note=nil)
+  def translate_domain_name(domains, case_note = nil)
     if case_note&.custom
       domains.map do |domain|
         [domain.id, domain.name]
@@ -233,7 +233,7 @@ module CaseNoteHelper
 
   def disabled_future_date_input
     setting = @current_setting
-    setting.disabled_future_completion_date ? Date.today.strftime("%Y-%m-%d") : nil
+    setting.disabled_future_completion_date ? Date.today.strftime('%Y-%m-%d') : nil
   end
 
   def list_task_goal_descriptions(tasks)
