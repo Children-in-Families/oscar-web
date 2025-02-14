@@ -1119,10 +1119,17 @@ class ClientGrid < BaseGrid
   end
 
   column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
-    custom_assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).order(:created_at).distinct.pluck('custom_assessment_settings.custom_assessment_name', 'assessments.created_at')
-    custom_assessment_names = custom_assessment_names.blank? ? object.case_notes.custom.joins(:custom_assessment_setting).pluck('custom_assessment_settings.custom_assessment_name', 'case_notes.created_at') : custom_assessment_names
-    custom_assessment_names = custom_assessment_names.map { |custom_assessment_name, assessment_date| "#{custom_assessment_name} (#{assessment_date.strftime('%d %B %Y')})" }
-    format(custom_assessment_names.join(', ')) do |values|
+    assessment_names = []
+    if JSON.parse($param_rules[:assessment_selected]).first.zero?
+      assessment_names = object.assessments.defaults.map { |assessment| ['CSI Assessment', assessment.created_at] }
+      assessment_names = assessment_names.blank? ? object.case_notes.default.map { |case_note| ['CSI Assessment', case_note.created_at] } : assessment_names
+    else
+      assessment_names = object.assessments.customs.joins(domains: :custom_assessment_setting).order(:created_at).distinct.pluck('custom_assessment_settings.custom_assessment_name', 'assessments.created_at')
+      assessment_names = assessment_names.blank? ? object.case_notes.custom.joins(:custom_assessment_setting).pluck('custom_assessment_settings.custom_assessment_name', 'case_notes.created_at') : assessment_names
+    end
+
+    assessment_names = assessment_names.map { |assessment_name, assessment_date| "#{assessment_name} (#{assessment_date.strftime('%d %B %Y')})" }
+    format(assessment_names.join(', ')) do |values|
       unorderred_list(values.split(', '))
     end
   end

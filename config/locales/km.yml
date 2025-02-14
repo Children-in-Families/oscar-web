@@ -2792,7 +2792,7 @@ km:
         current_province: ខេត្តបច្ចុប្បន្ន
         current_province_en: ខេត្តបច្ចុប្បន្ន (អក្សរឡាតាំង)
         current_province_kh: ខេត្តបច្ចុប្បន្ន (ខ្មែរ)
-        custom_assessment: "%{assessment} ផ្ទាល់ខ្លួន"
+        custom_assessment: "ឈ្មោះ%{assessment}"
         custom_assessment_created_at: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃខែឆ្នាំកំណើត

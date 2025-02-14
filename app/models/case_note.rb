@@ -120,6 +120,14 @@ class CaseNote < ActiveRecord::Base
     created_at >= case_note_edit_limit.send(edit_frequency).ago
   end
 
+  def assessment_name
+    if custom?
+      "#{I18n.t('case_notes.index.case_note_on')}: #{custom_assessment_setting.custom_assessment_name}"
+    else
+      "#{I18n.t('case_notes.index.case_note_on')}: #{I18n.t('dashboards.assessment_tab.csi_assessment')}"
+    end
+  end
+
   private
 
   def populate_associations
