@@ -136,7 +136,7 @@ module CaseNoteHelper
   end
 
   def selected_domain_groups(case_note)
-    case_note.selected_domain_group_ids.presence || case_note.domain_groups.ids || []
+    case_note.selected_domain_group_ids.presence || []
   end
 
   def list_goals_and_tasks(cdg, case_note)
