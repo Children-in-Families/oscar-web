@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20250115085614) do
+ActiveRecord::Schema.define(version: 20250211082558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2043,6 +2043,7 @@ ActiveRecord::Schema.define(version: 20250115085614) do
     t.string   "onboarding_status",             default: "pending"
     t.integer  "users_count",                   default: 0
     t.date     "last_integrated_date"
+    t.integer  "parent_id"
   end
 
   add_index "organizations", ["deleted_at"], name: "index_organizations_on_deleted_at", using: :btree
@@ -2188,7 +2189,7 @@ ActiveRecord::Schema.define(version: 20250115085614) do
     t.integer  "partners_count",           default: 0
     t.integer  "users_count",              default: 0,  null: false
     t.string   "country"
-    t.string   "code",           limit: 2
+    t.string   "code",           limit: 7
   end
 
   create_table "quantitative_cases", force: :cascade do |t|
@@ -3096,8 +3097,6 @@ ActiveRecord::Schema.define(version: 20250115085614) do
   add_foreign_key "case_conferences", "clients"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients", on_delete: :cascade
-  add_foreign_key "case_notes_custom_field_properties", "case_notes"
-  add_foreign_key "case_notes_custom_field_properties", "case_notes_custom_fields", column: "custom_field_id"
   add_foreign_key "case_worker_communities", "communities"
   add_foreign_key "case_worker_communities", "users"
   add_foreign_key "case_worker_families", "families"
