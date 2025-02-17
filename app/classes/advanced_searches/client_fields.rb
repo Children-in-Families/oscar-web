@@ -202,7 +202,8 @@ module AdvancedSearches
         ['created_by', user_select_options],
         ['type_of_service', get_type_of_services],
         ['has_overdue_forms', yes_no_options],
-        ['has_overdue_task', yes_no_options]
+        ['has_overdue_task', yes_no_options],
+        ['has_disability', yes_no_options]
       ]
     end
 

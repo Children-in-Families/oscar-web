@@ -1,20 +1,25 @@
 module Api
   module V1
-    class CaseNotesController < Api::V1::BaseApiController
+    class Families::CaseNotesController < Api::V1::BaseApiController
       include CaseNoteConcern
       include CreateBulkTask
       include GoogleCalendarServiceConcern
 
-      before_action :find_client, only: [:create, :update]
-      before_action :find_case_note, only: [:show, :upload_attachment, :destroy, :delete_attachment]
+      before_action :set_family, except: :show
+
+      def index
+        case_notes = @family.case_notes
+        render json: case_notes
+      end
 
       def show
-        render json: @case_note
+        case_note = CaseNote.find(params[:id])
+        render json: case_note
       end
 
       def create
-        case_note = @client.case_notes.new(case_note_params)
-        case_note.assessment = @client.assessments.custom_latest_record
+        case_note = @family.case_notes.new(case_note_params)
+        case_note.assessment = @family.assessments.custom_latest_record if case_note_params[:custom] == 'true'
         case_note.meeting_date = "#{case_note.meeting_date.strftime('%Y-%m-%d')}, #{Time.now.strftime('%H:%M:%S')}"
         if case_note.save
           case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id) if params.dig(:case_note, :case_note_domain_groups_attributes)
@@ -26,9 +31,9 @@ module Api
         else
           if case_note_params[:custom] == 'true'
             @custom_assessment_param = case_note_params[:custom]
-            case_note.assessment = @client.assessments.custom_latest_record
+            case_note.assessment = @family.assessments.custom_latest_record
           else
-            case_note.assessment = @client.assessments.default_latest_record
+            case_note.assessment = @family.assessments.default_latest_record
           end
 
           render json: case_note.errors, status: :unprocessable_entity
@@ -36,7 +41,7 @@ module Api
       end
 
       def update
-        case_note = @client.case_notes.find(params[:id])
+        case_note = @family.case_notes.find(params[:id])
 
         if case_note.update_attributes(case_note_params)
           if params.dig(:case_note, :case_note_domain_groups_attributes)
@@ -53,36 +58,29 @@ module Api
         end
       end
 
-      def upload_attachment
-        files = @case_note.attachments
-        files += params.dig(:case_note, :attachments) || []
-        @case_note.attachments = files
-        @case_note.save(validate: false)
-
-        render json: { message: t('.successfully_uploaded') }, status: '200'
-      end
-
       def destroy
+        case_note = CaseNote.find(params[:id])
         if params[:file_index].present?
-          remove_attachment_at_index(@case_note, params[:file_index].to_i)
+          remove_attachment_at_index(case_note, params[:file_index].to_i)
         end
 
         head 204 if case_note.destroy
       end
 
       def delete_attachment
-        remove_attachment_at_index(@case_note, params[:file_index].to_i)
-        if @case_note.save
+        case_note = CaseNote.find(params[:id])
+        remove_attachment_at_index(case_note, params[:file_index].to_i)
+        if case_note.save
           head 204
         else
-          render json: @case_note.errors, status: :unprocessable_entity
+          render json: case_note.errors, status: :unprocessable_entity
         end
       end
 
       private
 
-      def find_case_note
-        @case_note = CaseNote.find(params[:id])
+      def set_family
+        @family = Family.accessible_by(current_ability).find(params[:family_id])
       end
 
       def remove_attachment_at_index(case_note, index)

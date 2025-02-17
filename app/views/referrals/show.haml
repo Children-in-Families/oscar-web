@@ -77,8 +77,9 @@
               %td
                 = t('.consent_form')
               %td
-                - if @referral.consent_form.first.present?
-                  = link_to t('.preview_download'), @referral.consent_form.first.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
+                - if @referral.consent_form.present?
+                  - @referral.consent_form.each do |file|
+                    = link_to t('.preview_download'), file.url, class: 'btn btn-info btn-sm btn-download', target: :_blank
       .ibox-footer
         .text-right
           - if @client && @referral.client_id
@@ -88,4 +89,4 @@
           - if @referral.repeat?
             = link_to t('.go_to_client'), client_path(id: @referral.client.slug, referral_id: @referral.id), target: '_blank', class: 'btn btn-info'
           - else
-            = link_to t('.go_to_client'), new_client_path(referral_id: @referral.id), target: '_blank', class: 'btn btn-info'
+            = link_to t('.go_to_client'), new_client_path(step: 'clientInfo', referral_id: @referral.id), target: '_blank', class: 'btn btn-info'

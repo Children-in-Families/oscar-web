@@ -47,9 +47,16 @@ class ClientEnrollmentTracking < ActiveRecord::Base
 
     setting = Setting.first
     return true if setting.try(:tracking_form_edit_limit).zero?
+
     tracking_form_edit_limit = setting.try(:tracking_form_edit_limit).zero? ? 2 : setting.try(:tracking_form_edit_limit)
     edit_frequency = setting.try(:tracking_form_edit_frequency)
     created_at >= tracking_form_edit_limit.send(edit_frequency).ago
+  end
+
+  def allowed_edit?(user)
+    return true if tracking.allowed_edit_until.nil? || !user.case_worker?
+
+    eval(tracking.allowed_edit_until).from_now(tracking.created_at) > Date.today
   end
 
   private

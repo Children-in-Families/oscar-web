@@ -450,7 +450,7 @@ module ApplicationHelper
       en: { label: t('.english'), flag_file_name: 'United-Kingdom.png' },
       km: { label: t('.khmer'), flag_file_name: 'Cambodia.png' },
       my: { label: t('.burmese'), flag_file_name: 'Myanamar-icon.png' },
-      th: { label: t('.thainland'), flag_file_name: 'thailand.png' },
+      th: { label: t('.thai'), flag_file_name: 'thailand.png' },
       id: { label: t('.bahasa'), flag_file_name: 'indonesia.png' }
     }
   end

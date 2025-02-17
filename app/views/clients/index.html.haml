@@ -63,7 +63,7 @@
     .col-xs-12.col-md-2
       .pull-right.client-option
         - if can? :manage, Client
-          = link_to t('.add_new_client'), new_client_path, class: 'btn btn-primary'
+          = link_to t('.add_new_client'), new_client_path(step: 'clientInfo'), class: 'btn btn-primary'
   .row
     = render 'clients/client_advanced_searches/save_search_setting'
   .row

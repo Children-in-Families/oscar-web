@@ -2,6 +2,8 @@ namespace :thailand_addresses do
   desc 'Thailand addresses import'
   task :import, [:short_name] => :environment do |task, args|
     sql = <<-SQL.squish
+      DELETE FROM #{args.short_name}.villages;
+      DELETE FROM #{args.short_name}.communes;
       DELETE FROM #{args.short_name}.subdistricts;
       DELETE FROM #{args.short_name}.districts;
       DELETE FROM #{args.short_name}.provinces;
