@@ -14,6 +14,6 @@ class ClientEnrollmentHistory
   def self.initial(client_enrollment)
     attributes = client_enrollment.attributes
     attributes['properties'] = format_property(attributes)
-    create(object: attributes)
+    # create(object: attributes)
   end
 end
