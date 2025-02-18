@@ -1529,7 +1529,7 @@ ActiveRecord::Schema.define(version: 20250211082558) do
     t.integer 'family_id'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.string 'referral_status', limit: 15
+    t.string 'referral_status', limit: 15, default: 'Referred'
     t.integer 'referred_from_uid'
   end
 

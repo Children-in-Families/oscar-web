@@ -662,36 +662,34 @@ class ClientGrid < BaseGrid
     enter_ngo_count = EnterNgo.group(:client_id).count.values.max
     if enter_ngo_count > 1
       (1..enter_ngo_count).each do |ordered_number|
-        column("initial_referral_date_#{ordered_number}".to_sym, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('datagrid.columns.clients.initial_referral_date') }) do |object|
-          object.initial_referral_date.present? ? object.initial_referral_date.to_date.to_formatted_s : ''
-        end
-
-        column("initial_referral_date_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('datagrid.columns.clients.initial_referral_date') }) do |object|
-          object.initial_referral_date.present? ? object.initial_referral_date.to_date.to_formatted_s : ''
+        column("initial_referral_date_#{ordered_number}".to_sym, header: -> { ordered_number.ordinalize + ' ' + I18n.t('datagrid.columns.clients.initial_referral_date') }) do |object|
+          enter_gno = object.enter_ngos.order(:created_at)[ordered_number - 1]
+          enter_gno && enter_gno.initial_referral_date.present? ? enter_gno.initial_referral_date.to_date.to_formatted_s : ''
         end
 
         column("received_by_id_#{ordered_number}".to_sym, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name') }, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.received_by_id') }) do |object|
-          render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
+          enter_gno = object.enter_ngos.order(:created_at)[ordered_number - 1]
+          render partial: 'clients/users', locals: { object: enter_gno.received_by } if enter_gno && enter_gno.received_by
         end
 
         column("received_by_id_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.received_by_id') }) do |object|
-          object.received_by.try(:name)
+          enter_gno = object.enter_ngos.order(:created_at)[ordered_number - 1]
+          enter_gno.received_by.try(:name) if enter_gno && enter_gno.received_by
         end
 
         column("followed_up_by_id_#{ordered_number}".to_sym, order: proc { |object| object.joins(:followed_up_by).order('users.first_name, users.last_name') }, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_by_id') }) do |object|
-          render partial: 'clients/users', locals: { object: object.followed_up_by } if object.followed_up_by
+          enter_gno = object.enter_ngos.order(:created_at)[ordered_number - 1]
+          render partial: 'clients/users', locals: { object: enter_gno.followed_up_by } if enter_gno && enter_gno.followed_up_by
         end
 
         column("followed_up_by_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_by_id') }) do |object|
-          object.followed_up_by.try(:name)
+          enter_gno = object.enter_ngos.order(:created_at)[ordered_number - 1]
+          enter_gno.followed_up_by.try(:name) if enter_gno && enter_gno.followed_up_by
         end
 
-        column("follow_up_date_#{ordered_number}".to_sym, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.follow_up_date') }) do |object|
-          object.follow_up_date.present? ? object.follow_up_date : ''
-        end
-
-        column("follow_up_date_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.follow_up_date') }) do |object|
-          object.follow_up_date.present? ? object.follow_up_date : ''
+        column("follow_up_date_#{ordered_number}".to_sym, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.follow_up_date') }) do |object|
+          enter_gno = object.enter_ngos.order(:created_at)[ordered_number - 1]
+          enter_gno && enter_gno.follow_up_date ? enter_gno.follow_up_date.to_date.to_formatted_s : ''
         end
       end
     else

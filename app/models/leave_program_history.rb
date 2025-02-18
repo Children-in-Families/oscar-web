@@ -14,6 +14,6 @@ class LeaveProgramHistory
   def self.initial(leave_program)
     attributes = leave_program.attributes
     attributes['properties'] = format_property(attributes)
-    create(object: attributes)
+    # create(object: attributes)
   end
 end

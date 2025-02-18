@@ -8,8 +8,6 @@ class ReferralHistory
   field :object, type: Hash
   field :tenant, type: String, default: -> { Organization.current.short_name }
 
-  protected
-
   def self.initial(referral)
     create(object: referral.attributes)
   end

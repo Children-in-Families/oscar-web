@@ -7,6 +7,8 @@ class EnterNgo < ActiveRecord::Base
   belongs_to :client, with_deleted: true
   belongs_to :acceptable, polymorphic: true, with_deleted: true
   belongs_to :family, class_name: 'Family', foreign_key: 'acceptable_id'
+  belongs_to :received_by, class_name: 'User', foreign_key: 'received_by_id'
+  belongs_to :followed_up_by, class_name: 'User', foreign_key: 'followed_up_by_id'
 
   alias_attribute :new_date, :accepted_date
 
@@ -19,9 +21,9 @@ class EnterNgo < ActiveRecord::Base
   validates :accepted_date, presence: true
   validates :user_ids, presence: true, on: :create, if: Proc.new { |e| (e.client.present? && e.client.exit_ngo?) || (e.acceptable.present? && e.acceptable.exit_ngo?) }
 
-  before_save :set_administrative_info
   after_create :update_entity_status
   after_save :create_enter_ngo_history
+  after_save :set_administrative_info
   after_save :flash_cache
 
   def attached_to_family?
@@ -38,7 +40,7 @@ class EnterNgo < ActiveRecord::Base
     entity.status = 'Accepted'
 
     if user_ids.any?
-      if client.present?
+      if entity.present?
         entity.user_ids = self.user_ids
         entity.received_by_id = received_by_id
         entity.followed_up_by_id = followed_up_by_id
@@ -68,5 +70,11 @@ class EnterNgo < ActiveRecord::Base
 
   def flash_cache
     Rails.cache.delete(['dashboard', "#{Apartment::Tenant.current}_client_errors"]) if accepted_date_changed?
+
+    user_id = User.current_user.id
+    return unless user_id
+
+    Rails.cache.delete([Apartment::Tenant.current, 'Client', 'received_by', user_id])
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'followed_up_by', user_id])
   end
 end
