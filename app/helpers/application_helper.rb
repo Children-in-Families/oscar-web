@@ -71,6 +71,7 @@ module ApplicationHelper
 
   def client_report_builder_cache_key
     [
+      Apartment::Tenant.current,
       current_user.roles,
       setting,
       params[:locale],
