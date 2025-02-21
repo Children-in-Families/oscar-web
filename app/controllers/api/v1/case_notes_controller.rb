@@ -5,7 +5,7 @@ module Api
       include CreateBulkTask
       include GoogleCalendarServiceConcern
 
-      before_action :find_client, only: [:create, :update]
+      before_action :find_client, only: [:create, :update, :destroy]
       before_action :set_case_note, only: [:show, :update, :upload_attachment, :destroy, :delete_attachment]
       before_action -> { case_notes_permission('readable') }, only: [:index]
       before_action -> { case_notes_permission('editable') }, except: [:index]
