@@ -454,7 +454,7 @@ class Client < ActiveRecord::Base
     if percentage < 0.0
       return nil
     end
-      
+
     if percentage > 1.0
       percentage = 1.0
     end
