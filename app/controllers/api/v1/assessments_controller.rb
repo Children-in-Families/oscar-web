@@ -20,7 +20,7 @@ module Api
         @assessment.default = assessment_params[:custom_assessment_setting_id].blank?
         @assessment.skip_assessment_domain_populate = true
 
-        if current_organization.try(:aht) == true
+        if Organization.current.try(:aht) == true
           case_conference = CaseConference.find(assessment_params[:case_conference_id])
           if case_conference.assessment.nil? && @assessment.save(validate: false)
             render json: @assessment
