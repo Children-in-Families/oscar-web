@@ -9,6 +9,6 @@ class ReferralHistory
   field :tenant, type: String, default: -> { Organization.current.short_name }
 
   def self.initial(referral)
-    create(object: referral.attributes)
+    # create(object: referral.attributes)
   end
 end
