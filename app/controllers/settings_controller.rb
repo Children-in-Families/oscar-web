@@ -191,6 +191,8 @@ class SettingsController < AdminController
   end
 
   def map_selected_domain_ids(custom_assessment)
+    return unless custom_assessment
+
     selected_domain_ids = setting_params[:selected_domain_ids].select do |domain_id|
       custom_assessment.domains.ids.include?(domain_id.to_i)
     end
