@@ -604,19 +604,16 @@ const Forms = (props) => {
             setDupClientModalOpen(true);
           } else {
             setLoading(false);
-            setLoading(true);
             handleSave()();
           }
           setClientExist(false);
         });
       } else {
         setLoading(false);
-        setLoading(true);
         handleSave()();
       }
     } else {
       setLoading(false);
-      setLoading(true);
       handleSave()();
     }
   };
