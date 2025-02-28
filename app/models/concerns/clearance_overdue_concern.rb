@@ -12,6 +12,7 @@ module ClearanceOverdueConcern
 
   def flush_overdue_cache
     user = User.current_user
+    return unless user
 
     if user.admin? || user.strategic_overviewer?
       Rails.cache.delete([try(:referred_to) || Apartment::Tenant.current, 'notifications', 'admin-strategic-overviewer'])

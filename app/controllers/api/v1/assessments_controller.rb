@@ -96,7 +96,7 @@ module Api
           else
             @client.assessments.find(params[:id])
           end
-        end.decorate
+        end
       end
 
       def remove_attachment_at_index(index)

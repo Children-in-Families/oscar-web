@@ -196,7 +196,7 @@ class Assessment < ActiveRecord::Base
   end
 
   def flash_cache
-    user_id = User.current_user.id
+    user_id = User.current_user.try(:id)
 
     Rails.cache.delete([Apartment::Tenant.current, 'User', user_id, 'assessment_either_overdue_or_due_today']) if user_id
     Rails.cache.delete([Apartment::Tenant.current, parent.class.name, 'cached_client_sql_assessment_custom_completed_date', parent.id]) if parent
