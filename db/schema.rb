@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20241030040018) do
+ActiveRecord::Schema.define(version: 20250211082558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1346,12 +1346,20 @@ ActiveRecord::Schema.define(version: 20241030040018) do
     t.datetime "deleted_at"
     t.integer  "acceptable_id"
     t.string   "acceptable_type"
+    t.datetime "follow_up_date"
+    t.datetime "initial_referral_date"
+    t.integer  "received_by_id"
+    t.integer  "followed_up_by_id"
   end
 
   add_index "enter_ngos", ["acceptable_id", "acceptable_type"], name: "index_enter_ngos_on_acceptable_id_and_acceptable_type", using: :btree
   add_index "enter_ngos", ["acceptable_id"], name: "index_enter_ngos_on_acceptable_id", using: :btree
   add_index "enter_ngos", ["client_id"], name: "index_enter_ngos_on_client_id", using: :btree
   add_index "enter_ngos", ["deleted_at"], name: "index_enter_ngos_on_deleted_at", using: :btree
+  add_index "enter_ngos", ["follow_up_date"], name: "index_enter_ngos_on_follow_up_date", using: :btree
+  add_index "enter_ngos", ["followed_up_by_id"], name: "index_enter_ngos_on_followed_up_by_id", using: :btree
+  add_index "enter_ngos", ["initial_referral_date"], name: "index_enter_ngos_on_initial_referral_date", using: :btree
+  add_index "enter_ngos", ["received_by_id"], name: "index_enter_ngos_on_received_by_id", using: :btree
 
   create_table "exit_ngos", force: :cascade do |t|
     t.integer  "client_id"
@@ -2035,6 +2043,7 @@ ActiveRecord::Schema.define(version: 20241030040018) do
     t.string   "onboarding_status",             default: "pending"
     t.integer  "users_count",                   default: 0
     t.date     "last_integrated_date"
+    t.integer  "parent_id"
   end
 
   add_index "organizations", ["deleted_at"], name: "index_organizations_on_deleted_at", using: :btree
@@ -2180,7 +2189,7 @@ ActiveRecord::Schema.define(version: 20241030040018) do
     t.integer  "partners_count",           default: 0
     t.integer  "users_count",              default: 0,  null: false
     t.string   "country"
-    t.string   "code",           limit: 2
+    t.string   "code",           limit: 7
   end
 
   create_table "quantitative_cases", force: :cascade do |t|
@@ -3088,9 +3097,6 @@ ActiveRecord::Schema.define(version: 20241030040018) do
   add_foreign_key "case_conferences", "clients"
   add_foreign_key "case_contracts", "cases"
   add_foreign_key "case_notes", "clients", on_delete: :cascade
-  add_foreign_key "case_notes", "custom_assessment_settings"
-  add_foreign_key "case_notes_custom_field_properties", "case_notes"
-  add_foreign_key "case_notes_custom_field_properties", "case_notes_custom_fields", column: "custom_field_id"
   add_foreign_key "case_worker_communities", "communities"
   add_foreign_key "case_worker_communities", "users"
   add_foreign_key "case_worker_families", "families"

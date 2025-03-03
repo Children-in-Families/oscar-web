@@ -1072,6 +1072,7 @@ my:
       type: အမ်ိဳးအစား
       type_options:
         visit: Visit
+        come_to_us: Come to us
         non_face_to_face: Non face to face
         rd_party: 3rd Party
         supervision: Supervision
@@ -2533,13 +2534,13 @@ my:
       begin_now: ယခုစမည္
       client_you_like: Which client would you like to complete as Assessment for?
       csi_assessment: CSI Assessment
-      custom_assessment: Custom Assessment
+      custom_assessment: Assessment Name
     case_note_tab:
       begin_now: ယခုစမည္
       case_note: အမႈမွတ္စု
       case_note_you_add: Which assessment does this Case Note refer to ? (CSI or Custom Assessment)
       csi_assessment: CSI Assessment
-      custom_assessment: Custom Assessment
+      custom_assessment: Assessment Name
       client_you_complete_for: Which client would you like to complete as Case Note for?
       new_case_note: အမႈျခင္းရာမွတ္စုအသစ္
     client:
