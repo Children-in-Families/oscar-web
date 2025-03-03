@@ -1079,7 +1079,7 @@ class ClientGrid < BaseGrid
     render partial: 'clients/assessments', locals: { object: object.assessments.customs.order(:assessment_date), assessment_field_name: 'assessment_date' }
   end
 
-  column(:custom_assessment, preload: :assessments, header: -> { I18n.t('datagrid.columns.clients.custom_assessment', assessment: I18n.t('clients.show.assessment')) }) do |object|
+  column(:custom_assessment, preload: :assessments, header: 'Assessment Name') do |object|
     assessment_names = []
     if $param_rules[:assessment_selected] && JSON.parse($param_rules[:assessment_selected]).first.zero?
       assessment_names = object.assessments.defaults.map { |assessment| ['CSI Assessment', assessment.created_at] }
