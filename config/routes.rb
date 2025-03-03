@@ -458,6 +458,7 @@ Rails.application.routes.draw do
         end
         resources :care_plans
         resources :screening_assessments
+        resources :custom_data, only: [:create, :update]
       end
 
       resources :program_streams, only: [:index]
