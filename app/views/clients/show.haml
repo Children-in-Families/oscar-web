@@ -659,6 +659,39 @@
                           %strong
                             = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
 
+                    - if current_organization.aht
+                      %tr
+                        %td.spacing-first-col
+                          = t('risk_assessments._attr.has_disability')
+                        %td
+                          %strong.text-danger
+                            = @client.has_disability? ? 'YES' : 'NO'
+                      %tr
+                        %td.spacing-first-col
+                          = t('risk_assessments._attr.if_yes')
+                        %td
+                          %strong
+                            = @client.disability_specification if @client.has_disability?
+                      %tr
+                        %td.spacing-first-col
+                          = "#{t('.client_global_identity')}"
+                        %td
+                          %strong
+                            = fa_icon 'envelope', class: 'text-success', data: { toggle: 'popover', placement: 'top', content: @client.global_id }
+
+                      %tr
+                        %td.spacing-first-col
+                          = t('.time_in_ngo')
+                        %td
+                          %strong
+                            = @client.time_in_ngo
+                      %tr
+                        %td.spacing-first-col
+                          = t('.time_in_cps')
+                        %td
+                          %strong
+                            = @client.time_in_cps
+
                     - if policy(Client).client_pickup_information?
                       %tr.bg-grey
                         %td{ colspan: '2' }
