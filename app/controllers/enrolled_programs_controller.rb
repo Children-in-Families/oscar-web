@@ -60,9 +60,9 @@ class EnrolledProgramsController < AdminController
 
   def program_stream_order_by_enrollment
     if current_user.admin? || current_user.strategic_overviewer?
-      all_programs = ProgramStream.with_deleted.all
+      all_programs = ProgramStream.with_deleted.where(entity_type: @entity_type)
     else
-      all_programs = ProgramStream.with_deleted.where(id: current_user.program_stream_permissions.where(readable: true).pluck(:program_stream_id))
+      all_programs = ProgramStream.with_deleted.where(entity_type: @entity_type).where(id: current_user.program_stream_permissions.where(readable: true).pluck(:program_stream_id))
     end
 
     enrollments_exited = all_programs.inactive_enrollments(@programmable, true).complete
