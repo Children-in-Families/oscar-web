@@ -532,4 +532,8 @@ module ApplicationHelper
     now = Time.now.utc
     distance_of_time_in_words_hash(now, dob)
   end
+
+  def list_ordinal_numbers
+    (1..100).map { |number| number.ordinalize }
+  end
 end
