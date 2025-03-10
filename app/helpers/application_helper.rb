@@ -551,4 +551,8 @@ module ApplicationHelper
   def save_draft?
     request.format.json? && params[:draft].present?
   end
+
+  def list_ordinal_numbers
+    (1..100).map { |number| number.ordinalize }
+  end
 end
