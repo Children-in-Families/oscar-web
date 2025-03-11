@@ -307,6 +307,23 @@ module Api
       { similar_fields: similar_fields }
     end
 
+    def custom_data_params
+      if params.dig(:custom_data, :properties)
+        remove_html_tags
+        param_array = []
+        params.dig(:custom_data, :properties).each { |k, v| param_array << [k, v.first.is_a?(Hash) ? v.first.keys : []] if v.is_a?(Array) }
+        property_keys = params.dig(:custom_data, :properties).try(:keys)
+        params.require(:custom_data).permit(
+          properties: property_keys << param_array.to_h,
+          form_builder_attachments_attributes: [:id, :name, { file: [] }]
+        )
+      else
+        params.require(:custom_data).permit(
+          form_builder_attachments_attributes: [:id, :name, { file: [] }]
+        )
+      end
+    end
+
     def find_client_in_organization
       results = []
       similar_fields = Client.find_shared_client(params)
@@ -388,6 +405,11 @@ module Api
 
     def other_client_gender_count(clients)
       clients.where("gender IS NULL OR (gender NOT IN ('male', 'female'))").count
+    end
+
+    def remove_html_tags
+      fields = params[:custom_data, :properties]
+      params[:custom_data, :properties] = ActionController::Base.helpers.strip_tags(fields).gsub(/(\\n)|(\\t)/, '')
     end
   end
 end
