@@ -44,7 +44,7 @@ class EnterNgo < ActiveRecord::Base
         entity.user_ids = self.user_ids
         entity.received_by_id = received_by_id
         entity.followed_up_by_id = followed_up_by_id
-        entity.initial_referral_date = initial_referral_date
+        # entity.initial_referral_date = initial_referral_date
         entity.follow_up_date = follow_up_date
       elsif acceptable.present?
         # note the relation between users and acceptable obj
@@ -60,7 +60,7 @@ class EnterNgo < ActiveRecord::Base
 
     self.received_by_id = entity.received_by_id
     self.followed_up_by_id = entity.followed_up_by_id
-    self.initial_referral_date = entity.initial_referral_date
+    self.initial_referral_date = initial_referral_date
     self.follow_up_date = entity.follow_up_date
   end
 
