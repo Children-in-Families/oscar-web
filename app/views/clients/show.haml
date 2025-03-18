@@ -914,7 +914,7 @@
                   %td= t('.initial_referral_date')
                   - unless Rails.env.production?
                     %td= @client.created_at.to_s
-                  %td= date_format(@client.initial_referral_date)
+                  %td= date_format(@client.enter_ngos.last.try(:initial_referral_date) || @client.initial_referral_date)
                   %td
                     .text-center
                       %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')
