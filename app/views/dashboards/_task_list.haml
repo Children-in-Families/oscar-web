@@ -1,0 +1,14 @@
+- @tasks.each do |clients, tasks|
+  - client_name, client_id = clients
+  .ibox.border-left-right.border-bottom
+    .ibox-title
+      %h5
+        = link_to client_name, client_path(client_id), target: :_blank
+    .ibox-content.no-padding
+      %table.table.table-striped.active_tasks
+        - tasks.each do |task, index|
+          %tr
+            %td.col-xs-6.task-name.border-left-right{ class: task.overdue && 'text-danger' }
+              = task.name
+            %td.col-xs-3= date_format(task.expected_date)
+

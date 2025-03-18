@@ -6,14 +6,24 @@ class DashboardsController < AdminController
   skip_before_action :notify_user, :set_sidebar_basic_info, only: [:notification, :family_tab, :side_menu_data]
 
   def index
-    @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil }).attached_with('Client')
-    @dashboard = Dashboard.new(Client.accessible_by(current_ability))
-    @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
-    @select_client_options = Client.accessible_by(current_ability).active_accepted_status
-    @custom_domains = Domain.custom_csi_domains
-    @custom_assessment_settings = CustomAssessmentSetting.includes(:domains).where(enable_custom_assessment: true)
+    respond_to do |f|
+      f.html do
+        @program_streams = ProgramStream.includes(:program_stream_services, :services).where(program_stream_services: { service_id: nil }).attached_with('Client')
+        @dashboard = Dashboard.new(Client.accessible_by(current_ability))
+        @referral_sources = ReferralSource.child_referrals.where(ancestry: nil)
+        @select_client_options = Client.accessible_by(current_ability).active_accepted_status
+        @custom_domains = Domain.custom_csi_domains
+        @custom_assessment_settings = CustomAssessmentSetting.includes(:domains).where(enable_custom_assessment: true)
 
-    @date_validation_error = fetch_data_logic_error
+        @date_validation_error = fetch_data_logic_error
+      end
+      f.js do
+        user = User.find(params[:user_id])
+        @tasks = user.tasks.incomplete.joins(:client)
+                     .select("tasks.id, tasks.name, tasks.expected_date, tasks.completion_date, clients.slug, TRIM(CONCAT(CONCAT(clients.given_name, ' ', clients.local_given_name), ' ', clients.family_name, ' ', clients.local_family_name)) AS client_name")
+                     .group_by { |task| [task.client_name, task.slug] }
+      end
+    end
   end
 
   def update_program_stream_service
