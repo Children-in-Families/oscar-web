@@ -1,5 +1,7 @@
 class CustomDataController < AdminController
   before_action :find_custom_data, only: %i[edit update]
+  before_action :remove_html_tags, only: [:create, :update]
+
   def index
     @custom_data = CustomData.first
   end
@@ -38,5 +40,10 @@ class CustomDataController < AdminController
 
   def find_custom_data
     @custom_data = CustomData.find(params[:id])
+  end
+
+  def remove_html_tags
+    fields = params.dig(:custom_data, :fields)
+    params[:custom_data][:properties] = ActionController::Base.helpers.strip_tags(fields).gsub(/(\\n)|(\\t)/, '') if fields
   end
 end
