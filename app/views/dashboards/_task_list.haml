@@ -1,3 +1,5 @@
+- if @tasks.blank?
+  .text-center.text-danger There is no task for this user.
 - @tasks.each do |clients, tasks|
   - client_name, client_id = clients
   .ibox.border-left-right.border-bottom
@@ -8,7 +10,7 @@
       %table.table.table-striped.active_tasks
         - tasks.each do |task, index|
           %tr
-            %td.col-xs-6.task-name.border-left-right{ class: task.overdue && 'text-danger' }
+            %td.col-xs-6.task-name.border-left-right{ class: task.overdue && 'text-danger', style: 'padding-left: 14px;' }
               = task.name
             %td.col-xs-3= date_format(task.expected_date)
 
