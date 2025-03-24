@@ -26,6 +26,10 @@ class EnterNgo < ActiveRecord::Base
   after_save :set_administrative_info
   after_save :flash_cache
 
+  def self.max_count
+    group(:client_id).count.values.max || 0
+  end
+
   def attached_to_family?
     acceptable_type == 'Family'
   end
