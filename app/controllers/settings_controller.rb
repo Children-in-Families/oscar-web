@@ -132,7 +132,13 @@ class SettingsController < AdminController
   def risk_assessment
     authorize @setting
     attribute = params[:setting]
-    if attribute && @setting.update_attributes(setting_params)
+
+    if attribute
+      custom_assessment = CustomAssessmentSetting.find_by(id: setting_params[:assessment_type_name])
+      selected_domain_param = map_selected_domain_ids(custom_assessment)
+    end
+
+    if attribute && @setting.update_attributes(selected_domain_param || setting_params)
       redirect_to :back, notice: t('successfully_updated', klass: t('settings.update.successfully_updated'))
     else
       flash[:alert] = @setting.errors.full_messages.join(', ') if @setting.errors.full_messages.any?
@@ -153,6 +159,8 @@ class SettingsController < AdminController
   end
 
   def setting_params
+    return params unless params.key?(:setting)
+
     params.require(:setting).permit(:custom_assessment_frequency, :assessment_frequency, :max_custom_assessment,
                                     :max_assessment, :enable_custom_assessment, :enable_default_assessment, :age,
                                     :custom_age, :default_assessment, :custom_assessment, :max_case_note,
@@ -180,6 +188,16 @@ class SettingsController < AdminController
 
   def find_setting
     @setting = Setting.first_or_initialize(case_note_frequency: 'day', max_case_note: 30)
+  end
+
+  def map_selected_domain_ids(custom_assessment)
+    return unless custom_assessment
+
+    selected_domain_ids = setting_params[:selected_domain_ids].select do |domain_id|
+      custom_assessment.domains.ids.include?(domain_id.to_i)
+    end
+
+    setting_params.to_unsafe_h.merge('selected_domain_ids' => selected_domain_ids) if custom_assessment
   end
 
   def client_default_columns

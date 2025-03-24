@@ -1092,6 +1092,7 @@ id:
       type: 'Ketik (Catatan: Pilih ''kunjungan'' hanya jika anda sudah bertemu dengan klien.)'
       type_options:
         visit: Kunjungan
+        come_to_us: Come to us
         non_face_to_face: Tidak tatap muka
         rd_party: Pihak ketiga
         supervision: Supervisi

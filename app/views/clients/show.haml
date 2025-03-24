@@ -9,7 +9,7 @@
         %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
       %div{ class: "col-xs-12 col-md-#{ @client.referred? || @client.exit_ngo? ? '7' : '9' }"}
-        %table.table.small.m-b-xs#main-info
+        %table.table.m-b-xs#main-info
           %tbody
             %tr
               %td{rowspan: '4'}
@@ -107,7 +107,7 @@
       - if current_setting.enabled_risk_assessment?
         .col-xs-12.col-md-3
           - if risk_assessment || @client.last_risk_assessment
-            %table.table.small.m-b-xs
+            %table.table.m-b-xs
               %tbody
                 - assessment = @client.last_risk_assessment
                 - if assessment.present?
@@ -137,7 +137,7 @@
                       = "#{t('risk_assessments._attr.assessment_date')}:"
                       %strong= date_format risk_assessment.assessment_date
           - else
-            %table.table.small.m-b-xs
+            %table.table.m-b-xs
               %tbody
                 %tr
                   %td
