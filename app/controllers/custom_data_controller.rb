@@ -44,6 +44,6 @@ class CustomDataController < AdminController
 
   def remove_html_tags
     fields = params.dig(:custom_data, :fields)
-    params[:custom_data][:properties] = ActionController::Base.helpers.strip_tags(fields).gsub(/(\\n)|(\\t)/, '') if fields
+    params[:custom_data][:properties] = ActionController::Base.helpers.strip_tags(fields).gsub(/(\\n)|(\\t)|&nbsp;/, '') if fields
   end
 end
