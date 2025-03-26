@@ -68,6 +68,12 @@ export default (props) => {
 
   const renderCustomDataFields = () => {
     return customData.map((element, index) => {
+      const selectedValues = Array.isArray(clientCustomData[element.name])
+        ? clientCustomData[element.name].filter(
+            (element) => !_.isEmpty(element)
+          )
+        : clientCustomData[element.name];
+
       return (
         <div className="row" key={`${element.name}-${index}`}>
           <div className="col-xs-12 col-md-12 col-lg-12">
@@ -89,7 +95,7 @@ export default (props) => {
                 options={element.values}
                 label={element.label}
                 isMulti={element.multiple}
-                value={clientCustomData[element.name]}
+                value={selectedValues}
                 isError={errorFields.includes(element.name)}
               />
             )}
