@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Battambang:wght@300;400;700&display=swap');
 
 html[lang="my"] {
+
   body,
   h1,
   h2,
@@ -15,11 +16,12 @@ html[lang="my"] {
   ul li a,
   text,
   tspan {
-    font-family: "Pyidaungsu", "Padauk", sans-serif;
+    font-family: "Pyidaungsu", "Padauk", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 }
 
 html[lang="km"] {
+
   body,
   h1,
   h2,
@@ -35,10 +37,30 @@ html[lang="km"] {
   text,
   tspan,
   span {
-    font-family: "DejaVu Sans", "Battambang", "Khmer OS Battambang", "Helvetica Neue", Helvetica,
-      Arial, sans-serif;
+    font-family: "DejaVu Sans", "Battambang", "Khmer OS Battambang", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     letter-spacing: 0.35px;
     line-height: 23px;
+  }
+}
+
+html[lang="th"] {
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  label,
+  a,
+  ul li,
+  ul li a,
+  text,
+  tspan {
+    font-family: "Angsana New", "Padauk", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 1.3em;
   }
 }
 
@@ -74,6 +96,7 @@ body[id="users-version"] {
 
   .page-select {
     margin-top: 8px;
+
     .form-group {
       margin-bottom: 0px;
     }
@@ -86,6 +109,7 @@ body[id="users-version"] {
   .panel-heading {
     h5 {
       color: #fff;
+
       .label {
         border: 2px solid #fff;
         border-radius: 4px;
