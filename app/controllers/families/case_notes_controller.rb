@@ -61,7 +61,7 @@ class Families::CaseNotesController < ::AdminController
   end
 
   def update
-    if @case_note.update_attributes(case_note_params) && @case_note.save
+    if @case_note.update_attributes(case_note_params)
       if params.dig(:case_note, :case_note_domain_groups_attributes)
         add_more_attachments(params[:case_note][:attachments]) if params.dig(:case_note, :attachments)
         @case_note.complete_tasks(params[:case_note][:case_note_domain_groups_attributes], current_user.id)
@@ -91,12 +91,12 @@ class Families::CaseNotesController < ::AdminController
   private
 
   def case_note_params
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, domain_group_ids: [], case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
-    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, domain_group_ids: [], case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids])
+    default_params = params.require(:case_note).permit(:meeting_date, :attendee, :interaction_type, :custom, :note, :custom_assessment_setting_id, case_note_domain_groups_attributes: [:id, :note, :domain_group_id, :task_ids, attachments: []]) if action_name == 'create'
     default_params = assign_params_to_case_note_domain_groups_params(default_params) if default_params.dig(:case_note, :domain_group_ids)
     default_params = default_params.merge(selected_domain_group_ids: params.dig(:case_note, :domain_group_ids).reject(&:blank?))
     meeting_date = "#{default_params[:meeting_date]} #{Time.now.strftime('%T %z')}"
-    default_params = default_params.merge(meeting_date: meeting_date)
+    default_params.merge(meeting_date: meeting_date)
   end
 
   def add_more_attachments(new_files)

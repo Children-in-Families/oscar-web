@@ -23,7 +23,7 @@ class CaseNote < ActiveRecord::Base
   has_paper_trail
 
   accepts_nested_attributes_for :custom_field_property
-  accepts_nested_attributes_for :case_note_domain_groups
+  accepts_nested_attributes_for :case_note_domain_groups, reject_if: proc { |attributes| attributes['note'].nil? }, allow_destroy: true
   accepts_nested_attributes_for :tasks, reject_if: proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
 
   before_save :populate_associations
@@ -143,7 +143,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def existence_domain_groups
-    errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}") if domain_groups.blank?
+    errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}") if selected_domain_group_ids.blank? && domain_groups.blank?
   end
 
   def enable_default_assessment?
