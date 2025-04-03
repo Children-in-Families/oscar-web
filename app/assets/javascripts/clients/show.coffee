@@ -54,7 +54,7 @@ CIF.ClientsShow = do ->
       autoclose: true
       format: 'yyyy-mm-dd'
       todayHighlight: true
-      orientation: 'bottom'
+      orientation: 'auto'
       disableTouchKeyboard: true
     )
 
@@ -71,7 +71,7 @@ CIF.ClientsShow = do ->
       autoclose: true
       format: 'yyyy-mm-dd'
       todayHighlight: true
-      orientation: 'bottom'
+      orientation: 'auto'
       disableTouchKeyboard: true
       startDate: startDate
     )

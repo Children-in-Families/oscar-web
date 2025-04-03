@@ -20,7 +20,7 @@ CIF.Leave_enrolled_programsNew = CIF.Leave_enrolled_programsCreate = CIF.Leave_e
       autoclose: true
       format: 'yyyy-mm-dd'
       todayHighlight: true
-      orientation: 'bottom'
+      orientation: 'auto'
       disableTouchKeyboard: true
 
   _preventEditDatePickerLeaveProgram = ->
