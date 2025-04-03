@@ -5,14 +5,11 @@
         .panel.panel-default#users-task-panel
           .panel-heading.active-task-heading
             %h3.text-center= t('.all_active_tasks')
-          .panel-body
+          .panel-body#users-task-panel
             .row
               .col-xs-12
                 - if can? :read, Task
                   .panel.panel-default
                     .panel-body
                       = render 'users_filter'
-                - if params[:user_id] || current_user.case_worker? || current_user.manager?
-                  =# render 'overdue'
-                  =# render 'duetoday'
-                  =# render 'upcoming'
+                #users-task-panel-details

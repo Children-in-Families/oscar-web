@@ -110,6 +110,10 @@ class Task < ActiveRecord::Base
     task_progress_notes.build
   end
 
+  def overdue
+    completion_date && completion_date > Date.today
+  end
+
   private
 
   def save_parent_parent_id

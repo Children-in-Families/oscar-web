@@ -159,9 +159,11 @@ class CIF.CustomFormBuilder
         $(field).find('.option-selected, .option-value').hide()
         )
   generateValueForSelectOption: (field) ->
-    $(field).find('input.option-label').on 'keyup change', ->
-      value = $(@).val()
-      $(@).siblings('.option-value').val(value)
+    setTimeout ( ->
+        $(field).find('input.option-label').on 'keyup change', ->
+          value = $(@).val().trim()
+          $(@).siblings('.option-value').val(value)
+      )
 
   handleCheckingForm: ->
     @handleDisplayDuplicateWarning()

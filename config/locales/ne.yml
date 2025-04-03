@@ -2591,6 +2591,8 @@ ne:
         current_province: Current Province
         current_province_en: Current Province (English)
         current_province_kh: Current Province (Khmer)
+        custom_assessment: "%{assessment} Name"
+        custom_assessment_created_at: Custom %{assessment} Created At
         date_of_assessments: "Date of %{assessment}"
         date_of_birth: Date of Birth
         date_of_custom_assessments: "Date of Custom %{assessment}"
