@@ -35,7 +35,7 @@ CIF.Client_trackingsNew = CIF.Client_trackingsCreate = CIF.Client_custom_fieldsN
       autoclose: true
       format: 'yyyy-mm-dd'
       todayHighlight: true
-      orientation: 'bottom'
+      orientation: 'auto'
       disableTouchKeyboard: true
 
   _preventCreateDatePickerClientEnrollment = ->
