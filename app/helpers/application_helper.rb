@@ -553,6 +553,6 @@ module ApplicationHelper
   end
 
   def list_ordinal_numbers
-    (2..100).map { |number| number.ordinalize }
+    (2..100).map(&:ordinalize)
   end
 end
