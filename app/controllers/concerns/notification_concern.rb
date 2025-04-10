@@ -314,7 +314,7 @@ module NotificationConcern
     custom_field_ids = current_user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
     client_ids = Client.accessible_by(current_ability).active_accepted_status
                        .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
-    sql = "AND cf.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
+    sql = "AND cf.id NOT IN (#{custom_field_ids.join(',')}) AND c.id IN (#{client_ids.join(',')}) " if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
 
     custom_form_sql = <<~SQL
       WITH latest_entries AS (
@@ -361,7 +361,7 @@ module NotificationConcern
       INNER JOIN client_enrollment_trackings cet ON le.id = cet.id AND le.created_at = cet.created_at
       INNER JOIN trackings t ON t.id = cet.tracking_id AND t.deleted_at IS NULL
       INNER JOIN client_enrollments ce ON ce.id = cet.client_enrollment_id AND ce.deleted_at IS NULL
-      INNER JOIN clients c ON c.id = ce.client_id AND c.status IN ('Active', 'Accepted')
+      INNER JOIN clients c ON c.id = ce.client_id AND c.status IN ('Active', 'Accepted') AND c.id IN (#{client_ids.join(',')})
       WHERE ce.status = 'Active'
       AND DATE(cet.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       ORDER BY cet.client_enrollment_id;
