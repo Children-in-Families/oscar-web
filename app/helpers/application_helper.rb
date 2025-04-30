@@ -218,7 +218,9 @@ module ApplicationHelper
   end
 
   def date_format(date)
-    date.strftime('%d %B %Y') if date.present?
+    return unless date
+
+    date.strftime('%d %B %Y')
   end
 
   def date_time_format(date_time)
