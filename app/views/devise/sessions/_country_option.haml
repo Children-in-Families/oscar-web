@@ -1,0 +1,17 @@
+#country-select.modal.fade{"aria-labelledby" => "country-selectLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content.panel-background
+      .modal-header.panel-heading
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4.text-white
+          %i.fa.fa-warning.fa-x2
+          Choose your country
+      .modal-body
+        %ul.nav
+          - if current_organization.children.any?
+            - current_organization.children.each do |child_ngo|
+              %li
+                %a.country-option{ data: { value: child_ngo.country, url: request.url.gsub(/\/\/\w+\./, "//#{child_ngo.short_name}."), flag: image_tag(image_url(country_to_flag(child_ngo.country))) } }
+                  = image_tag image_url(country_to_flag(child_ngo.country))
+                  = child_ngo.country.capitalize

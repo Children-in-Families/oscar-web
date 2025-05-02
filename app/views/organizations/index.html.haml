@@ -3,6 +3,7 @@
     .organizations
       .row
         - @organizations.each do |org|
+          - next if org.parent_id
           .col-xs-6.col-sm-4
             = link_to new_user_session_url(subdomain: org.short_name, country: org.country), class: 'org-link' do
               .organization
