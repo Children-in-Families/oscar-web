@@ -109,9 +109,9 @@
         = link_to family_enrolled_programs_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.enroll_program')}", placement: "auto" } do
           .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('datagrid.columns.families.program_streams')
 
-      - if can? :manage, CustomFieldProperty
-        = link_to custom_fields_family_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.add_form')}", placement: "auto" } do
-          .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('families.form.custom_forms')
+    - if can? :manage, CustomFieldProperty
+      = link_to custom_fields_family_path(@family), data: { toggle: "popover", html: 'true', trigger: "hover", content: "#{I18n.t('inline_help.families.show.add_form')}", placement: "auto" } do
+        .btn.btn-primary.small-btn-margin.btn-sm.btn-fit= t('families.form.custom_forms')
 
 .ibox.mini-margin
   .ibox-title

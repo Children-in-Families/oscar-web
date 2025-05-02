@@ -9,7 +9,7 @@
         %li= Organization.ratanak? ?  I18n.t('inline_help.clients.show.notes.lists.ratanak.list1') : I18n.t('inline_help.clients.show.notes.lists.list1')
     .row
       %div{ class: "col-xs-12 col-md-#{ @client.referred? || @client.exit_ngo? ? '7' : '9' }"}
-        %table.table.small.m-b-xs#main-info
+        %table.table.m-b-xs#main-info
           %tbody
             %tr
               %td{rowspan: '4'}
@@ -107,7 +107,7 @@
       - if current_setting.enabled_risk_assessment?
         .col-xs-12.col-md-3
           - if risk_assessment || @client.last_risk_assessment
-            %table.table.small.m-b-xs
+            %table.table.m-b-xs
               %tbody
                 - assessment = @client.last_risk_assessment
                 - if assessment.present?
@@ -137,7 +137,7 @@
                       = "#{t('risk_assessments._attr.assessment_date')}:"
                       %strong= date_format risk_assessment.assessment_date
           - else
-            %table.table.small.m-b-xs
+            %table.table.m-b-xs
               %tbody
                 %tr
                   %td
@@ -658,6 +658,39 @@
                         %td
                           %strong
                             = editable @client, :kid_id, value: @client.kid_id, url: api_client_path(@client.id), pk: @client.id
+
+                    - if current_organization.aht
+                      %tr
+                        %td.spacing-first-col
+                          = t('risk_assessments._attr.has_disability')
+                        %td
+                          %strong.text-danger
+                            = @client.has_disability? ? 'YES' : 'NO'
+                      %tr
+                        %td.spacing-first-col
+                          = t('risk_assessments._attr.if_yes')
+                        %td
+                          %strong
+                            = @client.disability_specification if @client.has_disability?
+                      %tr
+                        %td.spacing-first-col
+                          = "#{t('.client_global_identity')}"
+                        %td
+                          %strong
+                            = fa_icon 'envelope', class: 'text-success', data: { toggle: 'popover', placement: 'top', content: @client.global_id }
+
+                      %tr
+                        %td.spacing-first-col
+                          = t('.time_in_ngo')
+                        %td
+                          %strong
+                            = @client.time_in_ngo
+                      %tr
+                        %td.spacing-first-col
+                          = t('.time_in_cps')
+                        %td
+                          %strong
+                            = @client.time_in_cps
 
                     - if policy(Client).client_pickup_information?
                       %tr.bg-grey

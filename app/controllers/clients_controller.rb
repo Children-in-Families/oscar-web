@@ -240,11 +240,12 @@ class ClientsController < AdminController
 
     ActiveRecord::Base.transaction do
       @client.archive_state = 'permanent_delete'
+
       if @client.destroy
         begin
           EnterNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
-          ClientEnrollment.with_deleted.where(client_id: @client.id).delete_all
-          Case.where(client_id: @client.id).delete_all
+          ClientEnrollment.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
+          Case.where(client_id: @client.id).each(&:destroy_fully!)
           CaseWorkerClient.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
           Task.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)
           ExitNgo.with_deleted.where(client_id: @client.id).each(&:destroy_fully!)

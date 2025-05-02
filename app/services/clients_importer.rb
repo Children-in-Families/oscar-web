@@ -86,6 +86,8 @@ module ClientsImporter
     end
 
     def donors
+      return if (workbook_second_row..workbook.last_row).to_a.size == 1
+
       (workbook_second_row..workbook.last_row).each do |row_index|
         new_donor = {}
         new_donor['name'] = workbook.row(row_index)[headers['*Name']]
@@ -114,7 +116,7 @@ module ClientsImporter
         new_client['donor_id'] = Donor.find_by(name: donor_name).try(:id)
 
         new_client['date_of_birth'] = workbook.row(row_index)[headers['Date of Birth']].to_s
-        new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Initial Referral Date']].to_s
+        new_client['initial_referral_date'] = workbook.row(row_index)[headers['* Date of Referral']].to_s
         referral_source_category_name = workbook.row(row_index)[headers['* Referral Source Category']]
         referral_source_name = workbook.row(row_index)[headers['Referral Source']]
         new_client['referral_source_category_id'] = ReferralSource.find_or_create_by(name: referral_source_category_name, name_en: referral_source_category_name)&.id
@@ -137,7 +139,7 @@ module ClientsImporter
         new_client['school_name'] = workbook.row(row_index)[headers['School Name']]
         new_client['main_school_contact'] = workbook.row(row_index)[headers['Main School Contact']]
         grade = workbook.row(row_index)[headers['School Grade']]
-        new_client['school_grade'] = [Client::GRADES, I18n.t('advanced_search.fields.school_grade_list').values].transpose.to_h[grade]
+        new_client['school_grade'] = [Client::GRADES, Client::GRADES].transpose.to_h[grade]
 
         province_name = workbook.row(row_index)[headers['Current Province']]
         district_name = workbook.row(row_index)[headers['Address - District/Khan']]
@@ -207,7 +209,7 @@ module ClientsImporter
 
         client.case_worker_clients.find_or_create_by(user_id: new_client['user_id']) if new_client['user_id'].present?
 
-        next if workbook.row(row_index)[headers['NGO Exited Date']].blank?
+        next if headers['NGO Exited Date'].blank? || workbook.row(row_index)[headers['NGO Exited Date']].blank?
 
         exit_ngo = {}
         exit_ngo['exit_date'] = workbook.row(row_index)[headers['NGO Exited Date']]

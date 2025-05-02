@@ -1,7 +1,7 @@
 class CaseNote < ActiveRecord::Base
   include ClearanceOverdueConcern
 
-  INTERACTION_TYPE = ['Visit', 'Non face to face', '3rd Party', 'Supervision', 'Other'].freeze
+  INTERACTION_TYPE = ['Visit', 'Come to us', 'Non face to face', '3rd Party', 'Supervision', 'Other'].freeze
   paginates_per 1
 
   mount_uploaders :attachments, FileUploader
@@ -23,7 +23,7 @@ class CaseNote < ActiveRecord::Base
   has_paper_trail
 
   accepts_nested_attributes_for :custom_field_property
-  accepts_nested_attributes_for :case_note_domain_groups
+  accepts_nested_attributes_for :case_note_domain_groups, reject_if: proc { |attributes| attributes['note'].nil? }, allow_destroy: true
   accepts_nested_attributes_for :tasks, reject_if: proc { |attributes| attributes['name'].blank? && attributes['expected_date'].blank? }, allow_destroy: true
 
   before_save :populate_associations
@@ -120,6 +120,14 @@ class CaseNote < ActiveRecord::Base
     created_at >= case_note_edit_limit.send(edit_frequency).ago
   end
 
+  def assessment_name
+    if custom?
+      "#{I18n.t('case_notes.index.case_note_on')}: #{custom_assessment_setting.custom_assessment_name}"
+    else
+      "#{I18n.t('case_notes.index.case_note_on')}: #{I18n.t('dashboards.assessment_tab.csi_assessment')}"
+    end
+  end
+
   private
 
   def populate_associations
@@ -135,7 +143,7 @@ class CaseNote < ActiveRecord::Base
   end
 
   def existence_domain_groups
-    errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}") if domain_groups.any? && selected_domain_group_ids.blank?
+    errors.add(:domain_groups, "#{I18n.t('domain_groups.form.domain_group')} #{I18n.t('cannot_be_blank')}") if selected_domain_group_ids.blank? && domain_groups.blank?
   end
 
   def enable_default_assessment?
