@@ -11,7 +11,7 @@
           %strong= field['label']
         %td
           - if field['name'] && field['name'][/^date-/]
-            %strong= date_format client_data_properties[field['name']].to_date
+            %strong= date_format((client_data_properties[field['name']].to_date rescue nil)) || client_data_properties[field['name']]
           - elsif client_data_properties[field['name']].is_a?(Array)
             - client_data_properties[field['name']].each do |value|
               - next if value.blank?

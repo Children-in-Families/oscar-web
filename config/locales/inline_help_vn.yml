@@ -1,0 +1,281 @@
+en:
+  inline_help:
+    address:
+      village: N/A
+    admin:
+      admin_receiving_staff: Select the Case Worker(s)/Staff who first received the client case. Referral means a case, or a client reported to your organization.
+      admin_referral_date: Enter the actual date when the case was reported to your organization. Type the date using <strong>mm-dd-yyyy</strong> format OR select the date using the calendar in this field.
+      case_worker: Select the Case Worker(s)/Staff who will manage this case. You can choose more than one name. This information can be edited after the case is saved. The client profile will be visible to the Case Worker(s)/Staff you choose here.
+      first_follow_by: Select the Case Worker/Staff who first investigated the referred client.
+      first_follow_date: Enter the date when a Case Worker/Staff followed up with the client for the first time.
+    assessments:
+      index:
+        custom_button: Add a new custom %{assessment}.
+        default_button: Add a new (CSI) %{assessment}.
+      notes:
+        lists:
+          list1: |
+            <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Once you start the assessment, you have <strong>one week</strong> to complete it. You can save the assessment at any point but ensure to finish it within a week. However, you won’t be allowed to save half-way if you choose to add Task at the end of the assessment.<br />
+            Email reminders will be sent for incomplete assessments. After one week, the assessment will be auto-deleted. You will have to restart the assessment if you do not complete it within one week.
+    carer:
+      carer_email: N/A
+      carer_family_record: N/A
+      carer_gender: Other - if the client’s gender is something other than male or female. Unknown - if the client’s gender is not known. This can be edited later after you find out the gender.
+      carer_international: N/A
+      carer_name: Depending on the client’s situation, a primary carer can be anyone who is the first immediate person responsible for the client’s wellbeing. It can be a parent, foster parent, hospital staff, NGO staff, etc. You will need to update this when the client’s living situation changes.
+      carer_phone: N/A
+      carer_relationship: N/A
+      carer_same_as_client: N/A
+      ratanak:
+        carer_name: Depending on the client’s situation, a Caregiver can be anyone who is the first immediate person responsible for the client’s wellbeing. It can be a parent, foster parent, hospital staff, NGO staff, etc. You will need to update this when the client’s living situation changes.
+      referral_province: Select the province where the caregiver is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the caregiver moves to a different province.
+    case_notes:
+      index:
+        new_button: Document any communication or updates related to the client here.
+    cb_dmat:
+      screening_assessment_date: The actual date when the Case Worker interacted, communicated, and assessed the client.
+      visitor: Details of the person(s) present during the visit or the assessment.
+      client_age: The current client’s age.
+      note: Case notes should provide accurate and objective descriptions of all the work you did with or for a client. Enter detailed notes summarizing each client interaction. Include things like what the client said or did, major topics of conversation; any interventions completed with or for the client. Do not include subjective statements or assessments which you are not qualified to make. For example, Case Worker should not make medical diagnoses, as they do not have medical degree.
+      client_milestone_age: Client’s age for doing the assessment.
+      by_age_3_months: "S2: Show brief interest in toy</br>
+      1. Show the child a bright-coloured toy (rattle).</br>
+      2. Move the toy away from the child slowly.</br>
+      3. Observe the child</br>
+      *Pass: The child turns – pays attention to the toy, and tries to follow the toy with his eyes when slowly moving it away from him."
+      by_age_6_months: "S8: Explore environment</br>
+      1. Put the child on the floor.</br>
+      2. Observe if the child moves around and is looking or taking something.</br>
+      3. If the child does not respond, ask the caretaker if he is moving around at home, exploring his environment ‘laphuk’ (always observing and moving around and taking things).</br>
+      4. Observe the child or report the caretaker’s answer.</br>
+      *Pass: The caretaker says that the child’s is ‘laphuk’ at home and at other places.</br>
+      Fail if one or more of the three conditions fails: observe, move around and take."
+      by_age_9_months: "S11: Recognize stranger</br>
+      1. Take the child in your arms and smile at him for about 10 seconds.</br>
+      2. Observe the child’s mood.</br>
+      3. When he is distressed, give the child back to his caretaker.</br>
+      4. Observe the child’s mood change.</br>
+      *Pass: The child starts to cry, appearing to be in distress when you hold the child and stops crying when you give him back to his caretaker."
+      by_age_1_year: "S16: Greet with hand clap</br>
+      1. At the start of the assessment, ask the caretaker to tell the child to greet you using the Khmer traditional, respectable way by saying ‘chumriep sur’ while his hands are clapped together. The caretaker cannot physically put the child’s hands together but can demonstrate it using his own hands.</br>
+      2. Observe the child.</br>
+      3. The caretaker can also ask him to handclap when he receives something as a thank-you gesture.</br>
+      4. The caretaker can also ask him to handclap when he goes away as a bye-bye gesture.</br>
+      5. If the child does not do any of the three situations, you can ask the caretaker whether he does it on his own on other occasions. </br>
+      *Pass: On request, the child is obedient and puts his hand together to greet (‘chumriep sur’), to thank or to say goodbye. Hand clapping in any of the three situations Passes.</br>
+      *Fail: When the caretaker physically needs to put his hands together."
+      by_age_1_5_years: "S19: Use spoon</br>
+      1. Ask the caretaker if the child can eat soup alone with a spoon.</br>
+      2. Ask the caretaker how much he usually spills.</br>
+      *Pass: The child can use a spoon to eat. It is acceptable if the child spills less than half of the food.</br>
+      *Fail: Child spills more than half of the liquid."
+      by_age_2_years: "S23: Put on simple clothes with help</br>
+      1. Ask the caretaker whether he can put on a shirt and shorts by himself.</br>
+      2. Also check then carefully the Pass criterial.</br>
+      •	The child must start by himself, e.g. covering at least one arm and/or leg with the respective shirt/shirt sleeve.</br>
+      •	It is acceptable for Passing if the child receives assistance to complete (finish) putting on both pieces of clothing.</br>
+      *Pass: The child can put on a simple shirt and shorts by himself. The child may need assistance completely putting on shorts/skirts and a shirt.</br>
+      *Fail: Child does not start by himself first."
+      by_age_2_5_years: "S25: Parallel play without sharing</br>
+      1. Ask the caretaker if the child plays alone when playing with other kids and does not interfere with other kids, even though he is interested in other kids’ toys.</br>
+      2. If possible also document through observation.</br>
+      *Pass: If observed during the assessment, the caretaker reports that the child plays alone without other kids or siblings. S25 (without sharing), S26 (sharing)"
+      by_age_3_years: "S28: Name a friend</br>
+      1. Ask the child to name someone he plays with.</br>
+      2. Listen to the child.</br>
+      3. Confirm with the caretaker that the child has named his friend correctly.</br>
+      *Pass: The child can correctly name at least one of his friends (confirmed by the caretaker). It is okay when he names a sibling.</br>
+      *Fail: Child says only “bong” or “own”"
+      by_age_4_years: "S22: Comb hair with help (also S32: Comb hair without help)</br>
+      1. Give the child a comb.</br>
+      2. Ask him to comb his hair.</br>
+      3. Observe whether the child puts the comb on his head and makes a combing movement.</br>
+      4. Or ask the caretaker to report whether he can comb his hair alone.</br>
+      S32: Comb hair without help</br>
+      *Pass: The child is able to comb his hair even if he needs help to comb properly. The child needs to physically demonstrate.</br>
+      *Fail: No combing movement."
+      by_age_5_years: "S33: Play kid games (team/waiting turns)</br>
+      1. interact with the child and ask which Khmer (gender-specific) competitive children’s game he can play involving teamwork or waiting for turns.</br>
+      2. Or observe the child playing.</br>
+      3. Or ask the caretaker which games he can play at home.</br>
+      *Pass: The child plays Khmer children’s game like e.g. ‘chhou’ or ‘kup sbaekcheung’ (shoe bowling or throwing); e.g. (for girl) ‘leng muck’ hopscotch or ’laut enteak’ ; (for boy) ‘leng khlee’ (marbles game).</br>
+      *Fail: Not waiting his turn"
+    client:
+      referral_province: Select the province where the client is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the client moves to a different province.
+    clients:
+      assessments:
+        add_task: At least one task is mandatory for each domain. The task can be optional only when the client’s situation does not require any interventions.
+        button: Add a new (CSI) or custom %{assessment}.
+        case_plan:
+          lists:
+            list1: Each domain is given a score from 1 to 4 and is color-coded.
+            list2: "<strong class='text-danger'>Red</strong> – Highly vulnerable. Need to act <strong>urgently</strong> and immediately."
+            list3: "<strong class='text-warning'>Yellow</strong> – Action needs to be taken soon, but not immediately."
+            list4: "<strong class='text-success'>Blue</strong> – Observe the situation. If it gets worse or doesn’t improve on its own, action may be necessary."
+            list5: "<strong class='text-info'>Green</strong> – No immediate concerns. The client is not vulnerable in this situation."
+        goal: 'A goal should be <strong>SMART</strong>: <strong>S</strong>pecific, <strong>M</strong>easurable, <strong>A</strong>ttainable before the next assessment begins, <strong>R</strong>ealistic and <strong>T</strong>ime based (three or six months according to your organization assessment timeline). Discuss with your client’s family and/or caregiver to set a goal(s). Ensure you engage and involve the client in this discussion as much as you can. The goal can be optional if the client’s situation is not vulnerable.'
+        observation: Read each option carefully. First, consider the client’s situation, ask questions and observe the situation. Choose an option based on these considerations.
+        task_arising: You can either add task here or at the end of the assessment. <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> If you prefer to add a task at the end of the assessment, you can’t save assessment in between.
+      buttons:
+        save: The client’s information will be created/saved. The Duplicate Checker feature will check for any duplicate entries and warn you if any are found.
+      care_plans:
+        button: Add a new care plan.
+      case_notes:
+        button: Document any communication or updates related to the client here.
+        date: The actual date when the Case Worker interacted, communicated, and talked about or with the client.
+        note: Case notes should provide accurate and objective descriptions of all the work you did with or for a client. Enter detailed notes summarizing each client interaction. Include things like what the client said or did, major topics of conversation; any interventions completed with or for the client. Do not include subjective statements or assessments which you are not qualified to make. For example, Case Worker should not make medical diagnoses, as they do not have medical degrees.
+        type: 'Choose how you interacted the client: <strong>Visit</strong> – Met client in person. <strong>Non-face to face</strong> – Contacted client without meeting in person. [For example phone, video call, email, message, Facebook, etc.] <strong>3rd Party</strong> – Gathered information through another person. [For example teacher, NGO staff, doctor, neighbor, friend, etc.] <strong>Other</strong> – Any other way in which you tracked or contacted the client.'
+        who: Details of the person(s) present during the visit or the conversation.
+      form:
+        notes:
+          step1:
+            lists:
+              list1: Click/hover over the <i class="fa fa-info-circle fa-2x text-info"></i> icon next to a field to read tips/additional information.
+              list2: All fields marked with an * are required. You will not be able to proceed if they are blank.
+              list3: It is recommended to fill information in ALL the fields to help us better serve our clients.
+              list4: If you do not have all the information for optional fields, you can enter or edit information after the case is saved in the OSCaR.
+          step2:
+            lists:
+              list1: Enter the client’s name and family name in both Latin (see above) and Khmer. This helps in maintaining a complete record and avoid duplicates in the OSCaR system.
+          step4:
+            lists:
+              list1: 'This section is specific to your organization. Any additional data that your organization needs to track should be recorded here. If the more data points need to be added here, contact your Administrator. Admin: Add the data points through <strong>Manage >> Custom Referral Data</strong>.'
+      index:
+        buttons:
+          assessment_data: View and compare the CSI %{assessment} scores of all the clients that appear in your search. The pop-up window will show you the %{assessment} scores only for clients whose %{assessment} was completed.
+          export_to_xls: |
+            Export your report in an MS Excel spreadsheet file(.xls). Follow the prompts in your browser to download and save the file on your computer.<br />
+            All the headers are the same as the column selection you made while building the report.<br />
+            You can use this file for analysis or sharing with others.<br />
+          load_saved_search: All custom saved search settings are stored here. Choose a custom saved search setting to apply the saved filter criteria.
+          my_saved_search: Shows all saved search settings created by you.
+          other_saved_search: Shows all saved search settings created by other users.
+          overdue_filter_checkboxes: Clicking on one or more checkbox will immediately display the filtered results. You can further refine the results using other filters below.
+          quick_graph: |
+            This generates the following charts based on the data in your report.
+            <ul>
+              <li>The <strong>CSI Domain Scores</strong> chart is used for quick analysis of CSI Domain Scores in assessment(s) of one or group of clients.</li>
+              <li>The <strong>Active Programs</strong> chart shows month-wise data of the clients who are enrolled in each program.</li>
+            </ul>
+            Hover your mouse over the points on the graph to view details.
+            Hide or unhide any data by clicking scores/program streams in the index on top.
+          report_builder: Generate reports by selecting desired categories, columns to be displayed, forms, program streams, client general information, etc. From here, you can save a generated report in MS Excel format on your computer.
+          report_builder_wizard: |
+            Widget for quick report building. This widget has step by step instructions to help generate a report. <br />
+            Note: A report generated through <strong>Report Builder</strong> or <strong>Report Builder Wizard</strong> is the same, choose either option based on your comfort.
+          reset: Removes all the selected filters.
+          saved_search_setting: If you choose certain filters/categories very often, you can save them as custom search settings, thus saving you time. You can access the saved searches from <strong>Load Saved Search</strong>. Your saved search settings can be accessed by other users.
+          select_columns: |
+            All columns are displayed by default. Deselect/select column headers from this list based on your requirements.
+            <span class="text-info"><u>Admin:</u></span> The default columns can be customized based on your organization preference. To make the change, going to <strong>Manage >>Setting>>Default Columns</strong>
+      show:
+        accepted: Accept indicates your organization will work with the client. The next step is to perform client assessment and enroll in the program stream(s).
+        ratanak:
+          accepted: Accept indicates your organization will work with the client. The next step is to enroll client in the program stream(s) and perform client assessment.
+        active_form: Add/View/Edit the custom forms already applied to the client.
+        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit client from the program(s).
+        add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the client.
+        client_book: View the <strong>read-only</strong> copies of all the case notes, assessments, custom forms, and program forms. All the activities are auto-recorded.
+        delete: <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Caution! This will permanently remove this client records and the deleted data cannot be recovered.
+        archive: <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Caution! This will remove this client to trash folder.
+        restore: <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> Caution! This will restore this client back to client records list.
+        edit: Go back to editing the client case. The record remains live and can be edited at any point. All the edits done to the case will be visible under <strong>Changelogs</strong>.
+        enroll_program: 'Enlist the client in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
+        exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this client. However, the record will remain in the OSCaR system.
+        id: A unique ID is auto-generated and specific to your organization. You cannot change it.
+        notes:
+          lists:
+            list1: Some information such as schooling, living details, primary carer, etc. can change with time. Please ensure you update such information when it changes.
+            ratanak:
+              list1: Some information such as schooling, living details, caregiver, etc. can change with time. Please ensure you update such information when it changes.
+        refer_client: When sending a client to another organization, select a name from the list. If the name is not in the list, select <strong>I don’t see the NGO I’m looking for</strong> to print the form and send it to the target organization.
+        referral_form: View all referral forms under the following <strong>Referred to External Organization</strong> – If you sent the client to another organization. <strong>Referred From External Organization</strong> – If the client came to you through another organization.
+        reject: Reject indicates your organization cannot work with the client for some reason. The case will remain in the database and show <strong>Exited</strong> status with exit circumstance as <strong>Reject Referral</strong>.
+        status: "<strong>Accepted </strong>– Organization has accepted the case and working with the client. <strong>Active</strong> – Client is enrolled in one or more program streams. <strong>Exited</strong> – Organization has rejected the case or no longer supporting the client. <strong>Referred</strong> – Client record exists in the OSCaR system but not yet accepted or rejected."
+        tasks: View all the overdue, current and upcoming tasks here. This is a read-only option for Managers and Caseworkers. New tasks can’t be added here.
+    communities:
+      show:
+        active_form: Add/View/Edit the custom forms already applied to the community.
+        add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the community.
+        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit community from the program(s).
+        enroll_program: 'Enlist the community in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
+    custom:
+      custom_id1: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to <strong>Manage >> Setting >> Custom Labels</strong>. <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i> This is different from Client ID auto-generated in OSCaR for every case.
+      custom_id2: Alternate case identification (ID) number related to the client. In the case of jointly managed clients or clients referred through other organization(s), enter the ID that was used on the previous paperwork, record, or database. This will help in tracking client record. Admin, This field name is customizable. To change the name, go to <strong>Manage >> Setting >> Custom Labels</strong>.
+      custom_id_poor: N/A
+      relevant_info: It is recommended to document all the information here, including some information that MAY be already covered in the form. This will help a Case Worker/Supervisor quickly understand the background of why the referral was made. Give a brief summary of the referral circumstances such as who referred the client and why. Give any relevant information about the client’s health, living situation, vulnerability, etc. You can add any other details as required.
+      ratanak:
+        relevant_info: Use this field to record any additional, relevant information, not requested elsewhere on this form, to help a Case Worker/Supervisor quickly understand the background of why the referral was made.
+    donor:
+      donor_donor: For the clients who are financially supported by an organization or individual. Admin, If the donor is not in the list, add it from <strong>Manage &gt;&gt; Donors</strong>.
+      donor_involved: For clients who will be managed jointly with other organization(s). You can choose more than one agency. Admin/Manager/Caseworker, If the organization is not in the list, add it from <strong>Manage &gt;&gt; Agencies</strong>.
+    exit_form:
+      circumstance: 'The field will auto-updated to show: <strong>Rejected Referral</strong> – If you clicked the <strong>Reject</strong> button. [The organization rejected to take the referred case.] OR <strong>Exited %{entity}</strong> – If you close the case through the <strong>Exit from NGO</strong> button. [The organization supported the %{entity}, but not continuing to support.]'
+      client: Client
+      date: N/A
+      family: Family
+      notes:
+        lists:
+          client: client
+          family: family
+          list1: The case will remain in the database and show the <strong>Exit</strong> status. Case Worker(s)/Staff will be removed from the exited %{entity} and can no longer see the case in the OSCaR system. Only the Admin/Manager can see exited %{entity}.
+      reason: Select a reason from the list. If you choose <strong>Other</strong>, please ensure to enter details in the <strong>More Information</strong> field below.
+    families:
+      caregiver_info: Details of the caregiver/family. Include details like their job, income, living situation, etc.
+      case_history: Describe in brief what situation brought the client(s) under organization care.
+      family_id: Family ID is manually generated by the organization. This is different from the OSCaR auto-generated ID.
+      family_member: Add details for each existing family member.
+      family_type: Choose based on the client’s current situation. You should update this when the situation changes. <strong>Birth family </strong> – Client stays with own family, choose an option indicating if only one or both parents exist. <strong>Child-headed household</strong> – Primary carer is still a child (usually a teenager). No legal adults in the household. The client stays alone but the family may exist in another province. <strong>Domestically adopted</strong> – Client adopted within own country.<strong>Short term/emergency foster care</strong> – Client is cared for by another family for a short period (maximum 3 months). <strong>Long term foster care</strong> – Client is cared for by another family for an unlimited period. <strong>No family</strong> – Client is orphan; no family member or relatives are involved. <strong>Extended family/kinship care</strong> – Client is cared for by relatives.
+      name: Could be anyone who is caring for the client including caregiver, family members, relatives or organization staff.
+      show:
+        accepted: Accept indicates your organization will work with the family. The next step is to perform family assessment and enroll in the program stream(s).
+        active_form: Add/View/Edit the custom forms already applied to the family.
+        active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
+        add_form: These custom forms are specific to your NGO. Select one from the list to load the form. Once you fill and save it, the form will be attached to the family.
+        enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
+        exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this family. However, the record will remain in the OSCaR system.
+        ratanak:
+          accepted: Accept indicates your organization will work with the family. The next step is to enroll family in the program stream(s) and perform family assessment.
+        reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show "Exited" status with exit circumstance as "Reject Referral".
+        referral_form: View all referral forms under the following <strong>Referred to External Organization</strong> – If you sent the family to another organization. <strong>Referred From External Organization</strong> – If the family came to you through another organization.
+        refer_family: When sending a family to another organization, select a name from the list. If the name is not in the list, select <strong>I don’t see the NGO I’m looking for</strong> to print the form and send it to the target organization.
+      status: Manually update the status. Active means one or more clients within a family are on support. If no client is currently under care, update as <strong>Inactive</strong>.
+    partner:
+      background: A brief history of the partner organization. Include their vision, mission, and services.
+      engagement: 'Describe what the organization is partnering on with your organization. Give details about what services the partner will be involved with your organization for client care. [For example: partnering in certain programs, consultation, financial aid, fostering, etc.] '
+      organization_type: 'Select what type of organization the partner belongs to. [For example, Church, NGO, Government agency, etc.] Admin/Manager: If the type doesn’t exist, add a new organization type through <strong>Manage >> Organization Types</strong>.'
+    referee:
+      email: N/A
+      gender: Other - if the client’s gender is something other than male or female. Unknown - if the client’s gender is not known. This can be edited later after you find out the gender.
+      name: Referee means the person who called or informed your organization about the client. If the referee does not want to give their name, you can enter the name as “Anonymous”.
+      phone: N/A
+      referral_address_name: N/A
+      referral_address_type: N/A
+      referral_commune: To view the list, first select <strong>Address - District/Khan</strong>.
+      referral_district: To view the list, first select <strong>Current Province</strong>.
+      referral_house_number: N/A
+      referral_province: Select the province where the client is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the client moves to a different province.
+      referral_source: The list in this field will change based on the Referral Source Category you chose. Admin/Manager/Case Worker, If a name is not on the list, add a new source from <strong>Manage >> Referral Sources</strong>.
+      referral_source_category: Select the type of organization who referred the client to your organization. The <strong>Referral Source</strong> field will show the list of applicable organizations only AFTER a category is selected here.
+      referral_street_number: N/A
+      referral_village: To view the list, first select <strong>Address - Commune/Sangkat<strong>
+    referral:
+      client_birth_province: N/A
+      client_dat_of_birth: N/A
+      client_email: N/A
+      client_gender: "<strong>Other</strong>  - if the client’s gender is something other than male or female. <strong>Unknown</strong> - if the client’s gender is not known. This can be edited later after you find out the gender."
+      client_is_outside: N/A
+      client_phone: N/A
+      client_relationship: N/A
+      family_name: Enter the client’s family name/surname.[For example:'' If the client’s name is Keo Dara, Keo is the family name that you should fill in the <strong>Family Name</strong> field.]
+      given_name: Enter the client’s first name/birth name.[For example:'' If the client’s name is Keo Dara, Dara is the given name that you should fill in the <strong>Given Name</strong> field.]
+      local_family_name: Enter the client’s family name/surname in Khmer.
+      local_given_name: Enter the first name/birth name of the client in Khmer.
+      phone_owner: N/A
+      what_3_word: What3words is a geocoding system that encodes geographic coordinates into three dictionary words. It is especially helpful if the name of the street or house is not known. Go to https://what3words.com to find the geographic coordinates of the client's address. <i class="fa fa-exclamation-triangle text-danger" aria-hidden="true"></i>Caution! This information in the wrong hands can endanger your client in sensitive situations. Use it carefully.
+    school:
+      school_contact: The main contact can be either the class teacher or anyone who can monitor the client’s progress at school.
+      school_grade: N/A
+      school_info: N/A
+    setting:
+      external_system_integration: This creates a connection between your organisation’s instance of OSCaR, and the Cambodian Government’s Primero Case Management System. The connection allows for cross-referral between the systems; it does not copy records from one system to the other without a referral being explicitly made.
