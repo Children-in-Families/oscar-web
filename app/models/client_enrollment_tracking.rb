@@ -54,7 +54,7 @@ class ClientEnrollmentTracking < ActiveRecord::Base
   end
 
   def allowed_edit?(user)
-    return true if tracking.allowed_edit_until.nil? || !user.case_worker?
+    return true if tracking.allowed_edit_until.blank? || !user.case_worker?
 
     eval(tracking.allowed_edit_until).from_now(tracking.created_at) > Date.today
   end
