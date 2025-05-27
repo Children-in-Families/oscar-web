@@ -64,11 +64,13 @@ module Api
           @assessment.run_callbacks(:commit)
         end
 
-        if saved
+        if saved && !@assessment.over_a_week?
           create_bulk_task(params[:task], @assessment) if params.key?(:task)
           render json: @assessment
         else
-          render json: @assessment.errors, status: :unprocessable_entity
+          error_message = assessment.errors
+          error_message = ['You cannot edit assessment that is older than a week.'] if assessment.over_a_week?
+          render json: error_message, status: :unprocessable_entity
         end
       end
 

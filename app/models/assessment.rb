@@ -156,6 +156,12 @@ class Assessment < ActiveRecord::Base
     default? ? I18n.t('dashboards.assessment_tab.csi_assessment') : "#{I18n.t('client_books.assessments.custom_assessment')} (#{custom_assessment_setting.custom_assessment_name})"
   end
 
+  def over_a_week?
+    return false if draft? || new_record?
+
+    created_at < 1.week.ago.to_date && completed?
+  end
+
   private
 
   def populate_domains
