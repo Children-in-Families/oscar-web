@@ -13,19 +13,24 @@
             - case_history = object.class.table_name
             - case case_history
             - when "clients"
-              - reversed_ordinal_numbers = list_ordinal_numbers[0..(@client.enter_ngos.order(:id).size - 1)].reverse
-              - @client.enter_ngos.order(:id).each_with_index do |enter_ngo, index|
-                - next if @client.exit_ngos[index].persisted? && @client.exit_ngos[index].created_at > enter_ngo.created_at
-                %tr
-                  %td
-                    = t('clients.attr.initial_referral_date')
-                    = reversed_ordinal_numbers[index]
-                  %td= date_format(enter_ngo.accepted_date)
               %tr
                 %td
                   = t('clients.attr.initial_referral_date')
                   = '1st'
                 %td= date_format(object.initial_referral_date)
+              %tr
+                %td
+                  = t('clients.attr.received_by')
+                %td= object.received_by.name
+              %tr
+                %td
+                  = t('clients.attr.follow_up_by')
+                %td= object.follow_up_by.name
+              %tr
+                %td
+                  = t('clients.attr.follow_up_date')
+                %td= date_format(object.follow_up_date)
+
             - when 'enter_ngos'
               %tr
                 %td= t('.accepted_date')
