@@ -4,6 +4,7 @@ class Client < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientConstants
   include CsiConcern
+  include OutsideConcern
 
   extend FriendlyId
 
@@ -396,6 +397,14 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def outside=(value)
+    if Organization.current.country == 'international'
+      write_attribute(:outside, true)
+    else
+      write_attribute(:outside, value)
+    end
+  end
+
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
     value[0..(number_of_char - 1)]
@@ -454,7 +463,7 @@ class Client < ActiveRecord::Base
     if percentage < 0.0
       return nil
     end
-      
+
     if percentage > 1.0
       percentage = 1.0
     end

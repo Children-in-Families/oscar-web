@@ -970,7 +970,7 @@ const Forms = (props) => {
             hintText={inlineHelpTranslation}
             translation={translation}
             disabled={disabled}
-            outside={objectData.outside || false}
+            outside={objectData.outside || internationalReferredClient}
             onChange={onChange}
             current_organization={current_organization}
             data={{
