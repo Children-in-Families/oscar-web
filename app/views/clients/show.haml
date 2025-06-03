@@ -890,7 +890,7 @@
                             = fa_icon('eye')
                           = link_to edit_client_internal_referral_path(@client, internal_referral.id), class: 'btn btn-outline btn-success btn-xs' do
                             = fa_icon('pencil')
-
+                  - enter_ngo_count = @client.enter_ngos.size - 1
                   - @case_histories.each_with_index do |case_history, index|
                     - case_history_name = case_history.class.table_name
                     %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name, name: case_history_label(case_history), created_date: case_history.created_at} }
@@ -910,8 +910,28 @@
                             = case_history_links(case_history, case_history_name)
                         = render 'case_history_detail', object: case_history, index: index
                         = render_case_history(case_history, case_history_name)
+
+                    - if case_history.class.table_name == 'enter_ngos' && @client.exit_ngos[enter_ngo_count]&.persisted? && @client.exit_ngos[enter_ngo_count].created_at < case_history.created_at || (case_history.class.table_name == 'enter_ngos' && !enter_ngo_count.zero?)
+                      - inner_idex = enter_ngo_count + 1
+                      %tr.case-history-row-abc
+                        %td
+                          = t('.date_of_referral')
+                          = inner_idex.ordinalize
+                        - unless Rails.env.production?
+                          %td= case_history.created_at.to_s
+                        %td= date_format(case_history.initial_referral_date)
+                        %td
+                          .text-center
+                            %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#referral_history_#{inner_idex}", 'data-toggle' => 'modal'}= fa_icon('eye')
+                          = render 'referral_history', object: case_history, index: inner_idex
+
+                    - if case_history.class.table_name == 'enter_ngos'
+                      - enter_ngo_count -= 1
+
                 %tr
-                  %td= t('.initial_referral_date')
+                  %td
+                    = t('.initial_referral_date')
+                    = enter_ngo_count.ordinalize
                   - unless Rails.env.production?
                     %td= @client.created_at.to_s
                   %td= date_format(@client.enter_ngos.last.try(:initial_referral_date) || @client.initial_referral_date)

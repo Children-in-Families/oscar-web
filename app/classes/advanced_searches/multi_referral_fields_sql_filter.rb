@@ -21,6 +21,8 @@ module AdvancedSearches
         clients = find_clients_with_field_value('!=', @values)
       when 'less'
         clients = find_clients_with_field_value('<', @values)
+      when 'greater'
+        clients = find_clients_with_field_value('>', @values)
       when 'less_or_equal'
         clients = find_clients_with_field_value('<=', @values)
       when 'greater_or_equal'
@@ -42,16 +44,15 @@ module AdvancedSearches
       when 'is_empty'
         clients = @clients.joins(:enter_ngos)
                           .where(
-                            "(SELECT enter_ngos.#{field_name} FROM enter_ngos WHERE enter_ngos.client_id = clients.id ORDER BY enter_ngos.id ASC OFFSET ? LIMIT 1) #{operator} = NULL",
-                            @number_of_referral.to_i - 1,
-                            "%#{@values}%"
+                            "(SELECT enter_ngos.#{field_name} FROM enter_ngos WHERE enter_ngos.client_id = clients.id ORDER BY enter_ngos.id ASC OFFSET ? LIMIT 1) = NULL",
+                            @number_of_referral.to_i - 1
                           ).distinct
       when 'is_not_empty'
         clients = @clients.joins(:enter_ngos)
                           .where(
-                            "(SELECT enter_ngos.#{field_name} FROM enter_ngos WHERE enter_ngos.client_id = clients.id ORDER BY enter_ngos.id ASC OFFSET ? LIMIT 1) #{operator} != NULL",
-                            @number_of_referral.to_i - 1,
-                            "%#{@values}%"
+                            "(SELECT enter_ngos.#{field_name} FROM enter_ngos WHERE enter_ngos.client_id = clients.id ORDER BY enter_ngos.id ASC OFFSET ? LIMIT 1) != NULL",
+                            @number_of_referral.to_i - 1
+
                           ).distinct
       when 'between'
         clients = @clients.joins(:enter_ngos)

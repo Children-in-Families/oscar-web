@@ -1,0 +1,29 @@
+.modal.fade{ role: 'dialog', tabindex: '-1', id: "referral_history_#{index}", class: 'referral-history-detail'}
+  .modal-dialog.modal-lg{ role: 'document'}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "#{t('.close')}", "data-dismiss" => 'modal'}
+          %span{"aria-hidden" => 'true'} &times;
+        %h4.modal-title
+          Referral History
+
+      .modal-body
+        %table.table.table-bordered
+          %tbody
+            %tr
+              %td
+                = t('clients.attr.initial_referral_date')
+                = index.ordinalize
+              %td= date_format(object.initial_referral_date)
+            %tr
+              %td
+                = t('clients.attr.received_by')
+              %td= object.received_by.name
+            %tr
+              %td
+                = t('clients.attr.follow_up_by')
+              %td= object.followed_up_by.name
+            %tr
+              %td
+                = t('clients.attr.follow_up_date')
+              %td= date_format(object.follow_up_date)
