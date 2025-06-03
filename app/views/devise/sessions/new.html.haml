@@ -16,3 +16,5 @@
             .text-center
               %hr
               = render "devise/shared/links"
+
+= render 'country_option' if current_organization.children.any?

@@ -5,12 +5,11 @@
         .ibox-title
           %h5
             - if assessment.index_of == 0
-              = "#{t('.assessment')} for" if assessment.default == true
-              = "#{t('.custom_assessment')} for" if assessment.default == false
+              = "#{t('.assessment')} for"
             - else
-              = "#{t('.assessment')} #{assessment.index_of + 1} - for" if assessment.default == true
-              = "#{t('.custom_assessment')} #{assessment.index_of + 1} - for" if assessment.default == false
+              = "#{t('.assessment')} #{assessment.index_of + 1} - for"
             = assessment.client.name
+            = "(#{assessment.assessment_name})"
           %h5
             = assessment.completed? ? "#{I18n.t('client_books.completed')}:" : "#{I18n.t('client_books.created')}:"
             = date_format(date)
@@ -53,19 +52,20 @@
                             %b= "#{I18n.t('assessments.show.reason')}:"
                           %td
                             = ad.reason
-                        %tr
-                          %td
-                            %b= "#{I18n.t('assessments.show.goal')}:"
-                          %td
-                            = ad&.goal
-                        - incomplete_tasks = @client.tasks.by_domain_id(ad.domain_id).incomplete
-                        - if incomplete_tasks.any?
-                          %tr
-                            %td
-                              %b= "#{I18n.t('assessments.show.task')}:"
-                            %td
-                              - incomplete_tasks.each do |task|
-                                %li= "#{task.name} (#{I18n.t('assessments.show.due_date')}: #{date_format(task.completion_date)})"
+                        - if assessment.care_plan
+                          - goals = assessment.care_plan.goals.where(assessment_domain_id: ad.id)
+                          - goals.each do |goal|
+                            %tr
+                              %td
+                                %b= "#{I18n.t('assessments.show.goal')}:"
+                              %td
+                                %p= goal.description
+                                %b= "#{I18n.t('assessments.show.task')}:"
+                                - incomplete_tasks = goal.tasks.incomplete
+                                - if incomplete_tasks.any?
+                                  %ul
+                                    - incomplete_tasks.each do |task|
+                                      %li= "#{task.name} (#{I18n.t('assessments.show.due_date')}: #{date_format(task.expected_date)})"
                         %tr
                           %td
                           %td

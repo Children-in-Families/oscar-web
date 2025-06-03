@@ -194,7 +194,7 @@ module Api
       private
 
       def organization_params
-        params.permit(:demo, :full_name, :short_name, :logo, :referral_source_category_name, :country, supported_languages: [])
+        params.permit(:demo, :full_name, :short_name, :logo, :referral_source_category_name, :country, :parent_id, supported_languages: [])
       end
 
       def find_organization

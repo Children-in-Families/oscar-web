@@ -152,6 +152,10 @@ class Assessment < ActiveRecord::Base
     family_id? ? family : client
   end
 
+  def assessment_name
+    default? ? I18n.t('dashboards.assessment_tab.csi_assessment') : "#{I18n.t('client_books.assessments.custom_assessment')} (#{custom_assessment_setting.custom_assessment_name})"
+  end
+
   private
 
   def populate_domains

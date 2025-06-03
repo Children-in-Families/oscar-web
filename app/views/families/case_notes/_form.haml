@@ -77,7 +77,6 @@
           .row#on-going-task-label
             .col-xs-12
               %label{:for => "On going tasks"}= t('case_notes.form.on_going_tasks')
-
           = f.simple_fields_for :case_note_domain_groups do |case_note_domain|
             - next if case_note_domain.object.domain_group.nil?
             = case_note_domain.input :attachments, as: :hidden

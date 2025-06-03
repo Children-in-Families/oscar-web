@@ -1059,6 +1059,7 @@ km:
       type: ប្រភេទជំនួប
       type_options:
         visit: ជួបជាមួយអតិថិជនផ្ទាល់
+        come_to_us: មកជួបយើង
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
         rd_party: បុគ្គលទី៣
         supervision: ជំនួបគាំទ្របច្ចេកទេស/ការពិភាក្សាករណ
@@ -2787,7 +2788,7 @@ km:
         current_province: ខេត្តបច្ចុប្បន្ន
         current_province_en: ខេត្តបច្ចុប្បន្ន (អក្សរឡាតាំង)
         current_province_kh: ខេត្តបច្ចុប្បន្ន (ខ្មែរ)
-        custom_assessment: "%{assessment} ផ្ទាល់ខ្លួន"
+        custom_assessment: "ឈ្មោះ%{assessment}"
         custom_assessment_created_at: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
@@ -5110,12 +5111,14 @@ km:
       view_calendar: មើលប្រតិទិន
     top_navbar:
       burmese: Burmese
+      country: Country
       edit_profile: កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន
       english: English
       khmer: ខ្មែរ
       language: ជ្រើសភាសា
       log_out: ចាកចេញ
       thai: Thai
+      vietnames: Vietnamese
   leave_enrolled_programs:
     create:
       client: អតិថិជន

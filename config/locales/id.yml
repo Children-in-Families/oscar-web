@@ -1092,6 +1092,7 @@ id:
       type: 'Ketik (Catatan: Pilih ''kunjungan'' hanya jika anda sudah bertemu dengan klien.)'
       type_options:
         visit: Kunjungan
+        come_to_us: Come to us
         non_face_to_face: Tidak tatap muka
         rd_party: Pihak ketiga
         supervision: Supervisi
@@ -2973,7 +2974,7 @@ id:
         current_province: Provinsi Sekarang
         current_province_en: Provinsi Sekarang (Inggris)
         current_province_kh: Provinsi Sekarang (Local)
-        custom_assessment: Custom %{assessment}
+        custom_assessment: "%{assessment} Name"
         custom_assessment_created_at: Custom %{assessment} Dibuat di
         date_of_assessments: "Tanggal dari%{assessment}"
         date_of_birth: Tanggal Lahir
@@ -5252,12 +5253,14 @@ id:
     top_navbar:
       bahasa: Bahasa
       burmese: Burmese
+      country: Country
       edit_profile: Edit Profil
       english: Inggris
       khmer: ខ្មែរ
       language: Bahasa
       log_out: Keluar
       thai: Thai
+      vietnames: Vietnamese
   leave_enrolled_programs:
     create:
       client: Klien
