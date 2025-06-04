@@ -18,11 +18,11 @@
             %tr
               %td
                 = t('clients.attr.received_by')
-              %td= object.received_by.name
+              %td= object.received_by&.name
             %tr
               %td
                 = t('clients.attr.follow_up_by')
-              %td= object.followed_up_by.name
+              %td= object.followed_up_by&.name
             %tr
               %td
                 = t('clients.attr.follow_up_date')

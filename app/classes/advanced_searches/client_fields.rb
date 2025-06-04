@@ -97,14 +97,14 @@ module AdvancedSearches
 
     def case_history_date_type_list
       date_list = ['accepted_date', 'exit_date']
-      enter_ngo_count = EnterNgo.max_count
-      if enter_ngo_count > 1
-        (1..enter_ngo_count).each do |ordered_number|
-          date_list.push("initial_referral_date_#{ordered_number}")
+      referral_history_count = ReferralHistory.max_count
+      if referral_history_count > 1
+        (1..referral_history_count).each do |ordered_number|
+          date_list.push("referral_date_#{ordered_number}")
           date_list.push("follow_up_date_#{ordered_number}")
         end
       else
-        date_list = ['initial_referral_date', 'follow_up_date', 'accepted_date', 'exit_date']
+        date_list = ['referral_date', 'follow_up_date', 'accepted_date', 'exit_date']
       end
       date_list
     end
@@ -159,7 +159,7 @@ module AdvancedSearches
 
     def case_history_dropdown_list
       yes_no_options = { true: 'Yes', false: 'No' }
-      enter_ngo_count = EnterNgo.max_count
+      referral_history_count = ReferralHistory.max_count
 
       users_list = [
         ['user_id', user_select_options],
@@ -174,9 +174,9 @@ module AdvancedSearches
         ['has_been_in_government_care', yes_no_options]
       ]
 
-      if enter_ngo_count > 1
+      if referral_history_count > 1
         user_list = []
-        (1..enter_ngo_count).each do |ordered_number|
+        (1..referral_history_count).each do |ordered_number|
           user_list.push(["received_by_id_#{ordered_number}", received_by_options])
           user_list.push(["followed_up_by_id_#{ordered_number}", followed_up_by_options])
         end

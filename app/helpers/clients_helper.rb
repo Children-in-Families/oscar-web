@@ -96,6 +96,14 @@ module ClientsHelper
     client.users.distinct.sort
   end
 
+  def client_first_referral(client)
+    return client if client.enter_ngos.empty?
+
+    return client.enter_ngos.last if client.exit_ngos.last.try(:persisted?) && client.exit_ngos.last > client.enter_ngos.last.created_at
+
+    client
+  end
+
   def partner(partner)
     if can? :manage, :all
       link_to partner.name, partner_path(partner)

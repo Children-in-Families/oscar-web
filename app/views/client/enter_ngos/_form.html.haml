@@ -28,7 +28,7 @@
             %label.date.control-label
               = t('clients.show.initial_referral_date')
             .input-group
-              = f.text_field :initial_referral_date, class: 'date form-control enter_date', type: 'text', readonly: 'readonly', name: 'enter_ngo[initial_referral_date]', data: { date_start_date: initial_referral_date_picker_format(@client) }
+              = f.text_field :referral_date, class: 'date form-control enter_date', type: 'text', readonly: 'readonly', name: 'enter_ngo[initial_referral_date]', data: { date_start_date: initial_referral_date_picker_format(@client) }
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
 

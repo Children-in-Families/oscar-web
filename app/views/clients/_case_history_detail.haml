@@ -13,23 +13,24 @@
             - case_history = object.class.table_name
             - case case_history
             - when "clients"
+              - referral_history = object.referral_histories.first
               %tr
                 %td
                   = t('clients.attr.initial_referral_date')
                   = '1st'
-                %td= date_format(object.initial_referral_date)
+                %td= date_format(referral_history.referral_date)
               %tr
                 %td
                   = t('clients.attr.received_by')
-                %td= object.received_by&.name
+                %td= referral_history.received_by&.name
               %tr
                 %td
                   = t('clients.attr.follow_up_by')
-                %td= object.follow_up_by&.name
+                %td= referral_history.followed_up_by&.name
               %tr
                 %td
                   = t('clients.attr.follow_up_date')
-                %td= date_format(object.follow_up_date)
+                %td= date_format(referral_history.follow_up_date)
 
             - when 'enter_ngos'
               %tr
