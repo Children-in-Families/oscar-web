@@ -1,6 +1,8 @@
 class EnterNgo < ActiveRecord::Base
   include ReferralStatusConcern
 
+  attr_accessor :referral_date, :received_by_id, :followed_up_by_id, :follow_up_date
+
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: true
 
@@ -23,12 +25,7 @@ class EnterNgo < ActiveRecord::Base
 
   after_create :update_entity_status
   after_save :create_enter_ngo_history
-  after_save :set_administrative_info
   after_save :flash_cache
-
-  def self.max_count
-    group(:client_id).count.values.max || 0
-  end
 
   def attached_to_family?
     acceptable_type == 'Family'
@@ -57,15 +54,6 @@ class EnterNgo < ActiveRecord::Base
     end
 
     entity.save(validate: false)
-  end
-
-  def set_administrative_info
-    return unless client.present? && entity.referred?
-
-    self.received_by_id = entity.received_by_id
-    self.followed_up_by_id = entity.followed_up_by_id
-    self.initial_referral_date = initial_referral_date
-    self.follow_up_date = entity.follow_up_date
   end
 
   def create_enter_ngo_history

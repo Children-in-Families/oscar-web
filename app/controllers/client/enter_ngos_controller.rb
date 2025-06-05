@@ -3,8 +3,9 @@ class Client::EnterNgosController < AdminController
 
   def create
     @enter_ngo = @client.enter_ngos.new(enter_ngo_params)
-
     if !@client.accepted? && @enter_ngo.save
+      @enter_ngo.reload
+      ReferralHistory.create(referral_history_params.merge(client_id: @client.id, enter_ngo_id: @enter_ngo.id, user_ids: @enter_ngo.user_ids))
       redirect_to @client, notice: t('.successfully_created')
     else
       redirect_to @client, alert: t('.failed_create')
@@ -16,6 +17,7 @@ class Client::EnterNgosController < AdminController
     authorize @enter_ngo
 
     if !@client.accepted? && @enter_ngo.update_attributes(enter_ngo_params)
+      ReferralHistory.update_attributes(referral_history_params.merge(client_id: @client.id, enter_ngo_id: @enter_ngo.id, user_ids: @enter_ngo.user_ids))
       redirect_to @client, notice: t('.successfully_updated')
     else
       redirect_to @client, alert: t('.failed_update')
@@ -29,6 +31,10 @@ class Client::EnterNgosController < AdminController
   end
 
   def enter_ngo_params
-    params.require(:enter_ngo).permit(:accepted_date, :follow_up_date, :initial_referral_date, :received_by_id, :followed_up_by_id, user_ids: [])
+    params.require(:enter_ngo).permit(:accepted_date, user_ids: [])
+  end
+
+  def referral_history_params
+    params.require(:enter_ngo).permit(:client_id, :enter_ngo_id, :referral_date, :follow_up_date, :received_by_id, :followed_up_by_id, user_ids: [])
   end
 end
