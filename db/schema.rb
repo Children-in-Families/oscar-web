@@ -2296,12 +2296,16 @@ ActiveRecord::Schema.define(version: 20250604073238) do
     t.integer  "client_id"
     t.integer  "followed_up_by_id"
     t.integer  "received_by_id"
+    t.integer  "enter_ngo_id"
     t.datetime "referral_date"
     t.datetime "follow_up_date"
     t.integer  "user_ids",          default: [],              array: true
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end
+
+  add_index "referral_histories", ["client_id"], name: "index_client_id_on_referral_histories", using: :btree
+  add_index "referral_histories", ["enter_ngo_id"], name: "index_enter_ngo_id_on_referral_histories", using: :btree
 
   create_table "referral_sources", force: :cascade do |t|
     t.string   "name",          default: ""

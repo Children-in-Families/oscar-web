@@ -166,6 +166,7 @@ class Client < ActiveRecord::Base
   after_commit :delete_referee, on: :destroy
   after_save :enqueue_flush_cache_job
   after_commit :update_first_referral_status, on: :update
+  after_save :administrative_changes, on: :update, if: -> { initial_referral_date_changed? || received_by_id_changed? || followed_up_by_id_changed? || follow_up_date_changed? }
 
   scope :given_name_like, -> (value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%" }) }
   scope :family_name_like, -> (value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%" }) }
@@ -1419,6 +1420,19 @@ class Client < ActiveRecord::Base
     referral.level_of_risk = 'no action' if referral.level_of_risk.blank?
     referral.referral_status = status
     referral.save
+  end
+
+  def administrative_changes
+    referral_history = referral_histories.last
+    if referral_history.persisted?
+      referral_history.referral_date = initial_referral_date
+      referral_history.received_by_id = received_by_id
+      referral_history.followed_up_by_id = followed_up_by_id
+      referral_history.follow_up_date = follow_up_date
+      referral_history.save
+    else
+      referral_histories.create(referral_date: initial_referral_date, received_by_id: received_by_id, followed_up_by_id: followed_up_by_id, follow_up_date: follow_up_date)
+    end
   end
 
   def remove_tasks(case_worker)

@@ -870,19 +870,21 @@
                         = render 'case_history_detail', object: case_history, index: index
                         = render_case_history(case_history, case_history_name)
 
-                    - if case_history.class.table_name == 'enter_ngos' && @client.exit_ngos[enter_ngo_count]&.persisted? && @client.exit_ngos[enter_ngo_count].created_at < case_history.created_at || (case_history.class.table_name == 'enter_ngos' && !enter_ngo_count.zero?)
-                      - inner_idex = enter_ngo_count + 1
-                      %tr.case-history-row-abc
-                        %td
-                          = t('.date_of_referral')
-                          = inner_idex.ordinalize
-                        - unless Rails.env.production?
-                          %td= case_history.created_at.to_s
-                        %td= date_format(case_history.initial_referral_date)
-                        %td
-                          .text-center
-                            %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#referral_history_#{inner_idex}", 'data-toggle' => 'modal'}= fa_icon('eye')
-                          = render 'referral_history', object: case_history, index: inner_idex
+                    - if case_history.class.table_name == 'enter_ngos'
+                      - inner_idex = @client.referral_histories.size
+                      - referral_history = @client.referral_histories.find_by(enter_ngo_id: case_history.id)
+                      - if referral_history
+                        %tr.case-history-row-abc
+                          %td
+                            = t('.date_of_referral')
+                            = inner_idex.ordinalize
+                          - unless Rails.env.production?
+                            %td= case_history.created_at.to_s
+                          %td= date_format(case_history.referral_date)
+                          %td
+                            .text-center
+                              %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#referral_history_#{inner_idex}", 'data-toggle' => 'modal'}= fa_icon('eye')
+                            = render 'referral_history', object: referral_history, index: inner_idex
 
                     - if case_history.class.table_name == 'enter_ngos'
                       - enter_ngo_count -= 1

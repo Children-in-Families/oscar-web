@@ -4,9 +4,12 @@ class CreateReferralHistories < ActiveRecord::Migration
       t.integer :client_id
       t.integer :followed_up_by_id
       t.integer :received_by_id
+      t.integer :enter_ngo_id
       t.datetime :referral_date
       t.datetime :follow_up_date
       t.integer :user_ids, default: [], array: true
+      t.index [:client_id], name: :index_client_id_on_referral_histories
+      t.index [:enter_ngo_id], name: :index_enter_ngo_id_on_referral_histories
 
       t.timestamps null: false
     end

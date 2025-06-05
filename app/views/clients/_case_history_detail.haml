@@ -13,12 +13,12 @@
             - case_history = object.class.table_name
             - case case_history
             - when "clients"
-              - referral_history = object.referral_histories.first
+              - referral_history = object.referral_histories.first || object
               %tr
                 %td
                   = t('clients.attr.initial_referral_date')
                   = '1st'
-                %td= date_format(referral_history.referral_date)
+                %td= date_format(referral_history.initial_referral_date)
               %tr
                 %td
                   = t('clients.attr.received_by')
