@@ -25,7 +25,7 @@ module AdvancedSearches
     CALL_FIELDS = Call::FIELDS
     OVERDUE_FIELDS = %w[has_overdue_assessment has_overdue_forms has_overdue_task no_case_note].freeze
     RISK_ASSESSMENTS = %w[level_of_risk date_of_risk_assessment has_disability has_hiv_or_aid has_known_chronic_disease].freeze
-    NEXT_REFERRAL_FIELDS = (2..12).map { |index| ["initial_referral_date_#{index}", "follow_up_date_#{index}", "received_by_id_#{index}", "followed_up_by_id_#{index}"] }.flatten
+    NEXT_REFERRAL_FIELDS = (2..12).map { |index| ["referral_date_#{index}", "follow_up_date_#{index}", "received_by_id_#{index}", "followed_up_by_id_#{index}"] }.flatten
 
     def initialize(clients, basic_rules)
       @clients = clients

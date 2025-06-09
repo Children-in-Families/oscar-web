@@ -547,6 +547,7 @@ en:
       rated_for_id_poor: Is The Client Rated For ID Poor
       received_by: Referral Received By
       received_by_id: Received By
+      referral_date: Referral Date
       referral_email: Referee Email
       referral_phone: Referee Phone Number
       referral_source: Referral Source
@@ -1631,6 +1632,7 @@ en:
       passport: 'Passport'
       police_interview: 'Police interview'
       received_by_id: Received By
+      referral_date: Referral Date
       referral_document: Referral Documents
       screening_interview_form: Screening Interview Form
       sex_trafficking_legal_doc_option: Sexual Trafficking
@@ -3068,6 +3070,7 @@ en:
         reason_for_family_separation: Reason for Family Separation
         received_by: Referral Received By
         referral_email: Referee Email
+        referral_date: Referral Date
         referral_phone: Referee Phone Number
         referral_source: Referral Source
         referral_source_category: Referral Source Category

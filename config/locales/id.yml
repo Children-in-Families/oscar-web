@@ -1631,6 +1631,7 @@ id:
       passport: 'Paspor'
       police_interview: 'Wawancara Polisi'
       received_by_id: Received By
+      referral_date: Referral Date
       referral_document: Dokumen Rujukan
       screening_interview_form: Formulir Wawancara Screening
       sex_trafficking_legal_doc_option: Perdagangan Seksual
@@ -3067,6 +3068,7 @@ id:
         rated_for_id_poor: Apakah klien dinilai sebagai ID kurang mampu
         reason_for_family_separation: Alasan Keluarga Berpisah
         received_by: Rujukan diterima oleh
+        referral_date: Referral Date
         referral_email: Email Perujuk
         referral_phone: Nomor Telepon Perujuk
         referral_source: Sumber Rujukan

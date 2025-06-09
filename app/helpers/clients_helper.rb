@@ -284,6 +284,7 @@ module ClientsHelper
       exit_date: I18n.t('datagrid.columns.clients.ngo_exit_date'),
       created_at: I18n.t('datagrid.columns.clients.created_at'),
       created_by: I18n.t('datagrid.columns.clients.created_by'),
+      referral_date: I18n.t('datagrid.columns.clients.referral_date'),
       referred_to: I18n.t('datagrid.columns.clients.referred_to'),
       referred_from: I18n.t('datagrid.columns.clients.referred_from'),
       referral_source_category_id: I18n.t('datagrid.columns.clients.referral_source_category'),
