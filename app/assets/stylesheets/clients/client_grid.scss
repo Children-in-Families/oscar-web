@@ -269,6 +269,7 @@ body[id="client_advanced_searches-index"] {
     th[class^="received_by_"],
     th[class^="followed_up_by_"],
     th[class^="follow_up_date_"],
+    th[class^="referral_date_"],
     th[class^="initial_referral_date_"],
     th[class^="case_note_custom_field_"] {
       text-align: center;
@@ -276,6 +277,7 @@ body[id="client_advanced_searches-index"] {
     }
 
     td[class^="received_by_"],
+    td[class^="referral_date_"],
     td[class^="initial_referral_date_"],
     td[class^="followed_up_by_"],
     td[class^="follow_up_date_"] {

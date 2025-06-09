@@ -226,7 +226,7 @@
             - (1..enter_ngo_count).each do |ordered_number|
               %li.enter_ngo_count
                 %strong= ordered_number.ordinalize + " Referral"
-              - ['initial_referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
+              - ['referral_date', 'received_by_id', 'followed_up_by_id', 'follow_up_date'].each do |field|
                 %li{ id: "#{field}_#{ordered_number}" }
                   .visibility.col-sm-12
                     = check_box_tag "#{field}_#{ordered_number}_", "#{field}_#{ordered_number}", checked = saved_search_column_visibility("#{field}_#{ordered_number}_"), class: 'i-checks'
