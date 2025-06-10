@@ -1433,7 +1433,7 @@ class Client < ActiveRecord::Base
 
   def administrative_changes
     referral_history = referral_histories.last
-    if referral_history.persisted?
+    if referral_history&.persisted?
       referral_history.referral_date = initial_referral_date
       referral_history.received_by_id = received_by_id
       referral_history.followed_up_by_id = followed_up_by_id
