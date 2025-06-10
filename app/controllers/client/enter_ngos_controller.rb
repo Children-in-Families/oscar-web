@@ -31,7 +31,7 @@ class Client::EnterNgosController < AdminController
   end
 
   def enter_ngo_params
-    params.require(:enter_ngo).permit(:accepted_date, user_ids: [])
+    params.require(:enter_ngo).permit(:accepted_date, :referral_date, :follow_up_date, :received_by_id, :followed_up_by_id, user_ids: [])
   end
 
   def referral_history_params
