@@ -1622,6 +1622,7 @@ my:
       passport: 'Passport'
       police_interview: 'Police interview'
       received_by_id: Received By
+      referral_date: Referral Date
       referral_document: Referral Documents
       screening_interview_form: Screening Interview Form
       sex_trafficking_legal_doc_option: Sexual Trafficking
@@ -2993,6 +2994,7 @@ my:
         referred_to: ရည်ညွှန်း
         referee_name: Referee Name
         referee_phone: Referee Phone
+        referral_date: Referral Date
         referee_email: Referee Email
         referee_relationship_to_client: Referee Relationship to client
         referees:

@@ -546,6 +546,7 @@ th:
       rated_for_id_poor: ลูกค้าได้รับการจัดอันดับเป็นระดับความยากลำบากในการระบุตัวตนหรือไม่
       received_by: ผู้ส่งแนะนำได้รับโดย
       received_by_id:
+      referral_date: วันที่เริ่มต้นอ้างอิง
       referral_email: อีเมลผู้ตัดสินใจ
       referral_phone: หมายเลขโทรศัพท์ของผู้ตัดสิน
       referral_source: แหล่งข้อมูลการชี้แนะ
@@ -1609,6 +1610,7 @@ th:
       family_book: 'หนังสือครอบครัว'
       form_indentification: แบบฟอร์มสำหรับการระบุผู้เสียหายจากการค้ามนุษย์
       indentification_doc: เอกสารแสดงตัวตน
+      initial_referral_date: วันที่เริ่มต้นอ้างอิง
       labor_trafficking_legal_doc_option: การค้ามนุษย์ในที่ทำงาน
       legal_documents: เอกสารทางกฎหมาย
       legal_processing_doc: เอกสารกระบวนการทางกฎหมาย
@@ -1623,6 +1625,7 @@ th:
       other_legal_doc_option: อื่น ๆอื่น ๆ
       passport: 'พาสปอร์ต'
       police_interview: 'การสัมภาษณ์โดยตำรวจ'
+      referral_date: วันที่เริ่มต้นอ้างอิง
       referral_document: เอกสารทางกฎหมายที่มีการชี้แนะ
       screening_interview_form: แบบฟอร์มสัมภาษณ์คัดเลือก
       sex_trafficking_legal_doc_option: การค้ามนุษย์ทางเพศ
@@ -3056,6 +3059,7 @@ th:
         rated_for_id_poor: ลูกค้าได้รับการจัดอันดับเป็นระดับความยากลำบากในการระบุตัวตนหรือไม่
         reason_for_family_separation: เหตุผลในการแยกจากครอบครัว
         received_by: ผู้ส่งแนะนำได้รับโดย
+        referral_date: Referral Date
         referral_email: อีเมลผู้ตัดสินใจ
         referral_phone: หมายเลขโทรศัพท์ของผู้ตัดสิน
         referral_source: แหล่งข้อมูลการชี้แนะ
