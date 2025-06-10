@@ -16,7 +16,7 @@
         = t('clients.show.initial_referral_date')
       %td
         %strong
-          = editable client, :initial_referral_date, type: :date, value: date_format(client.initial_referral_date), url: api_client_path(client.id), pk: client.id
+          = date_format(client.initial_referral_date)
     %tr
       %td.spacing-first-col
         = t('clients.show.case_worker_or_staff')

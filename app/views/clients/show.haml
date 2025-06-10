@@ -880,7 +880,7 @@
                             = inner_idex.ordinalize
                           - unless Rails.env.production?
                             %td= case_history.created_at.to_s
-                          %td= date_format(case_history.referral_date)
+                          %td= date_format(referral_history.referral_date)
                           %td
                             .text-center
                               %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#referral_history_#{inner_idex}", 'data-toggle' => 'modal'}= fa_icon('eye')
