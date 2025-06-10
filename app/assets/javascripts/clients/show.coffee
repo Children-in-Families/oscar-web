@@ -11,11 +11,13 @@ CIF.ClientsShow = do ->
     _initICheckBox()
     _preventEditDatepickerEnterNgoExitNgoCaseHistory()
     _preventCreateDatepickerEnterNgo()
+    _preventDatePickerEnterNgo()
     _preventCreateDatepickerExitNgo()
     _globalIDToolTip()
     _buttonHelpTextPophover()
     _initialEnterNGOAcceptedDate()
     _handleEnterNGOModalShow()
+
 
     $('table.families').dataTable
       'bPaginate': false
@@ -58,11 +60,15 @@ CIF.ClientsShow = do ->
       disableTouchKeyboard: true
     )
 
-
   _handleEnterNGOModalShow = ->
     $(document).on 'shown.bs.modal', '.edit-enter-ngos-case-history', (e) ->
       startDate = _getInitialReferralDate()
       $("##{e.currentTarget.id} .enter-ngos-case-history").datepicker('setStartDate', startDate)
+
+    $(document).on 'shown.bs.modal', '#enter-ngo-form.modal', (e) ->
+      if $('#enter_ngo_referral_date').length > 0
+        referralDate = $('#enter_ngo_referral_date').val()
+        $("#enter_ngo_accepted_date").datepicker('setStartDate', referralDate)
 
   _initialEnterNGOAcceptedDate = ->
     startDate = _getInitialReferralDate()
@@ -150,6 +156,14 @@ CIF.ClientsShow = do ->
       maxLeaveDate = Math.max.apply(Math, leaveProgramDates)
       date = new Date(maxLeaveDate)
       $(".exit_date").datepicker('setStartDate', date)
+
+  _preventDatePickerEnterNgo = ->
+    $('#enter_ngo_referral_date').on 'change', (e) ->
+      date = $(this).val()
+
+      if date != ''
+        $('#enter_ngo_accepted_date').removeAttr 'disabled'
+        $('#enter_ngo_accepted_date').datepicker('setStartDate', date)
 
   _initSelect2 = ->
     $('select').select2()
