@@ -1425,13 +1425,21 @@ class Client < ActiveRecord::Base
   def administrative_changes
     referral_history = referral_histories.last
     if referral_history&.persisted?
-      referral_history.referral_date = initial_referral_date
-      referral_history.received_by_id = received_by_id
-      referral_history.followed_up_by_id = followed_up_by_id
-      referral_history.follow_up_date = follow_up_date
-      referral_history.save
+      referral_history.update_columns(
+        referral_date: initial_referral_date,
+        received_by_id: received_by_id,
+        followed_up_by_id: followed_up_by_id,
+        follow_up_date: follow_up_date,
+        user_ids: case_worker_clients.pluck(:user_id)
+      )
     else
-      referral_histories.create(referral_date: initial_referral_date, received_by_id: received_by_id, followed_up_by_id: followed_up_by_id, follow_up_date: follow_up_date)
+      referral_histories.create(
+        referral_date: initial_referral_date,
+        received_by_id: received_by_id,
+        followed_up_by_id: followed_up_by_id,
+        follow_up_date: follow_up_date,
+        user_ids: case_workers.ids
+      )
     end
   end
 
