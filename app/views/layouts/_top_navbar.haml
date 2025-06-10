@@ -44,11 +44,11 @@
                 = link_to(url_for(params.merge({locale: supported_lang})), id: "lang-#{supported_lang}", method: request_method) do
                   = image_tag(supported_languages_data.dig(supported_lang.to_sym, :flag_file_name))
                   = supported_languages_data.dig(supported_lang.to_sym, :label)
-
-      - if user_signed_in?
+      - if user_signed_in? && !current_organization.international?
         %li
           %small Country:
           = image_tag image_url(country_to_flag(current_organization.country))
+      - if user_signed_in?
         %li
           = link_to destroy_user_session_path, method: :delete do
             %i.fa.fa-sign-out
