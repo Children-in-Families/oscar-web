@@ -42,8 +42,9 @@ class EnterNgo < ActiveRecord::Base
 
     if user_ids.any?
       if entity.present?
+        entity.user_ids = user_ids
+        entity.save(validate: false)
         entity.update_columns(
-          case_worker_ids: user_ids,
           received_by_id: received_by_id,
           followed_up_by_id: followed_up_by_id,
           initial_referral_date: referral_date,

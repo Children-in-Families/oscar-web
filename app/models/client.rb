@@ -166,7 +166,7 @@ class Client < ActiveRecord::Base
   after_commit :delete_referee, on: :destroy
   after_save :enqueue_flush_cache_job
   after_commit :update_first_referral_status, on: :update
-  after_save :administrative_changes, on: :update, if: -> { initial_referral_date_changed? || received_by_id_changed? || followed_up_by_id_changed? || follow_up_date_changed? }
+  after_save :administrative_changes, on: :update, if: -> { initial_referral_date_changed? || received_by_id_changed? || followed_up_by_id_changed? || follow_up_date_changed? || users.any?(&:changed?) }
 
   scope :given_name_like, -> (value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%" }) }
   scope :family_name_like, -> (value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%" }) }
