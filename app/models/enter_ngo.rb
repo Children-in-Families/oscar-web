@@ -38,7 +38,7 @@ class EnterNgo < ActiveRecord::Base
   private
 
   def update_entity_status
-    entity.status = 'Accepted'
+    entity.update_column(:status, 'Accepted') if entity.present? && entity.status != 'Accepted'
 
     if user_ids.any?
       if entity.present?
