@@ -10,6 +10,7 @@ class CustomFieldPropertiesController < AdminController
   before_action :get_form_builder_attachments, only: [:edit, :update]
   before_action -> { check_user_permission('editable') }, except: [:index, :show]
   before_action -> { check_user_permission('readable') }, only: [:show, :index]
+  before_action :redirect_to_client_custom_fields, only: [:new, :create], if: -> { @custom_field.hidden }
 
   def index
     @custom_field_properties = @custom_formable.custom_field_properties.includes(:custom_formable).accessible_by(current_ability).by_custom_field(@custom_field).most_recents.page(params[:page]).per(4)
@@ -113,4 +114,7 @@ class CustomFieldPropertiesController < AdminController
     redirect_to root_path, alert: t('unauthorized.default') if @custom_field.hidden
   end
 
+  def redirect_to_client_custom_fields
+    redirect_to custom_fields_client_path(@custom_formable), alert: "Custom Form: #{@custom_field.form_title} has been locked."
+  end
 end
