@@ -1,6 +1,8 @@
 class MultipleForm::ClientCustomFieldsController < AdminController
   include FormBuilderAttachments
 
+  before_action :redirect_back_client_custom_fields, only: [:new, :create], if: -> { CustomField.find(params[:custom_field_id]).hidden }
+
   def new
     @custom_field = CustomField.find(params[:custom_field_id])
     @records = get_records_of_entity_type(@custom_field.entity_type)
@@ -26,7 +28,7 @@ class MultipleForm::ClientCustomFieldsController < AdminController
       @selected_records = records.pluck(:id)
       render :new
     else
-      if  params[:confirm] == 'true'
+      if params[:confirm] == 'true'
         redirect_to new_multiple_form_custom_field_client_custom_field_path(@custom_field), notice: t('.successfully_created')
       else
         redirect_to root_path, notice: t('.successfully_created')
@@ -40,8 +42,8 @@ class MultipleForm::ClientCustomFieldsController < AdminController
       properties_params.each do |k, v|
         mappings[k] = k.gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;').gsub('%22', '"')
       end
-      formatted_params = properties_params.map {|k, v| [mappings[k], v] }.to_h
-      formatted_params.values.map{ |v| v.delete('') if (v.is_a?Array) && v.size > 1 }
+      formatted_params = properties_params.map { |k, v| [mappings[k], v] }.to_h
+      formatted_params.values.map { |v| v.delete('') if (v.is_a? Array) && v.size > 1 }
     end
     default_params = params.require(:custom_field_property).permit({}).merge(custom_field_id: params[:custom_field_id])
     default_params = default_params.merge(properties: formatted_params) if formatted_params.present?
