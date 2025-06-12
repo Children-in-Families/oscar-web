@@ -4,7 +4,7 @@ class ServiceReceivesController < AdminController
   # skip_before_action :verify_authenticity_token, only: :create
 
   def index
-    @tasks = @client.tasks.joins(:service_deliveries).select('DISTINCT ON (tasks.id, service_deliveries.id) tasks.id, completion_date, service_deliveries.name, (SELECT name from service_deliveries as sd where sd.id = service_deliveries.parent_id) as category, tasks.completed_by_id')
+    @tasks = @client.tasks.joins(:service_deliveries).select('DISTINCT ON (tasks.id, tasks.name, service_deliveries.id) tasks.id, tasks.name task_name, completion_date, service_deliveries.name service_delivery_name, (SELECT name from service_deliveries as sd where sd.id = service_deliveries.parent_id) as category, tasks.completed_by_id')
   end
 
   def new
@@ -22,7 +22,7 @@ class ServiceReceivesController < AdminController
     else
       params[:domain_groups_attributes][:tasks].each do |task|
         attr = JSON.parse(task)
-        task = Task.new(attr.merge({completed: true, completed_by_id: current_user.id}))
+        task = Task.new(attr.merge({ completed: true, completed_by_id: current_user.id }))
         task.save!
         task.reload
         task.update_columns(client_id: @client.id)
