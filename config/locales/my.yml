@@ -6167,7 +6167,8 @@ my:
       service_delivery: Service Deliveries
       service_provided: Service Provided
       service_received: Service Received
-      task_completed_date: Task Completed Date
+      task_completed_date: Intervention Completed Date
+      task_name: Intervention Name
     create:
       successfully_created: Service has been successfully created.
     destroy:
