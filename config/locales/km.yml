@@ -6057,7 +6057,8 @@ km:
       service_delivery: ការផ្តល់សេវា
       service_provided: សេវាដែលបានផ្តល់ឲ្យ
       service_received: សេវាដែលបានទទួល
-      task_completed_date: Task Completed Date
+      task_completed_date: Intervention Completed Date
+      task_name: Intervention Name
     create:
       successfully_created: Service has been successfully created.
     destroy:
