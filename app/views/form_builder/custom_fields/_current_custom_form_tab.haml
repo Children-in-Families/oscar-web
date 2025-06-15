@@ -14,7 +14,7 @@
         %th.organization= t('.organization')
         %th.manage.text-center= t('.manage')
       %tbody
-        - @custom_fields.each do |custom_field|
+        - @custom_fields.includes(:custom_field_properties).each do |custom_field|
           %tr
             %td= custom_field.form_title
             %td= custom_field.entity_type
