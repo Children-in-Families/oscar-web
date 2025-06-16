@@ -1447,7 +1447,7 @@ class Client < ActiveRecord::Base
         received_by_id: received_by_id,
         followed_up_by_id: followed_up_by_id,
         follow_up_date: follow_up_date,
-        user_ids: case_workers.ids
+        user_ids: case_worker_clients.pluck(:user_id)
       )
     end
   end
