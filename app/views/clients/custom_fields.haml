@@ -56,7 +56,7 @@
                   = t('default_custom_fields.frequency')
                 %th.report= t('client_enrollments.index.report')
             %tbody
-              - @available_editable_forms.client_forms.locked.order_by_form_title.each do |custom_form|
+              - @client.custom_fields.locked.order_by_form_title.each do |custom_form|
                 %tr
                   %td.name
                     = custom_form.form_title
