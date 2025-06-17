@@ -19,6 +19,8 @@ module OutsideConcern
   end
 
   def mark_client_as_outside
+    return if Apartment::Tenant.current == 'public'
+
     if Organization.current.country == 'International'
       self.outside = true
     else

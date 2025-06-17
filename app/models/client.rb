@@ -801,11 +801,11 @@ class Client < ActiveRecord::Base
     Organization.oscar.without_shared.each do |org|
       Organization.switch_to org.short_name
       current_setting = Setting.first_or_initialize
-      next if !(current_setting.enable_default_assessment) && !(current_setting.enable_custom_assessment?)
 
+      default_clients, custom_assessment_clients = [Assessment.none, Assessment.none]
       clients = obj.active_young_clients(self)
-      default_clients = obj.clients_have_recent_default_assessments(clients)
-      custom_assessment_clients = obj.clients_have_recent_custom_assessments(clients)
+      default_clients = obj.clients_have_recent_default_assessments(clients) if current_setting.enable_default_assessment?
+      custom_assessment_clients = obj.clients_have_recent_custom_assessments(clients) if current_setting.enable_custom_assessment?
 
       (default_clients + custom_assessment_clients).each do |client|
         CaseWorkerMailer.notify_upcoming_csi_weekly(client).deliver_now
