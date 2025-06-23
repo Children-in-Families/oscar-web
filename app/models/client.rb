@@ -4,6 +4,7 @@ class Client < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientConstants
   include CsiConcern
+  include OutsideConcern
 
   extend FriendlyId
 
@@ -395,6 +396,14 @@ class Client < ActiveRecord::Base
       Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'location_of_concern']) do
         Client.where.not(location_of_concern: [nil, '']).pluck(:location_of_concern).map { |a| { a => a } }
       end
+    end
+  end
+
+  def outside=(value)
+    if Organization.current.country == 'international'
+      write_attribute(:outside, true)
+    else
+      write_attribute(:outside, value)
     end
   end
 

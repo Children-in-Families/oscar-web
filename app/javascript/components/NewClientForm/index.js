@@ -500,6 +500,7 @@ const Forms = (props) => {
     if (errors.length > 0) {
       setErrorFields(errors);
       setErrorSteps([...new Set(errorSteps)]);
+      console.log("Error Steps: ", errors);
       return false;
     } else {
       setErrorFields([]);
@@ -614,6 +615,7 @@ const Forms = (props) => {
       }
     } else {
       setLoading(false);
+      setClientExist(false);
       handleSave()();
     }
   };
@@ -970,7 +972,7 @@ const Forms = (props) => {
             hintText={inlineHelpTranslation}
             translation={translation}
             disabled={disabled}
-            outside={objectData.outside || false}
+            outside={objectData.outside || internationalReferredClient}
             onChange={onChange}
             current_organization={current_organization}
             data={{

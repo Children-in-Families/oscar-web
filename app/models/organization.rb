@@ -216,6 +216,10 @@ class Organization < ActiveRecord::Base
     country == 'thailand'
   end
 
+  def international?
+    country == 'international'
+  end
+
   def available_for_referral?
     if Rails.env.production?
       Organization.test_ngos.pluck(:short_name).include?(self.short_name) || Organization.oscar.pluck(:short_name).include?(self.short_name)

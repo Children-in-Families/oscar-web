@@ -1104,6 +1104,8 @@ module ClientsHelper
   end
 
   def international_referred_client
+    return true if current_organization.international?
+
     params[:referral_id].present? && @client.country_origin != selected_country
   end
 

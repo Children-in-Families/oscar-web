@@ -82,6 +82,7 @@ class AssessmentsController < AdminController
 
   def edit
     @prev_assessment = @client.assessments.last
+    redirect_to client_assessment_path(@client, @assessment), alert: 'You cannot edit assessment that is older than a week.' if @assessment.over_a_week?
   end
 
   def update

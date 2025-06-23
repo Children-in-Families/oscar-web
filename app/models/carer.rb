@@ -1,4 +1,6 @@
 class Carer < ActiveRecord::Base
+  include OutsideConcern
+
   belongs_to :province
   belongs_to :city
   belongs_to :district

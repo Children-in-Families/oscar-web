@@ -1,6 +1,6 @@
 module AssessmentHelper
   def assessment_edit_link(client, assessment)
-    if assessment_editable?
+    if assessment_editable? || assessment.created_at >= 1.week.ago.to_date
       link_to(edit_client_assessment_path(client, assessment)) do
         content_tag :div, class: 'btn btn-outline btn-success' do
           fa_icon('pencil')
@@ -49,8 +49,6 @@ module AssessmentHelper
   def assessment_editable?
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
-
-    current_user.permission.assessments_editable
   end
 
   def assessment_deleted?
