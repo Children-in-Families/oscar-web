@@ -115,8 +115,11 @@ module ClientsHelper
 
   def rails_i18n_translations
     # Change slice inputs to adapt your need
-    return {} unless I18n.backend.send(:translations).present?
-    return {} unless I18n.backend.send(:translations).key?(I18n.locale)
+    if session[:locale].to_s != I18n.locale.to_s
+      session[:locale] = I18n.locale.to_s
+      I18n.backend.reload!
+      I18n.backend.load_custom_translations
+    end
 
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
       :clients,
