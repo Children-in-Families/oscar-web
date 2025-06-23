@@ -44,13 +44,15 @@ module AdvancedSearches
       when 'is_empty'
         clients = @clients.joins(:referral_histories)
                           .where(
-                            "(SELECT referral_histories.#{field_name} FROM referral_histories WHERE referral_histories.client_id = clients.id ORDER BY referral_histories.id ASC OFFSET ? LIMIT 1) = NULL",
+                            "(SELECT referral_histories.#{field_name} FROM referral_histories WHERE referral_histories.client_id = clients.id ORDER BY referral_histories.id ASC OFFSET ? LIMIT 1) IS NULL",
                             @number_of_referral.to_i - 1
                           ).distinct
       when 'is_not_empty'
+        # Fix bellow query to check for non-empty values
+
         clients = @clients.joins(:referral_histories)
                           .where(
-                            "(SELECT referral_histories.#{field_name} FROM referral_histories WHERE referral_histories.client_id = clients.id ORDER BY referral_histories.id ASC OFFSET ? LIMIT 1) != NULL",
+                            "(SELECT referral_histories.#{field_name} FROM referral_histories WHERE referral_histories.client_id = clients.id ORDER BY referral_histories.id ASC OFFSET ? LIMIT 1) IS NOT NULL",
                             @number_of_referral.to_i - 1
 
                           ).distinct
