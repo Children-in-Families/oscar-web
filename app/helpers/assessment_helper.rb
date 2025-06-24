@@ -398,7 +398,7 @@ module AssessmentHelper
 
     return sum if sum.zero?
 
-    (sum.to_f / current_setting.selected_domain_ids.compact.size)
+    format('%.2f', sum.to_f / current_setting.selected_domain_ids.compact.size)
   end
 
   def check_setting_assessment_type_name_selected(assessment)
