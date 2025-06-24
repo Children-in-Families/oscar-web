@@ -3,7 +3,7 @@ module AdvancedSearches
     def initialize(clients, field, operator, values, sensitivity_fields, blank_fields)
       @clients = clients
       @field = field[/.*([^_\d])/]
-      @number_of_referral = field[/\d$/]
+      @number_of_referral = field[/\d$/] || 1
       @operator = operator
       @values = values
       @sensitivity_fields = sensitivity_fields
@@ -72,6 +72,7 @@ module AdvancedSearches
 
     def find_clients_with_field_value(operator, value)
       field_name = @field.gsub(/\d+$/, '') # Remove trailing digits from field name if present
+
       @clients.joins(:referral_histories)
               .where(
                 "(SELECT referral_histories.#{field_name} FROM referral_histories WHERE referral_histories.client_id = clients.id ORDER BY referral_histories.id ASC OFFSET ? LIMIT 1) #{operator} ?",
