@@ -55,7 +55,7 @@ module AdvancedSearches
           Organization.switch_to short_name
           @sql_string << shared_client_filter[:id]
           @values << shared_client_filter[:values]
-        elsif NEXT_REFERRAL_FIELDS.include?(field)
+        elsif ['referral_date', *NEXT_REFERRAL_FIELDS].include?(field)
           shared_client_filter = AdvancedSearches::MultiReferralFieldsSqlFilter.new(@clients, field, operator, value, SENSITIVITY_FIELDS, BLANK_FIELDS).get_sql
           @sql_string << shared_client_filter[:id]
           @values << shared_client_filter[:values]
