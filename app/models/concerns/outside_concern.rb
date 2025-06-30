@@ -19,7 +19,7 @@ module OutsideConcern
   end
 
   def mark_client_as_outside
-    if Organization.current.country == 'International'
+    if Organization.current&.country == 'International'
       self.outside = true
     else
       self.outside = false
