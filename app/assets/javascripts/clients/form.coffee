@@ -201,6 +201,7 @@ CIF.ClientsNew = CIF.ClientsCreate = CIF.ClientsUpdate = CIF.ClientsEdit = do ->
       todayHighlight: true,
       disableTouchKeyboard: true,
       startDate: '1899,01,01',
+      orientation: 'auto',
       todayBtn: true,
     .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->
       if e.keyCode == 8

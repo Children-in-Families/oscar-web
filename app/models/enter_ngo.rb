@@ -1,12 +1,16 @@
 class EnterNgo < ActiveRecord::Base
   include ReferralStatusConcern
 
+  attr_accessor :referral_date, :received_by_id, :followed_up_by_id, :follow_up_date
+
   has_paper_trail
   acts_as_paranoid double_tap_destroys_fully: true
 
   belongs_to :client, with_deleted: true
   belongs_to :acceptable, polymorphic: true, with_deleted: true
   belongs_to :family, class_name: 'Family', foreign_key: 'acceptable_id'
+  belongs_to :received_by, class_name: 'User', foreign_key: 'received_by_id'
+  belongs_to :followed_up_by, class_name: 'User', foreign_key: 'followed_up_by_id'
 
   alias_attribute :new_date, :accepted_date
 
@@ -27,21 +31,31 @@ class EnterNgo < ActiveRecord::Base
     acceptable_type == 'Family'
   end
 
+  def entity
+    client.present? ? client : acceptable
+  end
+
   private
 
   def update_entity_status
-    entity = client.present? ? client : acceptable
-    entity.status = 'Accepted'
+    entity.update_column(:status, 'Accepted') if entity.present? && entity.status != 'Accepted'
 
     if user_ids.any?
-      if client.present?
-        entity.user_ids = self.user_ids
+      if entity.present?
+        entity.user_ids = user_ids
+        entity.save(validate: false)
+        entity.update_columns(
+          received_by_id: received_by_id,
+          followed_up_by_id: followed_up_by_id,
+          initial_referral_date: referral_date,
+          follow_up_date: follow_up_date
+        )
       elsif acceptable.present?
         # note the relation between users and acceptable obj
         entity.case_worker_ids = self.user_ids
+        entity.save(validate: false)
       end
     end
-    entity.save(validate: false)
   end
 
   def create_enter_ngo_history
@@ -50,5 +64,11 @@ class EnterNgo < ActiveRecord::Base
 
   def flash_cache
     Rails.cache.delete(['dashboard', "#{Apartment::Tenant.current}_client_errors"]) if accepted_date_changed?
+
+    user_id = User.current_user.id
+    return unless user_id
+
+    Rails.cache.delete([Apartment::Tenant.current, 'Client', 'received_by', user_id])
+    Rails.cache.fetch([Apartment::Tenant.current, 'Client', 'followed_up_by', user_id])
   end
 end

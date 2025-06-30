@@ -279,6 +279,7 @@ module ClientsHelper
       exit_date: I18n.t('datagrid.columns.clients.ngo_exit_date'),
       created_at: I18n.t('datagrid.columns.clients.created_at'),
       created_by: I18n.t('datagrid.columns.clients.created_by'),
+      referral_date: I18n.t('datagrid.columns.clients.referral_date'),
       referred_to: I18n.t('datagrid.columns.clients.referred_to'),
       referred_from: I18n.t('datagrid.columns.clients.referred_from'),
       referral_source_category_id: I18n.t('datagrid.columns.clients.referral_source_category'),
@@ -424,13 +425,17 @@ module ClientsHelper
     (CustomData.first.try(:fields) || []).map { |field| ["#{field['name']}_".to_sym, field['label']] }.to_h
   end
 
-  def columns_visibility(column)
+  def columns_visibility(column, order = nil)
     label_column = label_translations.map { |k, v| [k.to_s.to_sym, v] }.to_h
 
     Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
       label_column[field] = I18n.t("datagrid.columns.clients.#{field}")
     end
-    label_tag "#{column}_", label_column[column.to_sym]
+    if order.nil?
+      label_tag "#{column}_", label_column[column.to_sym]
+    else
+      label_tag "#{column}_#{order}_", "#{order.ordinalize} #{label_column[column.to_sym]}"
+    end
   end
 
   def overdue_translations
@@ -1090,7 +1095,7 @@ module ClientsHelper
             when 'exit_ngos' then I18n.t('clients.case_history_detail.exit_date')
             when 'client_enrollments', 'enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
-            when 'clients', 'families' then I18n.t('.initial_referral_date')
+            when 'clients', 'families' then I18n.t('clients.attr.initial_referral_date')
             when 'referrals'
               if value.referred_to == current_organization.short_name
                 "#{t('.internal_referral')}: #{value.referred_from_ngo}"

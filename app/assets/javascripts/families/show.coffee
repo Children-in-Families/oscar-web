@@ -35,7 +35,7 @@ CIF.FamiliesShow = do ->
       autoclose: true
       format: 'yyyy-mm-dd'
       todayHighlight: true
-      orientation: 'bottom'
+      orientation: 'auto'
       disableTouchKeyboard: true
 
   _enterNgoModalValidation = ->
@@ -104,7 +104,7 @@ CIF.FamiliesShow = do ->
     $('table.clients tbody tr').click (e) ->
       return if $(e.target).hasClass('btn') || $(e.target).hasClass('fa') || $(e.target).is('a')
       window.open($(@).data('href'), '_blank')
-  
+
   _buttonHelpTextPophover = ->
     $("button[data-content]").popover();
 

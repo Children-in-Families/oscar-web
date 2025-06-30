@@ -528,6 +528,7 @@ km:
       rated_for_id_poor: កម្រិតប័ណ្ណក្រីក្រ
       received_by: បុគ្គលិកទទួលករណី
       received_by_id: បុគ្គលិកទទួលករណី
+      referral_date: កាលបរិច្ឆេទបញ្ជូន
       referral_email: អ៊ីមែលអ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទឣ្នកបញ្ជូនករណី
       referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
@@ -1561,8 +1562,11 @@ km:
       dosavy: មន្ទីរ ស.អ.យ
       external_id_display: ការបង្ហាញលេខសម្គាល់អង្គការខាងក្រៅ
       family_book: 'សៀវភៅគ្រួសារ'
+      followed_up_by_id: បុគ្គលិកតាមដានករណី
+      follow_up_date: កាលបរិច្ឆេទតាមដាន
       form_indentification: ទម្រង់សម្ភាសន៍កំណត់អត្តសញ្ញាណជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស
       indentification_doc: ឯកសារអត្តសញ្ញាណ
+      initial_referral_date: កាលបរិច្ឆេទបញ្ជូន
       labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
       legal_documents: ឯកសារច្បាប់
       legal_processing_doc: ឯកសារនិតិវិធីច្បាប់
@@ -1576,6 +1580,8 @@ km:
       other_legal_doc: 'Others'
       other_legal_doc_option: ផ្សេងៗ
       police_interview: 'Police interview'
+      received_by_id: បុគ្គលិកទទួលករណី
+      referral_date: កាលបរិច្ឆេទបញ្ជូន
       referral_document: ឯកសារបញ្ជូន
       screening_interview_form: ទម្រង់សម្ភាសន៍បឋម
       sex_trafficking_legal_doc_option: ការជួញដូរផ្លូវភេទ
@@ -2853,6 +2859,7 @@ km:
         rated_for_id_poor: កម្រិតប័ណ្ណក្រីក្រ
         reason_for_family_separation: មូលហេតុការបែកចេញពីគ្រួសារ
         received_by: បុគ្គលិកទទួលករណី
+        referral_date: កាលបរិច្ឆេទបញ្ជូន
         referral_email: អ៊ីមែលអ្នកបញ្ជូនករណី
         referral_phone: លេខទូរស័ព្ទឣ្នកបញ្ជូនករណី
         referral_source: ប្រភពនៃការបញ្ជូន
