@@ -11,7 +11,7 @@ module OutsideConcern
   class_methods do; end
 
   def outside=(value)
-    if Organization.current.country == 'international'
+    if Organization.current&.country == 'international'
       write_attribute(:outside, true)
     else
       write_attribute(:outside, value)
