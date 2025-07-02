@@ -39,10 +39,10 @@ module AdvancedSearches
 
     def generate
       @basic_rules.each do |rule|
-        field = rule['id'][/.*([^_1])/]
+        field = rule['id'] ? rule['id'][/.*([^_1])/] : rule['id']
         operator = rule['operator']
         value = rule['value']
-        form_builder = field != nil ? field.split('__') : []
+        form_builder = !field.nil? ? field.split('__') : []
 
         if ASSOCIATION_FIELDS.include?(field)
           association_filter = AdvancedSearches::ClientAssociationFilter.new(@clients, field, operator, value).get_sql

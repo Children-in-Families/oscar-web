@@ -400,7 +400,7 @@ class Client < ActiveRecord::Base
   end
 
   def outside=(value)
-    if Organization.current.country == 'international'
+    if Organization.current&.country == 'international'
       write_attribute(:outside, true)
     else
       write_attribute(:outside, value)
@@ -1369,7 +1369,7 @@ class Client < ActiveRecord::Base
   end
 
   def address_contrain
-    return unless Organization.current.country == 'cambdia'
+    return unless Organization.current&.country == 'cambdia'
 
     if district_id && province_id
       district = District.find(district_id)

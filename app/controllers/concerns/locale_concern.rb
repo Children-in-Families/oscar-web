@@ -8,8 +8,9 @@ module LocaleConcern
       flash.clear
       flash[:alert] = detect_browser
     end
+    session[:locale] = local if session[:locale].to_s != params[:local]
 
-    current_local = local || prev_local || current_user&.preferred_language || I18n.default_locale
+    current_local = local || prev_local || session[:locale] || current_user&.preferred_language || I18n.default_locale
 
     I18n.locale = current_local
   end
