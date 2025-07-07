@@ -811,7 +811,7 @@ module ClientsHelper
         sub_case_note_type_result_hash = mapping_param_value(sub_case_note_type_results, 'case_note_type')
         sub_case_note_type_result_hash.each { |k, o, v| sub_case_note_type_hashes[k] << { o => v } }
         sub_case_note_type_sql_hash = mapping_query_string(object, sub_case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
-        sub_case_note_type_query = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, data[:condition])
+        sub_case_note_type_query = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, sub_case_note_type_results['condition'])
       end
     end
     [sub_case_note_date_query, sub_case_note_type_query]
