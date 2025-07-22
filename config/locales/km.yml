@@ -6070,6 +6070,8 @@ km:
     destroy:
       alert: Service cannot be deleted.
       successfully_deleted: Service has been successfully deleted.
+    disable:
+      successfully_disabled: Service has been successfully disabled.
     form:
       <<: *SERVICE_DELIVERY_ATTR
     index:

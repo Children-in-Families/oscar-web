@@ -586,7 +586,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :service_deliveries, except: :show
+  resources :service_deliveries, except: :show do
+    member do
+      get :disable
+    end
+  end
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: '/letter_opener'

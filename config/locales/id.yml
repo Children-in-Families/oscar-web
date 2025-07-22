@@ -6208,6 +6208,8 @@ id:
     destroy:
       alert: Pelayanan tidak bisa dihapus.
       successfully_deleted: Pelayanan Telah berhasil dihapus.
+    disable:
+      successfully_disabled: Service has been successfully disabled.
     form:
       <<: *SERVICE_DELIVERY_ATTR
     index:
