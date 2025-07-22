@@ -41,6 +41,15 @@ class ServiceDeliveriesController < AdminController
     end
   end
 
+  def disable
+    @service_delivery = ServiceDelivery.find(params[:id])
+    if @service_delivery.update(disabled: !@service_delivery.disabled)
+      redirect_to service_deliveries_path, notice: t('.successfully_disabled')
+    else
+      redirect_to service_deliveries_path, alert: @service_delivery.errors.full_messages.to_sentence
+    end
+  end
+
   private
 
   def service_delivery_params

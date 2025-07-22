@@ -6197,6 +6197,8 @@ th:
     destroy:
       alert: ไม่สามารถลบผู้บริจาคได้。
       successfully_deleted: ผู้บริจาคได้ถูกสร้างเรียบร้อยแล้วค่ะ.
+    disable:
+      successfully_disabled: Service has been successfully disabled.
     form:
       <<: null
     index:
