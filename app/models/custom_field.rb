@@ -100,25 +100,25 @@ class CustomField < ActiveRecord::Base
 
   def self.cached_order_by_form_title(form_ids = [])
     Rails.cache.fetch([Apartment::Tenant.current, 'CustomField', 'cached_order_by_form_title', *form_ids.sort]) {
-      where(id: form_ids).order_by_form_title.to_a
+      visible.where(id: form_ids).order_by_form_title.to_a
     }
   end
 
   def self.cached_custom_form_ids(custom_form_ids)
     if custom_form_ids.is_a?(Array)
       Rails.cache.fetch([Apartment::Tenant.current, 'CustomField', 'cached_custom_form_ids', *custom_form_ids.sort]) {
-        where(id: custom_form_ids).to_a
+        visible.where(id: custom_form_ids).to_a
       }
     else
       Rails.cache.fetch([Apartment::Tenant.current, 'CustomField', 'cached_custom_form_ids', custom_form_ids]) {
-        where(id: custom_form_ids).to_a
+        visible.where(id: custom_form_ids).to_a
       }
     end
   end
 
   def self.cached_custom_form_ids_attach_with(custom_form_ids, attach_with)
     Rails.cache.fetch([Apartment::Tenant.current, 'CustomField', 'cached_custom_form_ids_attach_with', custom_form_ids, attach_with]) {
-      where(id: custom_form_ids, entity_type: attach_with).to_a
+      visible.where(id: custom_form_ids, entity_type: attach_with).to_a
     }
   end
 
