@@ -44,7 +44,7 @@ class Tracking < ActiveRecord::Base
   def self.cached_program_stream_program_ids(program_ids)
     program_ids = program_ids.is_a?(Array) ? program_ids.sort : program_ids
     Rails.cache.fetch([Apartment::Tenant.current, 'Tracking', 'cached_program_stream_program_ids', *program_ids]) {
-      joins(:program_stream).where(program_stream_id: program_ids)
+      visible.joins(:program_stream).where(program_stream_id: program_ids)
     }
   end
 
