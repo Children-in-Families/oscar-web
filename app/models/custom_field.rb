@@ -176,7 +176,7 @@ class CustomField < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'CustomField', self.id])
     cached_order_by_form_title_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_order_by_form_title/].blank? }
     cached_order_by_form_title_keys.each { |key| Rails.cache.delete(key) }
-    cached_custom_form_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}.*CustomField|client-report-builder/].blank? }
+    cached_custom_form_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/(CustomField|client-report-builder)/].blank? }
     cached_custom_form_ids_keys.each { |key| Rails.cache.delete(key) }
     cached_custom_form_ids_attach_with_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_custom_form_ids_attach_with/].blank? }
     cached_custom_form_ids_attach_with_keys.each { |key| Rails.cache.delete(key) }
