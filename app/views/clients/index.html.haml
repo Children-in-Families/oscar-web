@@ -1,4 +1,4 @@
-- cache_if(params[:commit].blank?, client_report_builder_cache_key, expires_in: 48.hours) do
+- cache_if('client-report-builder', params[:commit].blank?, client_report_builder_cache_key, expires_in: 48.hours) do
   %input#btn-done{ value: t('.popover_done'), type: 'hidden' }
   %input#info{ value: t('.popover_info'), type: 'hidden' }
   %input#content{ value: t('.popover_content'), type: 'hidden' }
