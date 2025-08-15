@@ -44,6 +44,9 @@
       .col-xs-6= case_note.attendee.capitalize
 .row.m-t-md
   .col-xs-12
+    = render 'case_notes/custom_fields/field_display', case_note: case_note
+.row.m-t-md
+  .col-xs-12
     .panel.panel-default
       .panel-heading
         %h4= t('case_notes.form.note')
