@@ -60,7 +60,7 @@
                                 %th= t('service_deliveries.index.category')
                                 %th.text-center= t('service_deliveries.index.manage')
                             %tbody
-                              - main_service.children.map(&:children).flatten.each do |service_delivery|
+                              - main_service.children.includes(children: :parent).map(&:children).flatten.each do |service_delivery|
                                 %tr
                                   %td= service_delivery.id
                                   %td= service_delivery.name
