@@ -48,7 +48,7 @@ class EnterNgo < ActiveRecord::Base
           received_by_id: received_by_id,
           followed_up_by_id: followed_up_by_id,
           initial_referral_date: referral_date,
-          follow_up_date: follow_up_date
+          follow_up_date: follow_up_date.presence
         )
       elsif acceptable.present?
         # note the relation between users and acceptable obj
