@@ -1,6 +1,6 @@
 .row
   .col-xs-12
-    = simple_form_for @setting, url: risk_assessment_settings_path, method: :get do |f|
+    = simple_form_for @setting, url: risk_assessment_settings_path, method: :post do |f|
       .ibox
         .ibox-content
           = render "tablist"

@@ -158,6 +158,7 @@ export default (props) => {
           });
       }
     };
+
   return outside == true ? (
     <TextArea
       label={T.translate("address.outside_address")}

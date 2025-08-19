@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20250211082558) do
+ActiveRecord::Schema.define(version: 20250604073238) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
@@ -1346,20 +1346,12 @@ ActiveRecord::Schema.define(version: 20250211082558) do
     t.datetime 'deleted_at'
     t.integer 'acceptable_id'
     t.string 'acceptable_type'
-    t.datetime 'follow_up_date'
-    t.datetime 'initial_referral_date'
-    t.integer 'received_by_id'
-    t.integer 'followed_up_by_id'
   end
 
   add_index 'enter_ngos', ['acceptable_id', 'acceptable_type'], name: 'index_enter_ngos_on_acceptable_id_and_acceptable_type', using: :btree
   add_index 'enter_ngos', ['acceptable_id'], name: 'index_enter_ngos_on_acceptable_id', using: :btree
   add_index 'enter_ngos', ['client_id'], name: 'index_enter_ngos_on_client_id', using: :btree
   add_index 'enter_ngos', ['deleted_at'], name: 'index_enter_ngos_on_deleted_at', using: :btree
-  add_index 'enter_ngos', ['follow_up_date'], name: 'index_enter_ngos_on_follow_up_date', using: :btree
-  add_index 'enter_ngos', ['followed_up_by_id'], name: 'index_enter_ngos_on_followed_up_by_id', using: :btree
-  add_index 'enter_ngos', ['initial_referral_date'], name: 'index_enter_ngos_on_initial_referral_date', using: :btree
-  add_index 'enter_ngos', ['received_by_id'], name: 'index_enter_ngos_on_received_by_id', using: :btree
 
   create_table 'exit_ngos', force: :cascade do |t|
     t.integer 'client_id'
@@ -2300,6 +2292,21 @@ ActiveRecord::Schema.define(version: 20250211082558) do
   add_index 'referees', ['township_id'], name: 'index_referees_on_township_id', using: :btree
   add_index 'referees', ['village_id'], name: 'index_referees_on_village_id', using: :btree
 
+  create_table 'referral_histories', force: :cascade do |t|
+    t.integer 'client_id'
+    t.integer 'followed_up_by_id'
+    t.integer 'received_by_id'
+    t.integer 'enter_ngo_id'
+    t.datetime 'referral_date'
+    t.datetime 'follow_up_date'
+    t.integer 'user_ids', default: [], array: true
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  add_index 'referral_histories', ['client_id'], name: 'index_client_id_on_referral_histories', using: :btree
+  add_index 'referral_histories', ['enter_ngo_id'], name: 'index_enter_ngo_id_on_referral_histories', using: :btree
+
   create_table 'referral_sources', force: :cascade do |t|
     t.string 'name', default: ''
     t.text 'description', default: ''
@@ -3224,6 +3231,7 @@ ActiveRecord::Schema.define(version: 20250211082558) do
   add_foreign_key 'risk_assessments', 'clients'
   add_foreign_key 'service_delivery_tasks', 'service_deliveries'
   add_foreign_key 'service_delivery_tasks', 'tasks'
+  add_foreign_key 'services', 'global_services', column: 'uuid', primary_key: 'uuid'
   add_foreign_key 'settings', 'communes'
   add_foreign_key 'settings', 'districts'
   add_foreign_key 'settings', 'provinces'

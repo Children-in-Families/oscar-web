@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def setting
-    @setting ||= Setting.cache_first
+    @setting ||= Setting.first
   end
 
   def asset_data_base64(path)
@@ -72,6 +72,7 @@ module ApplicationHelper
   def client_report_builder_cache_key
     [
       Apartment::Tenant.current,
+      'client-report-builder',
       current_user.roles,
       setting,
       params[:locale],
@@ -548,5 +549,9 @@ module ApplicationHelper
   def age_in_hash(dob)
     now = Time.now.utc
     distance_of_time_in_words_hash(now, dob)
+  end
+
+  def list_ordinal_numbers
+    (2..100).map(&:ordinalize)
   end
 end

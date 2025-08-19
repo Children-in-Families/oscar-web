@@ -23,7 +23,7 @@ CIF.Client_enrolled_programsNew = CIF.Client_enrolled_programsCreate = CIF.Clien
       autoclose: true
       format: 'yyyy-mm-dd'
       todayHighlight: true
-      orientation: 'bottom'
+      orientation: 'auto'
       disableTouchKeyboard: true
       startDate: startDate
     )

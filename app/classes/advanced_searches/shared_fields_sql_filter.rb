@@ -1,10 +1,9 @@
 module AdvancedSearches
   class SharedFieldsSqlFilter
-
     def initialize(field, operator, values, sensitivity_fields, blank_fields)
-      @field         = field
-      @operator      = operator
-      @values         = values
+      @field = field
+      @operator = operator
+      @values = values
       @sensitivity_fields = sensitivity_fields
       @blank_fields = blank_fields
     end

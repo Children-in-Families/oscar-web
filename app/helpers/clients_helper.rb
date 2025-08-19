@@ -115,8 +115,11 @@ module ClientsHelper
 
   def rails_i18n_translations
     # Change slice inputs to adapt your need
-    return {} unless I18n.backend.send(:translations).present?
-    return {} unless I18n.backend.send(:translations).key?(I18n.locale)
+    if session[:locale].to_s != I18n.locale.to_s
+      session[:locale] = I18n.locale.to_s
+      I18n.backend.reload!
+      I18n.backend.load_custom_translations
+    end
 
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
       :clients,
@@ -276,6 +279,7 @@ module ClientsHelper
       exit_date: I18n.t('datagrid.columns.clients.ngo_exit_date'),
       created_at: I18n.t('datagrid.columns.clients.created_at'),
       created_by: I18n.t('datagrid.columns.clients.created_by'),
+      referral_date: I18n.t('datagrid.columns.clients.referral_date'),
       referred_to: I18n.t('datagrid.columns.clients.referred_to'),
       referred_from: I18n.t('datagrid.columns.clients.referred_from'),
       referral_source_category_id: I18n.t('datagrid.columns.clients.referral_source_category'),
@@ -421,13 +425,17 @@ module ClientsHelper
     (CustomData.first.try(:fields) || []).map { |field| ["#{field['name']}_".to_sym, field['label']] }.to_h
   end
 
-  def columns_visibility(column)
+  def columns_visibility(column, order = nil)
     label_column = label_translations.map { |k, v| [k.to_s.to_sym, v] }.to_h
 
     Client::STACKHOLDER_CONTACTS_FIELDS.each do |field|
       label_column[field] = I18n.t("datagrid.columns.clients.#{field}")
     end
-    label_tag "#{column}_", label_column[column.to_sym]
+    if order.nil?
+      label_tag "#{column}_", label_column[column.to_sym]
+    else
+      label_tag "#{column}_#{order}_", "#{order.ordinalize} #{label_column[column.to_sym]}"
+    end
   end
 
   def overdue_translations
@@ -803,7 +811,7 @@ module ClientsHelper
         sub_case_note_type_result_hash = mapping_param_value(sub_case_note_type_results, 'case_note_type')
         sub_case_note_type_result_hash.each { |k, o, v| sub_case_note_type_hashes[k] << { o => v } }
         sub_case_note_type_sql_hash = mapping_query_string(object, sub_case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
-        sub_case_note_type_query = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, data[:condition])
+        sub_case_note_type_query = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, sub_case_note_type_results['condition'])
       end
     end
     [sub_case_note_date_query, sub_case_note_type_query]
@@ -1087,7 +1095,7 @@ module ClientsHelper
             when 'exit_ngos' then I18n.t('clients.case_history_detail.exit_date')
             when 'client_enrollments', 'enrollments' then "#{value.program_stream.try(:name)} Entry"
             when 'leave_programs' then "#{value.program_stream.name} Exit"
-            when 'clients', 'families' then I18n.t('.initial_referral_date')
+            when 'clients', 'families' then I18n.t('clients.attr.initial_referral_date')
             when 'referrals'
               if value.referred_to == current_organization.short_name
                 "#{t('.internal_referral')}: #{value.referred_from_ngo}"
@@ -1099,6 +1107,8 @@ module ClientsHelper
   end
 
   def international_referred_client
+    return true if current_organization.international?
+
     params[:referral_id].present? && @client.country_origin != selected_country
   end
 

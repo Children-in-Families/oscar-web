@@ -1,0 +1,41 @@
+%table.table.table-bordered.administrative-info
+  %thead
+    %tr
+      %th{ colspan: '2' }
+        = t('clients.show.administrative_info')
+  %tbody
+    %tr
+      %td.spacing-first-col
+        = t('clients.show.received_by')
+      %td
+        %strong
+          = editable client, :received_by_id, type: :select2, source: editable_case_worker_options, value: client.received_by&.name, url: api_client_path(client.id), pk: client.id
+          = user client.received_by, true
+    %tr
+      %td.spacing-first-col
+        = t('clients.show.initial_referral_date')
+      %td
+        %strong
+          = date_format(client.initial_referral_date)
+    %tr
+      %td.spacing-first-col
+        = t('clients.show.case_worker_or_staff')
+      %td
+        %strong
+          - order_case_worker(client).each do |case_worker|
+            %strong.label.label-default
+              = user case_worker
+    %tr
+      %td.spacing-first-col
+        = t('clients.show.followed_up_by')
+      %td
+        %strong
+          = editable client, :followed_up_by_id, type: :select2, source: editable_case_worker_options, value: client.followed_up_by&.name, url: api_client_path(client.id), pk: client.id
+          = user client.followed_up_by, true
+
+    %tr
+      %td.spacing-first-col
+        = t('clients.show.follow_up_date')
+      %td
+        %strong
+          = editable client, :follow_up_date, type: :date, value: date_format(client.follow_up_date), url: api_client_path(client.id), pk: client.id

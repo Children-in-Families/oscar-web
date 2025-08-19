@@ -317,48 +317,7 @@
                 - else
                   .row
                     .col-sm-12
-                      %table.table.table-bordered.administrative-info
-                        %thead
-                          %tr
-                            %th{ colspan: '2' }
-                              = t('.administrative_info')
-                        %tbody
-                          %tr
-                            %td.spacing-first-col
-                              = t('.received_by')
-                            %td
-                              %strong
-                                = editable @client, :received_by_id, type: :select2, source: editable_case_worker_options, value: @client.received_by&.name, url: api_client_path(@client.id), pk: @client.id
-                                = user @client.received_by, true
-                          %tr
-                            %td.spacing-first-col
-                              = t('.initial_referral_date')
-                            %td
-                              %strong
-                                = editable @client, :initial_referral_date, type: :date, value: date_format(@client.initial_referral_date), url: api_client_path(@client.id), pk: @client.id
-                          %tr
-                            %td.spacing-first-col
-                              = t('.case_worker_or_staff')
-                            %td
-                              %strong
-                                - order_case_worker(@client).each do |case_worker|
-                                  %strong.label.label-default
-                                    = user case_worker
-                          %tr
-                            %td.spacing-first-col
-                              = t('.followed_up_by')
-                            %td
-                              %strong
-                                = editable @client, :followed_up_by_id, type: :select2, source: editable_case_worker_options, value: @client.followed_up_by&.name, url: api_client_path(@client.id), pk: @client.id
-                                = user @client.followed_up_by, true
-
-                          %tr
-                            %td.spacing-first-col
-                              = t('.follow_up_date')
-                            %td
-                              %strong
-                                = editable @client, :follow_up_date, type: :date, value: date_format(@client.follow_up_date), url: api_client_path(@client.id), pk: @client.id
-
+                      = render 'clients/administrative_info', client: @client, editable_case_worker_options: editable_case_worker_options
                       %table.table.table-bordered.referee_information
                         %thead
                           %tr
@@ -890,7 +849,7 @@
                             = fa_icon('eye')
                           = link_to edit_client_internal_referral_path(@client, internal_referral.id), class: 'btn btn-outline btn-success btn-xs' do
                             = fa_icon('pencil')
-
+                  - enter_ngo_count = @client.referral_histories.size - 1
                   - @case_histories.each_with_index do |case_history, index|
                     - case_history_name = case_history.class.table_name
                     %tr.case-history-row{ data: {date: case_history.new_date, classname: case_history_name, name: case_history_label(case_history), created_date: case_history.created_at} }
@@ -910,11 +869,33 @@
                             = case_history_links(case_history, case_history_name)
                         = render 'case_history_detail', object: case_history, index: index
                         = render_case_history(case_history, case_history_name)
+
+                    - if case_history.class.table_name == 'enter_ngos'
+                      - inner_idex = @client.referral_histories.size
+                      - referral_history = @client.referral_histories.find_by(enter_ngo_id: case_history.id)
+                      - if referral_history
+                        %tr.case-history-row-abc
+                          %td
+                            = t('.date_of_referral')
+                            = inner_idex.ordinalize
+                          - unless Rails.env.production?
+                            %td= case_history.created_at.to_s
+                          %td= date_format(referral_history.referral_date)
+                          %td
+                            .text-center
+                              %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#referral_history_#{inner_idex}", 'data-toggle' => 'modal'}= fa_icon('eye')
+                            = render 'referral_history', object: referral_history, index: inner_idex
+
+                    - if case_history.class.table_name == 'enter_ngos'
+                      - enter_ngo_count -= 1
+
                 %tr
-                  %td= t('.initial_referral_date')
+                  %td
+                    = t('.initial_referral_date')
+                    = 1.ordinalize
                   - unless Rails.env.production?
                     %td= @client.created_at.to_s
-                  %td= date_format(@client.initial_referral_date)
+                  %td= date_format(@client.referral_histories.first.try(:referral_date) || @client.initial_referral_date)
                   %td
                     .text-center
                       %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')

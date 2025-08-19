@@ -5,7 +5,7 @@ class ClientGrid < BaseGrid
   include FormBuilderHelper
   include AssessmentHelper
 
-  attr_accessor :current_user, :qType, :dynamic_columns, :param_data, :assessment_setting_id, :params
+  attr_accessor :current_user, :qType, :dynamic_columns, :param_data, :assessment_setting_id, :params, :enter_ngo_count
   COUNTRY_LANG = { 'cambodia' => '(Khmer)', 'thailand' => '(Thai)', 'myanmar' => '(Burmese)', 'lesotho' => '(Sesotho)', 'uganda' => '(Swahili)' }
 
   scope do
@@ -569,10 +569,6 @@ class ClientGrid < BaseGrid
     render partial: 'clients/active_client_enrollments', locals: { active_programs: client_enrollments }
   end
 
-  column(:received_by, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name') }, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
-    render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
-  end
-
   column(:type_of_service, html: true, order: false, header: -> { I18n.t('datagrid.columns.clients.type_of_service') }) do |object|
     services = map_type_of_services(object)
     render partial: 'clients/type_of_services', locals: { type_of_services: services }
@@ -662,16 +658,57 @@ class ClientGrid < BaseGrid
     services.map(&:name).join(', ') if services
   end
 
-  column(:received_by, html: false, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
-    object.received_by.try(:name)
-  end
+  dynamic do
+    enter_ngo_count = ReferralHistory.max_count
+    if enter_ngo_count > 1
+      (1..enter_ngo_count).each do |ordered_number|
+        column("referral_date_#{ordered_number}".to_sym, header: -> { ordered_number.ordinalize + ' ' + I18n.t('datagrid.columns.clients.referral_date') }) do |object|
+          referral_history = object.referral_histories.order(:created_at)[ordered_number - 1]
+          referral_history && referral_history.initial_referral_date.present? ? referral_history.initial_referral_date.to_date.to_formatted_s : ''
+        end
 
-  column(:followed_up_by, order: proc { |object| object.joins(:followed_up_by).order('users.first_name, users.last_name') }, html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
-    render partial: 'clients/users', locals: { object: object.followed_up_by } if object.followed_up_by
-  end
+        column("received_by_id_#{ordered_number}".to_sym, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name') }, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.received_by_id') }) do |object|
+          referral_history = object.referral_histories.order(:created_at)[ordered_number - 1]
+          render partial: 'clients/users', locals: { object: referral_history.received_by } if referral_history && referral_history.received_by
+        end
 
-  column(:followed_up_by, html: false, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
-    object.followed_up_by.try(:name)
+        column("received_by_id_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.received_by_id') }) do |object|
+          referral_history = object.referral_histories.order(:created_at)[ordered_number - 1]
+          referral_history.received_by.try(:name) if referral_history && referral_history.received_by
+        end
+
+        column("followed_up_by_id_#{ordered_number}".to_sym, order: proc { |object| object.joins(:followed_up_by).order('users.first_name, users.last_name') }, html: true, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_by_id') }) do |object|
+          referral_history = object.referral_histories.order(:created_at)[ordered_number - 1]
+          render partial: 'clients/users', locals: { object: referral_history.followed_up_by } if referral_history && referral_history.followed_up_by
+        end
+
+        column("followed_up_by_#{ordered_number}".to_sym, html: false, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.followed_up_by_id') }) do |object|
+          referral_history = object.referral_histories.order(:created_at)[ordered_number - 1]
+          referral_history.followed_up_by.try(:name) if referral_history && referral_history.followed_up_by
+        end
+
+        column("follow_up_date_#{ordered_number}".to_sym, header: -> { ordered_number.ordinalize + ' ' + I18n.t('clients.attr.follow_up_date') }) do |object|
+          referral_history = object.referral_histories.order(:created_at)[ordered_number - 1]
+          referral_history && referral_history.follow_up_date ? referral_history.follow_up_date.to_date.to_formatted_s : ''
+        end
+      end
+    else
+      column(:received_by_id, preload: :received_by, order: proc { |object| object.joins(:received_by).order('users.first_name, users.last_name') }, html: true, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
+        render partial: 'clients/users', locals: { object: object.received_by } if object.received_by
+      end
+
+      column(:received_by_id, html: false, header: -> { I18n.t('datagrid.columns.clients.received_by') }) do |object|
+        object.received_by.try(:name)
+      end
+
+      column(:followed_up_by_id, order: proc { |object| object.joins(:followed_up_by).order('users.first_name, users.last_name') }, html: true, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
+        render partial: 'clients/users', locals: { object: object.followed_up_by } if object.followed_up_by
+      end
+
+      column(:followed_up_by, html: false, header: -> { I18n.t('datagrid.columns.clients.followed_up_by') }) do |object|
+        object.followed_up_by.try(:name)
+      end
+    end
   end
 
   column(:referred_to, preload: :referrals, order: false, header: -> { I18n.t('datagrid.columns.clients.referred_to') }) do |object|
