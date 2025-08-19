@@ -343,6 +343,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     form.children('.program-steps').steps
       headerTag: 'h4'
       bodyTag: 'section'
+      enableAllSteps: true
       transitionEffect: 'slideLeft'
       enableKeyNavigation: false
 
