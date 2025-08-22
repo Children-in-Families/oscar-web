@@ -19,6 +19,7 @@ Datagrid.module_eval do
       insert_custom_assessment(book) if include_custom_assessment?
       insert_care_plan(book) if include_care_plan?
       insert_custom_forms(book) if include_custom_forms?
+      insert_tracking(book) if include_tracking_forms?
     end
 
     buffer = StringIO.new
@@ -96,6 +97,58 @@ Datagrid.module_eval do
             client.slug,
             (i + 1).ordinalize,
             custom_field_property.created_at&.strftime('%Y-%m-%d'),
+            *answers
+          ]
+        end
+      end
+
+      if rows.size > 1
+        book.create_worksheet(name: custom_form.form_title)
+
+        rows.each_with_index do |row, index|
+          book.worksheet(@next_workspace_index).insert_row(index, row)
+        end
+
+        @next_workspace_index += 1
+      end
+    end
+  end
+
+  def insert_tracking(book)
+    tracking_names = tracking_form_selected_columns.keys.map { |key| key.to_s.split('__').third }
+    trackings = Tracking.where(name: tracking_names.uniq)
+    clients = assets.includes(:client_enrollment_trackings).where(client_enrollment_trackings: { tracking_id: trackings.ids }).to_a
+    return if trackings.blank? || clients.blank?
+
+    trackings.each_with_index do |tracking, t_index|
+      fields = tracing.fields.reject { |field| field['type'] == 'file' }.map { |field| field['label'] }
+
+      rows = []
+      client_count = 0
+      rows << [
+        '#',
+        'Client ID',
+        'Tracking #',
+        'Created Date',
+        *fields
+      ]
+
+      clients.each do |client|
+        tracing_field_properties = client.client_enrollments.joins(:client_enrollment_trackings).where(client_enrollment_trackings: { tracking_id: tracking.id }).map(&:client_enrollment_trackings).flatten select { |cet| cet.tracking_id == tracking.id }
+        next if tracing_field_properties.blank?
+
+        tracing_field_properties.sort_by(&:created_at).reverse.each_with_index do |tracking_field_property, i|
+          answers = fields.map do |field|
+            answer = tracking_field_property_answer(field, custom_field_property)
+            answer = answer.join(' | ') if answer.is_a?(Array)
+            answer
+          end
+
+          rows << [
+            (i == 0 ? (client_count += 1) : ''),
+            client.slug,
+            (i + 1).ordinalize,
+            tracking_field_property.created_at&.strftime('%Y-%m-%d'),
             *answers
           ]
         end
@@ -226,18 +279,6 @@ Datagrid.module_eval do
     end
 
     @next_workspace_index += 1
-  end
-
-  def insert_tracking(book)
-    book.create_worksheet(name: 'Tracking')
-    book.worksheet(@next_workspace_index).insert_row(0, [
-      '#',
-      'Client ID',
-      column_by_name(:given_name).to_s,
-      column_by_name(:family_name).to_s,
-      'Tracking #',
-      'Tracking Created At'
-    ])
   end
 
   private

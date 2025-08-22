@@ -63,6 +63,7 @@ class Tracking < ActiveRecord::Base
 
   def auto_update_trackings
     return unless self.fields_changed?
+
     enrollment_tracking_objs = self.program_stream.attached_to_client? ? self.client_enrollment_trackings : self.enrollment_trackings
     labels_update(self.fields_change.last, self.fields_was, enrollment_tracking_objs)
   end
