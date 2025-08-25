@@ -438,7 +438,6 @@ module ClientGridOptions
         column = domain.convert_identity.to_sym
       end
       @client_grid.column(column, class: 'domain-scores', header: identity) do |client|
-        assessment_domains = map_assessment_and_score(client, identity, domain.id)
         assessment_results = map_assessment_and_score(client, identity, domain.id)
         assessments = domain.custom_domain ? assessment_results.customs : assessment_results
         assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
