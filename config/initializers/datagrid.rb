@@ -87,7 +87,7 @@ Datagrid.module_eval do
 
         custom_field_properties.sort_by(&:created_at).reverse.each_with_index do |custom_field_property, i|
           answers = fields.map do |field|
-            answer = custom_field_property_answer(field, custom_field_property)
+            answer = field_property_answer(field, custom_field_property)
             answer = answer.join(' | ') if answer.is_a?(Array)
             answer
           end
@@ -117,11 +117,11 @@ Datagrid.module_eval do
   def insert_tracking(book)
     tracking_names = tracking_form_selected_columns.keys.map { |key| key.to_s.split('__').third }
     trackings = Tracking.where(name: tracking_names.uniq)
-    clients = assets.includes(:client_enrollment_trackings).where(client_enrollment_trackings: { tracking_id: trackings.ids }).to_a
+    clients = assets.includes(client_enrollments: :client_enrollment_trackings).where(client_enrollment_trackings: { tracking_id: trackings.ids }).to_a
     return if trackings.blank? || clients.blank?
 
     trackings.each_with_index do |tracking, t_index|
-      fields = tracing.fields.reject { |field| field['type'] == 'file' }.map { |field| field['label'] }
+      fields = tracking.fields.reject { |field| field['type'] == 'file' }.map { |field| field['label'] }
 
       rows = []
       client_count = 0
@@ -134,12 +134,12 @@ Datagrid.module_eval do
       ]
 
       clients.each do |client|
-        tracing_field_properties = client.client_enrollments.joins(:client_enrollment_trackings).where(client_enrollment_trackings: { tracking_id: tracking.id }).map(&:client_enrollment_trackings).flatten select { |cet| cet.tracking_id == tracking.id }
+        tracing_field_properties = client.client_enrollments.joins(:client_enrollment_trackings).where(client_enrollment_trackings: { tracking_id: tracking.id }).map(&:client_enrollment_trackings).flatten.select { |cet| cet.tracking_id == tracking.id }
         next if tracing_field_properties.blank?
 
         tracing_field_properties.sort_by(&:created_at).reverse.each_with_index do |tracking_field_property, i|
           answers = fields.map do |field|
-            answer = tracking_field_property_answer(field, custom_field_property)
+            answer = field_property_answer(field, tracking_field_property)
             answer = answer.join(' | ') if answer.is_a?(Array)
             answer
           end
@@ -155,7 +155,7 @@ Datagrid.module_eval do
       end
 
       if rows.size > 1
-        book.create_worksheet(name: custom_form.form_title)
+        book.create_worksheet(name: tracking.name)
 
         rows.each_with_index do |row, index|
           book.worksheet(@next_workspace_index).insert_row(index, row)
@@ -398,7 +398,7 @@ Datagrid.module_eval do
     params.respond_to?(:select) && params.select { |key, value| key.to_s.start_with?('tracking__') } || {}
   end
 
-  def custom_field_property_answer(field_name, custom_field_property)
+  def field_property_answer(field_name, custom_field_property)
     answer = custom_field_property.properties[field_name]
 
     if answer.blank?
