@@ -23,6 +23,7 @@ class Tracking < ActiveRecord::Base
 
   default_scope { order(:created_at) }
   scope :visible, -> { where(hidden: false) }
+  scope :hidden, -> { where(hidden: true) }
 
   delegate :name, to: :program_stream, prefix: true, allow_nil: true
 
