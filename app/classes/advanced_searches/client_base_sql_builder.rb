@@ -103,7 +103,7 @@ module AdvancedSearches
           end
         elsif form_builder.first == 'tracking'
           tracking = Tracking.joins(:program_stream).where(program_streams: { name: form_builder.second }, trackings: { name: form_builder.third }).last
-          client_ids = tracking.client_enrollment_trackings.joins(:client_enrollment).where('DATE(client_enrollment_trackings.created_at) >= ? AND DATE(client_enrollment_trackings.created_at) <= ?', value.first, value.last).pluck('client_enrollments.client_id')
+          client_ids = tracking.client_enrollment_trackings.joins(:client_enrollment).where('DATE(client_enrollment_trackings.created_at) >= ? AND DATE(client_enrollment_trackings.created_at) <= ?', value.first, value.last).pluck('client_enrollments.client_id') if value.present?
           if form_builder.last == 'Has This Form'
             @sql_string << 'clients.id IN (?)'
             @values << client_ids
