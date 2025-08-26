@@ -134,7 +134,7 @@ Datagrid.module_eval do
       ]
 
       clients.each do |client|
-        tracing_field_properties = client.client_enrollments.joins(:client_enrollment_trackings).where(client_enrollment_trackings: { tracking_id: tracking.id }).map(&:client_enrollment_trackings).flatten.select { |cet| cet.tracking_id == tracking.id }
+        tracing_field_properties = client.client_enrollments.joins(:client_enrollment_trackings).where(client_enrollment_trackings: { tracking_id: tracking.id }).distinct.map(&:client_enrollment_trackings).flatten.select { |cet| cet.tracking_id == tracking.id }
         next if tracing_field_properties.blank?
 
         tracing_field_properties.sort_by(&:created_at).reverse.each_with_index do |tracking_field_property, i|
