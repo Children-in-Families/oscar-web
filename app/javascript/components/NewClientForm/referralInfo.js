@@ -346,6 +346,7 @@ export default (props) => {
       <div className="row">
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            isLatin={true}
             label={t(translation, "clients.form.given_name")}
             onChange={onChange("client", "given_name")}
             value={client.given_name}
@@ -355,6 +356,7 @@ export default (props) => {
         </div>
         <div className="col-xs-12 col-md-6 col-lg-3">
           <TextInput
+            isLatin={true}
             label={t(translation, "clients.form.family_name")}
             onChange={onChange("client", "family_name")}
             value={client.family_name}
