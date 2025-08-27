@@ -4,6 +4,7 @@ import T from "i18n-react";
 export default (props) => {
   const {
     isError,
+    isLatin,
     label,
     required,
     onChange,
@@ -15,6 +16,7 @@ export default (props) => {
     ...others
   } = props;
   const [newValue, setNewValue] = useState(value);
+  const [latin, setLatin] = useState(isLatin);
 
   useEffect(() => {
     setNewValue(value);
@@ -22,7 +24,15 @@ export default (props) => {
 
   const handleOnChange = (e) => {
     setNewValue(e.target.value);
-    onChange(e);
+    if (isLatin !== undefined && isLatin) {
+      const latinRegex = /^[A-Za-z0-9 _.,!"'/$]*$/;
+      if (e.target.value === "" || latinRegex.test(e.target.value)) {
+        setLatin(true);
+      } else {
+        setLatin(false);
+      }
+    }
+    if (onChange) onChange(e);
   };
 
   return (
@@ -56,6 +66,11 @@ export default (props) => {
       {isError && (
         <span style={styles.errorText}>
           {errorText || T.translate("validation.cannot_blank")}
+        </span>
+      )}
+      {isLatin !== undefined && !latin && (
+        <span style={styles.errorText}>
+          {T.translate("validation.latin_only")}
         </span>
       )}
     </div>

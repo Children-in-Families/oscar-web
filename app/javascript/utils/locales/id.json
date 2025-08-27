@@ -182,7 +182,8 @@
     "main_school_contact": "Kontak Utama Sekolah"
   },
   "validation": {
-    "cannot_blank": "Tidak Bisa Dikosongkan."
+    "cannot_blank": "Tidak Bisa Dikosongkan.",
+    "latin_only": "Only Latin characters are allowed."
   },
   "addressType": {
     "Home": "Rumah",
