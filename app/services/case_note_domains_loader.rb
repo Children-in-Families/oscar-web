@@ -17,10 +17,10 @@ class CaseNoteDomainsLoader < ServiceBase
 
   def domain_group_ids
     @domain_group_ids ||= if caset_note.custom?
-      custom_domain_setting = CustomAssessmentSetting.find_by(id: caset_note.custom_assessment_setting_id)
-      custom_domain_setting.present? ? custom_domain_setting.domains.pluck(:domain_group_id).uniq : []
-    else
-      Domain.csi_domains.where(custom_assessment_setting_id: nil).pluck(:domain_group_id).uniq
-    end
+                            custom_domain_setting = CustomAssessmentSetting.find_by(id: caset_note.custom_assessment_setting_id)
+                            custom_domain_setting.present? ? custom_domain_setting.domains.pluck(:domain_group_id).uniq : []
+                          else
+                            Domain.csi_domains.where(custom_assessment_setting_id: nil).pluck(:domain_group_id).uniq
+                          end
   end
 end

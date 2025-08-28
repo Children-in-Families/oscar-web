@@ -1092,6 +1092,7 @@ id:
       type: 'Ketik (Catatan: Pilih ''kunjungan'' hanya jika anda sudah bertemu dengan klien.)'
       type_options:
         visit: Kunjungan
+        come_to_us: Come to us
         non_face_to_face: Tidak tatap muka
         rd_party: Pihak ketiga
         supervision: Supervisi
@@ -1610,8 +1611,11 @@ id:
       dosavy: Dinas Sosial
       external_id_display: Tampilan ID Eksternal
       family_book: 'Buku Keluarga'
+      followed_up_by_id: Followed Up By
+      follow_up_date: Followed Up Date
       form_indentification: Formulir Identifikasi Korban Perdagangan Orang
       indentification_doc: Dokumen Identifikasi
+      initial_referral_date: Tanggal Rujukan
       labor_trafficking_legal_doc_option: Labour Trafficking
       legal_documents: Dokumen Legal
       legal_processing_doc: Dokumen Proses Hukum
@@ -1626,6 +1630,8 @@ id:
       other_legal_doc_option: Lainnya
       passport: 'Paspor'
       police_interview: 'Wawancara Polisi'
+      received_by_id: Received By
+      referral_date: Referral Date
       referral_document: Dokumen Rujukan
       screening_interview_form: Formulir Wawancara Screening
       sex_trafficking_legal_doc_option: Perdagangan Seksual
@@ -1700,7 +1706,7 @@ id:
       exit_program_date: Tanggal Keluar Program
       exit_reasons: Alasan Keluar/ Penolakan Kasus
       external_referral: Rujukan Eksternal
-      initial_referral_date:
+      initial_referral_date: Tanggal Rujukan
       internal_referral: Rujukan Internal
       name_of_referee: Nama dari Perujuk
       other_info_of_exit: Lainnya - Informasi tambahan
@@ -2973,7 +2979,7 @@ id:
         current_province: Provinsi Sekarang
         current_province_en: Provinsi Sekarang (Inggris)
         current_province_kh: Provinsi Sekarang (Local)
-        custom_assessment: Custom %{assessment}
+        custom_assessment: "%{assessment} Name"
         custom_assessment_created_at: Custom %{assessment} Dibuat di
         date_of_assessments: "Tanggal dari%{assessment}"
         date_of_birth: Tanggal Lahir
@@ -3062,6 +3068,7 @@ id:
         rated_for_id_poor: Apakah klien dinilai sebagai ID kurang mampu
         reason_for_family_separation: Alasan Keluarga Berpisah
         received_by: Rujukan diterima oleh
+        referral_date: Referral Date
         referral_email: Email Perujuk
         referral_phone: Nomor Telepon Perujuk
         referral_source: Sumber Rujukan
@@ -5252,12 +5259,14 @@ id:
     top_navbar:
       bahasa: Bahasa
       burmese: Burmese
+      country: Country
       edit_profile: Edit Profil
       english: Inggris
       khmer: ខ្មែរ
       language: Bahasa
       log_out: Keluar
       thai: Thai
+      vietnames: Vietnamese
   leave_enrolled_programs:
     create:
       client: Klien

@@ -42,8 +42,8 @@ CIF.Common =
       todayHighlight: true,
       disableTouchKeyboard: true,
       startDate: '1899,01,01',
-      orientation: 'bottom',
-      todayBtn: true
+      orientation: 'auto',
+      clearBtn: true
     .attr('readonly', 'true').attr("autocomplete", "off").css('background-color','#ffffff').keypress (e) ->
       if e.keyCode == 8
         e.preventDefault()

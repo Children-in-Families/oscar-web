@@ -504,7 +504,7 @@ en:
       family: Family
       family_basic_fields: Family Basic Fields
       common_searches: Common Searches
-      family_id: Manual ID
+      family_id: Family ID
       family_name: Family Name (Latin)
       follow_up_by: First Follow-Up By
       follow_up_date: First Follow-Up Date
@@ -547,6 +547,7 @@ en:
       rated_for_id_poor: Is The Client Rated For ID Poor
       received_by: Referral Received By
       received_by_id: Received By
+      referral_date: Referral Date
       referral_email: Referee Email
       referral_phone: Referee Phone Number
       referral_source: Referral Source
@@ -1092,6 +1093,7 @@ en:
       type: 'Type (Note: Choose ''visit'' only if you met with the client.)'
       type_options:
         visit: Visit
+        come_to_us: Come to us
         non_face_to_face: Non face to face
         rd_party: 3rd Party
         supervision: Supervision
@@ -1393,7 +1395,7 @@ en:
   client_books:
     assessments:
       assessment: CSI Assessment
-      custom_assessment: Custom Assessment
+      custom_assessment: Assessment Name
     by: By
     call: Call
     calls:
@@ -1610,8 +1612,11 @@ en:
       dosavy: DoSAVY
       external_id_display: External ID Display
       family_book: 'Family Book'
+      followed_up_by_id: Followed Up By
+      follow_up_date: Followed Up Date
       form_indentification: Forms for Identification of Victim of Human Trafficking
       indentification_doc: Identification Documents
+      initial_referral_date: Initial Referral Date
       labor_trafficking_legal_doc_option: Labour Trafficking
       legal_documents: Legal Documents
       legal_processing_doc: Legal Proceeding Documents
@@ -1626,6 +1631,8 @@ en:
       other_legal_doc_option: Other
       passport: 'Passport'
       police_interview: 'Police interview'
+      received_by_id: Received By
+      referral_date: Referral Date
       referral_document: Referral Documents
       screening_interview_form: Screening Interview Form
       sex_trafficking_legal_doc_option: Sexual Trafficking
@@ -1691,7 +1698,7 @@ en:
       accepted_date: NGO Accept Date
       client: Client
       client_id: Client ID
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       enrollment_date: Enrollment Date
       exit_circumstance: Exit Circumstance
@@ -2584,13 +2591,13 @@ en:
       begin_now: Add New
       client_you_like: Which client would you like to complete as Assessment for?
       csi_assessment: CSI Assessment
-      custom_assessment: Custom Assessment
+      custom_assessment: Assessment Name
     case_note_tab:
       begin_now: Add New
       case_note: Case Note
       case_note_you_add: Which assessment does this Case Note refer to ? (CSI or Custom Assessment)
       csi_assessment: CSI Assessment
-      custom_assessment: Custom Assessment
+      custom_assessment: Assessment Name
       client_you_complete_for: Which client would you like to complete as Case Note for?
       new_case_note: New case note
     client:
@@ -2973,7 +2980,7 @@ en:
         current_province: Current Province
         current_province_en: Current Province (English)
         current_province_kh: Current Province (Khmer)
-        custom_assessment: Custom %{assessment}
+        custom_assessment: "%{assessment} Name"
         custom_assessment_created_at: Custom %{assessment} Created At
         date_of_assessments: "Date of %{assessment}"
         date_of_birth: Date of Birth
@@ -3063,6 +3070,7 @@ en:
         reason_for_family_separation: Reason for Family Separation
         received_by: Referral Received By
         referral_email: Referee Email
+        referral_date: Referral Date
         referral_phone: Referee Phone Number
         referral_source: Referral Source
         referral_source_category: Referral Source Category
@@ -3190,7 +3198,7 @@ en:
         village_id: Village
         'yes': 'Yes'
       family: Family
-      family_id: Manual ID
+      family_id: Family ID
       family_preservation: Family Preservation
       form_title: Form Title
       history_of_disability_and_or_illness: History of disability and/or illness
@@ -4271,7 +4279,7 @@ en:
       accepted_date: NGO Accept Date
       family: Family
       family_id: Family ID
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       enrollment_date: Enrollment Date
       exit_circumstance: Exit Circumstance
@@ -4561,7 +4569,7 @@ en:
       body_third: You have already referred this family, please wait for the response.
       title: Warning
     consent_form_fields:
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
     create:
       failed_create: Failed to create a Referral.
       successfully_created: Referral has been successfully created.
@@ -4583,7 +4591,7 @@ en:
       save_and_download: Save & Download
     index:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       detail: Detail
       edit_btn: Edit
@@ -4600,7 +4608,7 @@ en:
       new_referral: New Referral
     show:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your family to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
@@ -5254,12 +5262,14 @@ en:
     top_navbar:
       bahasa: Bahasa
       burmese: Burmese
+      country: Country
       edit_profile: Edit Profile
       english: English
       khmer: ខ្មែរ
       language: Language
       log_out: Log out
       thai: Thai
+      vietnames: Vietnamese
   leave_enrolled_programs:
     create:
       client: Client
@@ -5985,7 +5995,7 @@ en:
       confirm_box: I have discussed the situation with them.
       title: Warning
     consent_form_fields:
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
     create:
       failed_create: Failed to create a Referral.
       successfully_created: Referral has been successfully created.
@@ -6010,7 +6020,7 @@ en:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
       client_name: Client Name
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       detail: Detail
       edit_btn: Edit
@@ -6031,7 +6041,7 @@ en:
       cannot_edit_referral: You cannot edit this referral because the target NGO already accepted this referral
       client_id: Client ID
       client_name: Client Name
-      consent_form: Consent Form
+      consent_form: Consent Form and other Documents
       date_of_referral: Date of Referral
       download_referral_form: Download Printable Referral Form
       external_referral_warning: The NGO that you are attempting to refer your client to is not currently using OSCaR. Please print a copy of this referral form to send to your target organisation.
@@ -6158,7 +6168,7 @@ en:
       label: Column Header Count (Case Note Date, Program Stream, Manual ID, Tracking Form, Care Plan Count, Custom Form)
     index:
       csi_tools: Assessment Tools
-      custom_assessment: Custom Assessment Tool
+      custom_assessment: Assessment Name Tool
       default_assessment: Default Assessment Tool
       ratanak_csi_tools: Assessment Tools
     integration:
@@ -6195,7 +6205,8 @@ en:
       service_delivery: Service Deliveries
       service_provided: Service Provided
       service_received: Service Received
-      task_completed_date: Task Completed Date
+      task_completed_date: Intervention Completed Date
+      task_name: Intervention Name
     create:
       successfully_created: Service has been successfully created.
     destroy:

@@ -6,7 +6,7 @@ module Api
       before_action :find_client
 
       def index
-        assessments = @client.assessments
+        assessments = @client.assessments.includes(:case_notes)
         render json: assessments
       end
 
@@ -32,11 +32,13 @@ module Api
         end
 
         assessment = @client.assessments.find(params[:id])
-        if assessment.update_attributes(assessment_params)
+        if assessment.update_attributes(assessment_params) && !assessment.over_a_week?
           assessment.update(updated_at: DateTime.now)
           render json: assessment
         else
-          render json: assessment.errors, status: :unprocessable_entity
+          error_message = assessment.errors
+          error_message = ['You cannot edit assessment that is older than a week.'] if assessment.over_a_week?
+          render json: error_message, status: :unprocessable_entity
         end
       end
 

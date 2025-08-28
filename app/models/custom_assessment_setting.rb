@@ -2,7 +2,7 @@ class CustomAssessmentSetting < ActiveRecord::Base
   include CacheAll
 
   belongs_to :setting
-  has_many :domains, dependent: :destroy
+  has_many :domains
   has_many :case_notes, dependent: :restrict_with_error
 
   validates_numericality_of :max_custom_assessment, only_integer: true, greater_than: 30, if: -> { check_custom_assessment_frequency('day') }
@@ -14,6 +14,7 @@ class CustomAssessmentSetting < ActiveRecord::Base
   validates :custom_assessment_name, presence: true, uniqueness: { case_sensitive: true }
   validates :max_custom_assessment, presence: true
   validates :custom_age, presence: true
+  validate :check_related_case_note, on: :destroy
 
   scope :only_enable_custom_assessment, -> { where(enable_custom_assessment: true) }
   scope :any_custom_assessment_enable?, -> { only_enable_custom_assessment.any? }
@@ -38,6 +39,10 @@ class CustomAssessmentSetting < ActiveRecord::Base
   end
 
   private
+
+  def check_related_case_note
+    errors.add(:setting, "There are case notes related to Custom Assessment Setting: \"#{name}\"") if case_notes.any?
+  end
 
   def flush_cache
     Rails.cache.delete([Apartment::Tenant.current, 'CustomAssessmentSetting', 'enable_custom_assessment', 'true']) if enable_custom_assessment

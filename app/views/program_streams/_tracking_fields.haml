@@ -9,15 +9,16 @@
               = f.input :name, label: t('.name'), readonly: f.object.is_used?
             .col-xs-12.col-md-4
               = hidden_field_tag :time, f.object.time_of_frequency || 0, class: 'time'
-              = f.input :frequency, collection: Tracking::FREQUENCIES, label: t('.frequency')
-              %p.frequency-note
-                %i
+              = f.input :frequency, collection: Tracking::FREQUENCIES, label: t('.frequency'), hint: 'This needs to be done once every'
             .col-xs-12.col-md-3
               = f.input :time_of_frequency, label: t('.time_of_frequency'), min_max: true, input_html: { min: '1', step: 'any', value: f.object.time_of_frequency || 0 }
             .col-xs-12.col-md-1
               %label.m-l-md= t('.hidden')
               .i-checks
                 = f.input :hidden, as: :boolean, label: false, type: 'checkbox', checked: f.object.hidden?, class: 'form-input'
+          .row
+            .col-xs-12.col-md-4
+              = f.input :allowed_edit_until, collection: allowed_edit_until_options, label: t('.allowed_edit_until'), input_html: { class: 'allowed_edit_until' }
       .row
         .col-xs-12
           .tracking-builder

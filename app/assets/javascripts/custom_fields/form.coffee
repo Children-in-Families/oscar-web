@@ -131,7 +131,8 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
   _select2 = ->
     $('#custom_field_entity_type').select2
       minimumInputLength: 0
-    $('#custom_field_frequency').select2
+
+    $('#custom_field_frequency, #custom_field_allowed_edit_until').select2
       minimumInputLength: 0
       allowClear: true
 
@@ -180,7 +181,6 @@ CIF.Custom_fieldsNew = CIF.Custom_fieldsCreate = CIF.Custom_fieldsEdit = CIF.Cus
         _removeActionFormBuilder(labelField)
 
   _removeActionFormBuilder = (label) ->
-    $('li.paragraph-field.form-field').find('.del-button, .copy-button').remove()
     parent = $(label).parent()
     $(parent).find('.del-button, .copy-button').remove()
 

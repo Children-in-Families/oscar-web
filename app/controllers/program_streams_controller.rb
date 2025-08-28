@@ -104,14 +104,14 @@ class ProgramStreamsController < AdminController
   end
 
   def strip_tags(value)
-    ActionController::Base.helpers.strip_tags(value).gsub(/(\\n)|(\\t)/, "")
+    ActionController::Base.helpers.strip_tags(value).gsub(/(\\n)|(\\t)/, '')
   end
 
   def program_stream_params
     ngo_name = current_organization.full_name
     delete_select_option_empty
     default_params = [:entity_type, :name, :rules, :description, :enrollment, :exit_program, :tracking_required, :quantity, program_exclusive: [], mutual_dependence: [], domain_ids: [], service_ids: [], internal_referral_user_ids: []]
-    default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :fields, :hidden, :_destroy, :id] } unless program_without_tracking?
+    default_params << { trackings_attributes: [:name, :frequency, :time_of_frequency, :allowed_edit_until, :fields, :hidden, :_destroy, :id] } unless program_without_tracking?
 
     params[:program_stream][:service_ids] = params[:program_stream][:service_ids].uniq
     params.require(:program_stream).permit(default_params).merge(ngo_name: ngo_name)
@@ -153,7 +153,7 @@ class ProgramStreamsController < AdminController
 
   def set_attributes
     @another_program_stream.id = nil
-    @another_program_stream.trackings.map{ |t| t.id = nil, t.program_stream_id=nil }
+    @another_program_stream.trackings.map { |t| t.id = nil, t.program_stream_id = nil }
   end
 
   def authorize_program
@@ -168,7 +168,7 @@ class ProgramStreamsController < AdminController
 
     column = params[:order]
     sort_by = params[:descending] == 'true' ? 'desc' : 'asc'
-    column == "quantity" ? "#{column}" : "lower(#{column})"
+    column == 'quantity' ? "#{column}" : "lower(#{column})"
     (order_string = "#{column} #{sort_by}") if column.present?
 
     ProgramStream.ordered_by(order_string)
@@ -180,7 +180,7 @@ class ProgramStreamsController < AdminController
     column = params[:order]
     return programs unless (params[:tab] == 'all_ngo' || params[:tab] == 'demo_ngo') && column
 
-    ordered = program_streams.sort_by{ |p| p.send(column).to_s.downcase }
+    ordered = program_streams.sort_by { |p| p.send(column).to_s.downcase }
     programs = (column.present? && params[:descending] == 'true' ? ordered.reverse : ordered)
     programs
   end
@@ -208,15 +208,15 @@ class ProgramStreamsController < AdminController
     results = []
     if params[:search].present?
       current_org_name = current_organization.short_name
-      name   = params[:search]
+      name = params[:search]
       Organization.all.each do |org|
         Organization.switch_to(org.short_name)
-          program_streams = ProgramStream.by_name(name)
-          results << program_streams if program_streams.present?
+        program_streams = ProgramStream.by_name(name)
+        results << program_streams if program_streams.present?
       end
       Organization.switch_to(current_org_name)
     end
-    results.flatten.sort! {|x, y| x.name.downcase <=> y.name.downcase}
+    results.flatten.sort! { |x, y| x.name.downcase <=> y.name.downcase }
   end
 
   def copy_form_from_custom_field
@@ -253,13 +253,13 @@ class ProgramStreamsController < AdminController
   def available_mutual_dependence_programs
     all_programs = ProgramStream.where.not(id: @program_stream).attached_with(@entity_type).complete.ordered
     if @entity_type == 'Client'
-      active_entity_ids   = @program_stream.client_enrollments.active.pluck(:client_id).uniq
-      active_program_ids  = ClientEnrollment.active.where(client_id: active_entity_ids).pluck(:program_stream_id)
+      active_entity_ids = @program_stream.client_enrollments.active.pluck(:client_id).uniq
+      active_program_ids = ClientEnrollment.active.where(client_id: active_entity_ids).pluck(:program_stream_id)
     else
-      active_entity_ids   = @program_stream.enrollments.active.pluck(:programmable_id).uniq
-      active_program_ids  = Enrollment.active.where(programmable_id: active_entity_ids).pluck(:program_stream_id)
+      active_entity_ids = @program_stream.enrollments.active.pluck(:programmable_id).uniq
+      active_program_ids = Enrollment.active.where(programmable_id: active_entity_ids).pluck(:program_stream_id)
     end
-    mutuals_available   = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).attached_with(@entity_type).complete.ordered
+    mutuals_available = ProgramStream.filter(active_program_ids).where.not(id: @program_stream.id).attached_with(@entity_type).complete.ordered
     @mutual_dependences = active_entity_ids.any? ? mutuals_available : all_programs
   end
 

@@ -197,7 +197,7 @@ module ClientGridOptions
       field = custom_field.data_fields.find { |field| field['label'].parameterize.underscore == downcase_label }
       # Do not export file details
       next if field['type'] == 'file'
-      
+
       label = field['label']
 
       if params[:data].presence == 'recent'
@@ -210,9 +210,8 @@ module ClientGridOptions
         end
       else
         @client_grid.column(value.to_sym, header: -> { label }) do |client|
-
           client.case_notes.most_recents.map do |case_note|
-            case_note.custom_field_property.properties[label] if case_note.custom_field_property  
+            case_note.custom_field_property.properties[label] if case_note.custom_field_property
           end.compact.join(', ')
         end
       end

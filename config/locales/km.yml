@@ -528,6 +528,7 @@ km:
       rated_for_id_poor: កម្រិតប័ណ្ណក្រីក្រ
       received_by: បុគ្គលិកទទួលករណី
       received_by_id: បុគ្គលិកទទួលករណី
+      referral_date: កាលបរិច្ឆេទបញ្ជូន
       referral_email: អ៊ីមែលអ្នកបញ្ជូនករណី
       referral_phone: លេខទូរស័ព្ទឣ្នកបញ្ជូនករណី
       referral_source_category_id: ប្រភេទប្រភពនៃការបញ្ជូន
@@ -1059,6 +1060,7 @@ km:
       type: ប្រភេទជំនួប
       type_options:
         visit: ជួបជាមួយអតិថិជនផ្ទាល់
+        come_to_us: មកជួបយើង
         non_face_to_face: មិនបានជួបផ្ទាល់ជាមួយអតិថិជន
         rd_party: បុគ្គលទី៣
         supervision: ជំនួបគាំទ្របច្ចេកទេស/ការពិភាក្សាករណ
@@ -1560,8 +1562,11 @@ km:
       dosavy: មន្ទីរ ស.អ.យ
       external_id_display: ការបង្ហាញលេខសម្គាល់អង្គការខាងក្រៅ
       family_book: 'សៀវភៅគ្រួសារ'
+      followed_up_by_id: បុគ្គលិកតាមដានករណី
+      follow_up_date: កាលបរិច្ឆេទតាមដាន
       form_indentification: ទម្រង់សម្ភាសន៍កំណត់អត្តសញ្ញាណជនរងគ្រោះដោយអំពើជួញដូរមនុស្ស
       indentification_doc: ឯកសារអត្តសញ្ញាណ
+      initial_referral_date: កាលបរិច្ឆេទបញ្ជូន
       labor_trafficking_legal_doc_option: ការជួញដូរពលកម្ម
       legal_documents: ឯកសារច្បាប់
       legal_processing_doc: ឯកសារនិតិវិធីច្បាប់
@@ -1575,6 +1580,8 @@ km:
       other_legal_doc: 'Others'
       other_legal_doc_option: ផ្សេងៗ
       police_interview: 'Police interview'
+      received_by_id: បុគ្គលិកទទួលករណី
+      referral_date: កាលបរិច្ឆេទបញ្ជូន
       referral_document: ឯកសារបញ្ជូន
       screening_interview_form: ទម្រង់សម្ភាសន៍បឋម
       sex_trafficking_legal_doc_option: ការជួញដូរផ្លូវភេទ
@@ -1849,8 +1856,7 @@ km:
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
-      followed_up_by_id: First Follow Up by
-      follow_up_date: Date of First Follow Up
+      followed_up_by_id: បុគ្គលិកតាមដានករណី
       from: ចាប់ពី
       gender: ភេទ
       general_question: សំនួរទូទៅ
@@ -2787,7 +2793,7 @@ km:
         current_province: ខេត្តបច្ចុប្បន្ន
         current_province_en: ខេត្តបច្ចុប្បន្ន (អក្សរឡាតាំង)
         current_province_kh: ខេត្តបច្ចុប្បន្ន (ខ្មែរ)
-        custom_assessment: "%{assessment} ផ្ទាល់ខ្លួន"
+        custom_assessment: "ឈ្មោះ%{assessment}"
         custom_assessment_created_at: កាលបរិច្ឆេទបង្កើត %{assessment} ផ្ទាល់ខ្លួន
         date_of_assessments: កាលបរិច្ឆេទការប៉ាន់ប្រមាណ
         date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
@@ -2853,6 +2859,7 @@ km:
         rated_for_id_poor: កម្រិតប័ណ្ណក្រីក្រ
         reason_for_family_separation: មូលហេតុការបែកចេញពីគ្រួសារ
         received_by: បុគ្គលិកទទួលករណី
+        referral_date: កាលបរិច្ឆេទបញ្ជូន
         referral_email: អ៊ីមែលអ្នកបញ្ជូនករណី
         referral_phone: លេខទូរស័ព្ទឣ្នកបញ្ជូនករណី
         referral_source: ប្រភពនៃការបញ្ជូន
@@ -4354,7 +4361,7 @@ km:
       body_third: អ្នកបានបញ្ជូនគ្រួសារនេះរួចហើយសូមរង់ចាំការឆ្លើយតប
       title: ប្រុងប្រយ័ត្ន!
     consent_form_fields:
-      consent_form: ទម្រង់យល់ព្រម
+      consent_form: ទម្រង់យល់ព្រមនឹងឯកសារផ្សេងៗ
     create:
       failed_create: ការបញ្ជូនមិនជោគជ័យ
       successfully_created: ការបញ្ជូនត្រូវបានបញ្ជូនដោយជោគជ័យ
@@ -5110,12 +5117,14 @@ km:
       view_calendar: មើលប្រតិទិន
     top_navbar:
       burmese: Burmese
+      country: Country
       edit_profile: កែសម្រួលព័ត៌មានផ្ទាល់ខ្លួន
       english: English
       khmer: ខ្មែរ
       language: ជ្រើសភាសា
       log_out: ចាកចេញ
       thai: Thai
+      vietnames: Vietnamese
   leave_enrolled_programs:
     create:
       client: អតិថិជន
@@ -6054,7 +6063,8 @@ km:
       service_delivery: ការផ្តល់សេវា
       service_provided: សេវាដែលបានផ្តល់ឲ្យ
       service_received: សេវាដែលបានទទួល
-      task_completed_date: Task Completed Date
+      task_completed_date: Intervention Completed Date
+      task_name: Intervention Name
     create:
       successfully_created: Service has been successfully created.
     destroy:

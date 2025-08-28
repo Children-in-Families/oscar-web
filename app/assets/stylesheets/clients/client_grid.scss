@@ -252,6 +252,8 @@ body[id="client_advanced_searches-index"] {
     }
 
     th.level_of_risk,
+    th.mo_savy_officials,
+    th.disability_specification,
     th.date_of_risk_assessment {
       text-align: center;
       min-width: 175px;
@@ -262,6 +264,24 @@ body[id="client_advanced_searches-index"] {
         margin: 0 5px;
         text-decoration: none;
       }
+    }
+
+    th[class^="received_by_"],
+    th[class^="followed_up_by_"],
+    th[class^="follow_up_date_"],
+    th[class^="referral_date_"],
+    th[class^="initial_referral_date_"],
+    th[class^="case_note_custom_field_"] {
+      text-align: center;
+      min-width: 165px;
+    }
+
+    td[class^="received_by_"],
+    td[class^="referral_date_"],
+    td[class^="initial_referral_date_"],
+    td[class^="followed_up_by_"],
+    td[class^="follow_up_date_"] {
+      text-align: center;
     }
   }
 

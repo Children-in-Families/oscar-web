@@ -1,0 +1,666 @@
+{
+  "address": {
+    "outside_address": "Out Side Address",
+    "provicne": "Province",
+    "district": "District / Khan",
+    "commune": "Commune / Sangkat",
+    "village": "Village",
+    "street_number": "Street Number",
+    "house_number": "House Number",
+    "address_name": "Address Name",
+    "address_type": "Address Type",
+    "locality": "Locality",
+    "lesotho": {
+      "description_house_landmark": "Description of the house and a landmark",
+      "directions": "Directions",
+      "suburb": "Suburb"
+    },
+    "myanmar": {
+      "state": "State",
+      "township": "Township",
+      "street_line1": "Street Line 1",
+      "street_line2": "Street Line 2(Optional)"
+    },
+    "thailand": {
+      "district": "District",
+      "plot": "Plot/House number, Village",
+      "postal_code": "Postal Code",
+      "province": "Province",
+      "road": "Road",
+      "subdistrict": "Subdistrict"
+    },
+    "indonesia": {
+      "city": "City",
+      "district": "District",
+      "house_number": "Sub-community",
+      "plot": "Plot/House number, Village",
+      "postal_code": "Postal Code",
+      "province": "Province",
+      "road": "Road",
+      "street_number": "Community",
+      "subdistrict": "Subdistrict"
+    },
+    "nepal": {
+      "province": "Province",
+      "district": "District",
+      "municipality": "Municipality",
+      "plot": "Plot/House number, Village",
+      "postal_code": "Postal Code",
+      "road": "Road"
+    }
+  },
+  "admin": {
+    "admin_information": "Administrative Information",
+    "receiving_staff": "Receiving Staff Members",
+    "date_referral": "Date of Referral",
+    "case_worker": "Case Worker / Assigned Staff Manager",
+    "first_follow_by": "First Follow Up by",
+    "first_follow_date": "Date of First Follow Up"
+  },
+  "carerInfo": {
+    "name": "Name",
+    "gender": "Gender",
+    "carer_phone": "Carer Phone Number",
+    "carer_email": "Carer Email Address",
+    "client_relationship": "Relationship to Client",
+    "family_record": "Family Record",
+    "address": "Address",
+    "same_as_client": "Same as Client",
+    "outside_cambodia": "International",
+    "sam_as_client": "Same as Client"
+  },
+  "createFamilyModal": {
+    "wait_for_server_req": "Duplicate Checker is running, please wait for a moment...",
+    "create_family_record": "Would you like to create a family record for this client, or attach them to an existing family?",
+    "create_family": "Create a new family with client",
+    "attach_family_to_client": "Attach with existing family record",
+    "no": "No",
+    "save": "Save",
+    "successfully_created": "Client has been successfully created"
+  },
+  "customInfo": {
+    "custom_id_1": "Custom ID Number 1",
+    "custom_id_2": "Custom ID Number 2",
+    "rate_client_id": "Is client rated for ID Poor?",
+    "has_already_taken": "has already been taken"
+  },
+  "donorInfo": {
+    "other_agencies": "Other Agencies Involved",
+    "donor": "Donor"
+  },
+  "index": {
+    "referee_info": "Referee Information",
+    "referral_info": "Client / Referral Information",
+    "referral_more_info": "Client / Referral - More Information",
+    "referral_vulnerability": "Client / Referral - Vulnerability Information and Referral Note",
+    "wait": "Duplicate Checker is running, please wait for a moment...",
+    "duplicate_checker": "Duplicate Checker Running. Please give us a moment!",
+    "cancel": "Cancel",
+    "next": "Next",
+    "previous": "Previous",
+    "save": "Save",
+    "similar_record": "The client record you are saving has similarities to other records in OSCaR in the following fields:",
+    "checking_message": "This possible duplicated client will be categorized and recorded in the duplication list for OSCaR to review.",
+    "duplicate_message": "Duplicate Checker feature is currently in Beta testing, please Email: info@oscarhq.com if you have any issues with excessive false positive/negative results.",
+    "continue": "Continue",
+    "client_confirm": "Client Confirmation",
+    "warning": "Warning",
+    "informing": "Informing",
+    "successfully_created": "Client has been successfully created",
+    "successfully_updated": "Client has been successfully updated"
+  },
+  "refereeInfo": {
+    "anonymous": "Anonymous",
+    "referee_info": "Referee Information",
+    "anonymous_referee": "Anonymous Referee",
+    "name": "Name",
+    "gender": "Gender",
+    "referee_phone": "Referee Phone Number",
+    "referee_email": "Referee Email Address",
+    "referral_source_cat": "Referral Source Category",
+    "referral_source": "Referral Source",
+    "address": "Address",
+    "outside_cam": "International",
+    "female": "Female",
+    "male": "Male",
+    "lgbt": "LGBT",
+    "unknown": "Unknown",
+    "prefer_not_to_say": "Prefer not to answer/Non-specified",
+    "other": "Other"
+  },
+  "referralInfo": {
+    "referral_info": "Client / Referral Information",
+    "given_name": "Given Name (Latin)",
+    "family_name": "Family Name (Latin)",
+    "local_given_name": "Given Name",
+    "local_family_name": "Family Name",
+    "gender": "Gender",
+    "genderLists": {
+      "female": "Female",
+      "male": "Male",
+      "lgbt": "LGBT",
+      "unknown": "Unknown",
+      "prefer_not_to_say": "Prefer not to answer/Non-specified",
+      "other": "Other"
+    },
+    "date_of_birth": "Date of Birth",
+    "birth_province": "Birth Province",
+    "client_relationship": "Relationship to Referee",
+    "caller_relationship": "Relationship to Referee",
+    "contact_info": "Contact Information",
+    "client_is_outside": "International",
+    "what_3_word": "What3Words",
+    "client_phone": "Client Contact Phone",
+    "phone_owner": "Phone Owner",
+    "client_email": "Client Email Address",
+    "profile": "Profile Picture",
+    "remove": "Remove",
+    "for_testing": "Is This a test client?"
+  },
+  "referralMoreInfo": {
+    "referral_more_info": "Client / Referral - More Information",
+    "do_you_want": "Do you want to add",
+    "carer_info": "Carer Information?",
+    "school_info": "School Information?",
+    "donor_info": "Donor Information?",
+    "other_info": "Other Information"
+  },
+  "referralVulnerability": {
+    "referral_vulnerability": "Client / Referral - Vulnerability Information and Referral Note",
+    "enter_a_breif": "Enter a brief note on the client's referral"
+  },
+  "schoolInfo": {
+    "school_name": "School Name",
+    "school_grade": "School Grade",
+    "main_school_contact": "Main School Contact"
+  },
+  "validation": {
+    "cannot_blank": "Cannot be blank."
+  },
+  "addressType": {
+    "Home": "Home",
+    "Business": "Business",
+    "RCI": "RCI",
+    "Dormitory": "Dormitory",
+    "Other": "Other"
+  },
+  "phoneOwner": {
+    "Self": "Self",
+    "Family Member": "Family Member",
+    "Friend": "Friend",
+    "Helping Professional": "Helping Professional",
+    "Government / Local Authority": "Government / Local Authority",
+    "Other": "Other"
+  },
+  "refereeRelationShip": {
+    "Self": "Self",
+    "Family Member": "Family Member",
+    "Friend": "Friend",
+    "Helping Professional": "Helping Professional",
+    "Government / Local Authority": "Government / Local Authority",
+    "Other": "Other",
+    "Child": "Child",
+    "In same community": "In same community",
+    "Client": "Client",
+    "Stranger": "Stranger"
+  },
+  "clientRelationShip": {
+    "Husband": "Husband",
+    "Son": "Son",
+    "Daughter": "Daughter",
+    "Parent": "Parent",
+    "Grandparent": "Grandparent",
+    "Grandson": "Grandson",
+    "Granddaughter": "Granddaughter",
+    "Aunt / Uncle": "Aunt / Uncle",
+    "Sibling": "Sibling",
+    "Cousin": "Cousin",
+    "Family Friend": "Family Friend",
+    "Foster Carer": "Foster Carer",
+    "Temporary Carer": "Temporary Carer",
+    "RCI Carer": "RCI Carer",
+    "Adopted Parent": "Adopted Parent",
+    "Other": "Other"
+  },
+  "callerRelationship": {
+    "Self": "Self",
+    "Child": "Child",
+    "Family Member": "Family Member",
+    "Friend": "Friend",
+    "In same community": "In same community",
+    "Client": "Client",
+    "Stranger": "Stranger",
+    "Other": "Other"
+  },
+  "schoolGrade": {
+    "Bachelors": "Bachelors",
+    "Kindergarten 1": "Kindergarten 1",
+    "Kindergarten 2": "Kindergarten 2",
+    "Kindergarten 3": "Kindergarten 3",
+    "Kindergarten 4": "Kindergarten 4",
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "6": "6",
+    "7": "7",
+    "8": "8",
+    "9": "9",
+    "10": "10",
+    "11": "11",
+    "12": "12",
+    "Year 1": "Year 1",
+    "Year 2": "Year 2",
+    "Year 3": "Year 3",
+    "Year 4": "Year 4",
+    "Year 5": "Year 5",
+    "Year 6": "Year 6",
+    "Year 7": "Year 7",
+    "Year 8": "Year 8"
+  },
+  "agency": {
+    "Church": "Church",
+    "Gov't": "Gov't",
+    "Hospital / Clinic / Doctor": "Hospital / Clinic / Doctor",
+    "Local": "Local",
+    "Mother's heart": "Mother's heart",
+    "Other NGO": "Other NGO",
+    "Police": "Police"
+  },
+  "newCall": {
+    "address": {
+      "outside_address": "Outside Address",
+      "provicne": "Province",
+      "district": "District / Khan",
+      "commune": "Commune / Sangkat",
+      "village": "Village",
+      "street_number": "Street Number",
+      "house_number": "House Number",
+      "address_name": "Address Name",
+      "address_type": "Address Type"
+    },
+    "addTaskModal": {
+      "please_input_all_require_field": "Please Input all the required fields",
+      "completion_date": "Completion Date",
+      "task_details": "Task Details",
+      "domain": "Domain",
+      "save": "Save",
+      "cancel": "Cancel",
+      "add_new_tasks": "Add New Tasks"
+    },
+    "admin": {
+      "calltypes": {
+        "new_referral_case": "New Referral: Case Action Required",
+        "new_referral_notifier": "New Referral: Case Action NOT Required",
+        "providing_update": "Providing Update",
+        "phone_conseling": "Phone Counselling",
+        "seeking_information": "Seeking Information",
+        "spam_call": "Spam Call",
+        "wrong_number": "Wrong Number"
+      },
+      "referee_answered_call": "Did the referee answer this call or return a missed call?",
+      "referee_called_before": "Has the referee called Before?",
+      "call_information": "Call Information",
+      "phone_call": "Phone Call ID #",
+      "receiving_staff": "Receiving Staff",
+      "call_type": "Call Type",
+      "confirmation": "Confirmation",
+      "save_call_as": "Are you sure you want to record this call as",
+      "add_note_about_the_content": "Add a note about the content of your conversation with the caller.",
+      "information_provide": "Information Provided",
+      "go": "Go",
+      "go_back": "Go Back",
+      "go_to_client": "Go to Client",
+      "please_select_client": "Please select client",
+      "verify_message": "You have selected 'Case Action NOT Required' for this call. This means that you do not believe that this call requires any more follow up. Please be sure this is the right decision for this call. Press 'I'm Sure' to continue. Press 'Go Back' if you want to change your selection.",
+      "date_of_call": "Date of Call",
+      "time_call_began": "Time Call Began",
+      "time_call_ended": "Time Call Ended",
+      "not_a_phone_call": "Not a Phone Call"
+    },
+    "callAbout": {
+      "basicNecessities": {
+        "1": "Looking for health/medical help (including emergencies, pregnancy, other health concerns).",
+        "2": "Looking for education and material requests for school registration; return to school; need help to stay in school.",
+        "3": "Looking for food, water, milk, shelter support.",
+        "4": "Looking for vocational training/employment.",
+        "5": "Caregivers looking to send their children to an RCI.",
+        "6": "Other"
+      },
+      "childProtectionConcerns": {
+        "1": "Physical violence",
+        "2": "Emotional violence",
+        "3": "Sexual violence",
+        "4": "Neglect / lack of adult supervision",
+        "5": "Rescue of trafficking victim (migration / collaboration with authorities to rescue)",
+        "6": "Forced labour (commercial sex, exploitation, street vending, brick factory, or labour that jeopardizes the wellbeing of a child.",
+        "7": "Drug use (seeking rehabilitation support)",
+        "8": "Alcohol use (seeking rehabilitation support)",
+        "9": "Separated child - abandoned; lost; street living.",
+        "10": "Children and parent living on the street.",
+        "11": "Disability",
+        "12": "Other"
+      },
+      "what_is_the_call": "What is the call about / seeking support for?",
+      "basic_necessities": "Basic Necessities",
+      "child_protection": "Child Protection Concerns",
+      "enter_a_brief": "Enter a brief note summarising the call",
+      "other_more_information": "Other-More Information"
+    },
+    "carerInfo": {
+      "genderLists": {
+        "female": "Female",
+        "male": "Male",
+        "lgbt": "LGBT",
+        "unknown": "Unknown",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "Other"
+      },
+      "name": "Name",
+      "gender": "Gender",
+      "carer_phone": "Carer Phone Number",
+      "carer_email": "Carer Email Address",
+      "relationship": "Relationship to Client",
+      "family_record": "Family Record",
+      "address": "Address",
+      "same_as_client": "Same as Client",
+      "outside_cambodia": "International"
+    },
+    "caseActionNotRequiredModalFooter": {
+      "iam_sure": "I'm Sure",
+      "go_back": "Go Back"
+    },
+    "clientAddressInfo": {
+      "address": "Address",
+      "outside_cambodia": "International",
+      "client_contact": "Client Contact Phone",
+      "phone_owner": "Phone Owner",
+      "client_email": "Client Email Contact",
+      "email_owner": "Email Owner",
+      "location_description": "Location Description"
+    },
+    "concernAddress": {
+      "outside_cambodia": "International",
+      "province": "Province",
+      "district": "District / Khan",
+      "commune": "Commune / Sangkat",
+      "village": "Village",
+      "street_number": "Street Number",
+      "house_number": "House Number",
+      "address_name": "Address Name",
+      "address_type": "Address Type"
+    },
+    "customInfo": {
+      "custom_id_1": "Custom ID Number 1",
+      "custom_id_2": "Custom ID Number 2",
+      "is_client_rated": "Is client rated for ID Poor?"
+    },
+    "donorInfo": {
+      "other_agencies": "Other Agencies Involved",
+      "donor": "Donor"
+    },
+    "index": {
+      "tabs": {
+        "caller_info": "Caller Information",
+        "client_referral_info": "Client / Referral Information",
+        "client_referral_question": "Client / Referral - Do you want to add:",
+        "client_referral_call": "Client / Referral - Call about"
+      },
+      "message": {
+        "call_has_been_created": "Call has been successfully created",
+        "call_has_been_updated": "Call has been successfully updated",
+        "referee_has_been_updated": "Referee has been successfully updated"
+      },
+      "cancel": "Cancel",
+      "previous": "Previous",
+      "next": "Next",
+      "save": "Save"
+    },
+    "noClientAttachedModal": {
+      "add_note_about_the_content": "Add a note about the content of your conversation with the caller.",
+      "information_provided": "Information Provided",
+      "go_back": "Go Back",
+      "save": "Save"
+    },
+    "confirmRemoveClientModal": {
+      "are_you_sure": "Are you sure you want to remove?",
+      "no": "No",
+      "yes": "Yes"
+    },
+    "providingUpdate": {
+      "please_select_client": "Please select client",
+      "go_back": "Go Back",
+      "go": "Go"
+    },
+    "refereeInfo": {
+      "genderLists": {
+        "female": "Female",
+        "male": "Male",
+        "lgbt": "LGBT",
+        "unknown": "Unknown",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "Other"
+      },
+      "answeredCallOpts": {
+        "call_answered": "Answered Call",
+        "return_missed_call": "Returning Missed Call"
+      },
+      "ageOpts": {
+        "18_plus": "18+",
+        "under_18": "Under 18"
+      },
+      "yes": "Yes",
+      "no": "No",
+      "anonymous": "Anonymous",
+      "caller_info": "Caller Information",
+      "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
+      "have_you_called": "Have you called the Childsafe Hotline Before?",
+      "are_you_a_child_safe_agent": "Are you a child safe agent?",
+      "anonymous_referee": "Anonymous Referee",
+      "name": "Name",
+      "gender": "Gender",
+      "are_you_over_18": "Are you over 18 years old?",
+      "referee_phone": "Referee Phone Number",
+      "referee_email": "Referee Email Address",
+      "referral_source_catgeory": "Referral Source Category",
+      "referral_source": "Referral Source",
+      "address": "Address",
+      "outside_cambodia": "International",
+      "this_caller_has_requested": "This caller has requested an update on the case after intervention is completed."
+    },
+    "referralInfo": {
+      "genderLists": {
+        "female": "Female",
+        "male": "Male",
+        "lgbt": "LGBT",
+        "unknown": "Unknown",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "Other"
+      },
+      "client_referral": "Client / Referral Information",
+      "given_name": "Given Name (Latin)",
+      "family_name": "Family Name (Latin)",
+      "given_name_khmer": "Given Name(Khmer)",
+      "family_name_khmer": "Family Name (Khmer)",
+      "nickname": "Nickname",
+      "date_of_birth": "Date of Birth",
+      "gender": "Gender",
+      "birth_province": "Birth Province",
+      "relationshio_to_caller": "Relationship to Referee",
+      "case_worker": "Case Worker / Assigned Staff Manager",
+      "contact_info": "Contact Information",
+      "client_is_outside": "International",
+      "client_phone": "Client Contact Phone",
+      "phone_owner": "Phone Owner",
+      "client_email": "Client Email Contact",
+      "email_owner": "Email Owner",
+      "location_description": "Contact Location Description",
+      "location_of_concern": "Location of concern",
+      "same_as_client": "Same as Client",
+      "concern_is_outside_cambodia": "International",
+      "relevant_contact_phone": "Relevant Contact Phone",
+      "relevant_email": "Relevant Email Contact",
+      "locatin_description": "Concern Location Description",
+      "add_another_client": "Add Another Client",
+      "remove_client": "Remove Client",
+      "confirmation": "Confirmation"
+    },
+    "referralMoreInfo": {
+      "client_referral_more_info": "Client / Referral - More Information",
+      "do_you_want_to_add": "Do you want to add:",
+      "carer_info": "Carer Information?",
+      "school_info": "School Information?",
+      "donor_info": "Donor Information?",
+      "other_info": "Other Information",
+      "phone_counselling": "Phone Counselling Summary"
+    },
+    "schoolInfo": {
+      "school_name": "School Name",
+      "school_grade": "School Grade",
+      "main_school_contact": "Main School Contact"
+    }
+  },
+  "callsOld": {
+    "index": {
+      "no_call": "No call",
+      "create_new_call": "Create New Call",
+      "phone_call_id": "Phone Call ID",
+      "call_type": "Call Type"
+    }
+  },
+  "commons": {
+    "listTable": {
+      "index": {
+        "action": "Action",
+        "Address Type": "Address Type",
+        "Adult": "Adult",
+        "Anonymous": "Anonymous",
+        "Answered Call": "Answered Call",
+        "Basic Necessities": "Basic Necessities",
+        "Call Type": "Call Type",
+        "Called Before": "Called Before",
+        "Childsafe Agent": "Childsafe Agent",
+        "Child Protection Concerns": "Child Protection Concerns",
+        "Current Address": "Current Address",
+        "Date Of Call": "Date Of Call",
+        "Email": "Email",
+        "Full Name": "Full Name",
+        "Gender": "Gender",
+        "Information Provided": "Information Provided",
+        "Name": "Name",
+        "House Number": "House Number",
+        "no_client": "No Client",
+        "Phone": "Phone",
+        "Phone Call Id": "Phone Call Id",
+        "Receiving Staff": "Receiving Staff",
+        "Requested Update": "Requested Update",
+        "Street Number": "Street Number",
+        "Time Call Began": "Time Call Began",
+        "Time Call Ended": "Time Call Ended",
+        "Not A Phone Call": "Not A Phone Call",
+        "Start Datetime": "Time of Call",
+        "Other More Information": "Other More Information",
+        "Brief Note Summary": "Brief Note Summary",
+        "Suburb": "Suburb",
+        "Description House Landmark": "Description House Landmark",
+        "Directions": "Directions",
+        "Street Line1": "Street Line1",
+        "Street Line2": "Street Line2",
+        "Plot": "Plot",
+        "Road": "Road",
+        "Postal Code": "Postal Code",
+        "Locality": "Locality"
+      }
+    }
+  },
+  "detailCall": {
+    "call": {
+      "about_call": "About Call",
+      "New Referral: Case Action Required": "New Referral: Case Action Required",
+      "New Referral: Case Action NOT Required": "New Referral: Case Action NOT Required",
+      "Providing Update": "Providing Update",
+      "Phone Counselling": "Phone Counselling",
+      "Seeking Information": "Seeking Information",
+      "Spam Call": "Spam Call",
+      "Wrong Number": "Wrong Number"
+    },
+    "listClient": {
+      "list_clients": "List Clients"
+    },
+    "referee": {
+      "referee": "Referee"
+    },
+    "index": {}
+  },
+  "editCall": {
+    "index": {
+      "calltypes": {
+        "new_referral_case": "New Referral: Case Action Required",
+        "new_referral_notifier": "New Referral: Case Action NOT Required",
+        "providing_update": "Providing Update",
+        "phone_conseling": "Phone Counselling",
+        "seeking_information": "Seeking Information",
+        "spam_call": "Spam Call",
+        "wrong_number": "Wrong Number"
+      },
+      "message": {
+        "call_has_been_updated": "Call has been successfully updated"
+      },
+      "call_information": "Call Information",
+      "receiving_staff": "Receiving Staff Members",
+      "date_of_call": "Date of Call",
+      "time_call_began": "Time of Call",
+      "time_call_ended": "Time Call Ended",
+      "call_type": "Call Type",
+      "information_provided": "Information Provided",
+      "cancel": "Cancel",
+      "save": "save"
+    }
+  },
+  "editCallReferee": {
+    "index": {
+      "genderLists": {
+        "female": "Female",
+        "male": "Male",
+        "lgbt": "LGBT",
+        "unknown": "Unknown",
+        "prefer_not_to_say": "Prefer not to answer/Non-specified",
+        "other": "Other"
+      },
+      "answeredCallOpts": {
+        "call_answered": "Answered Call",
+        "return_missed_call": "Returning Missed Call"
+      },
+      "ageOpts": {
+        "18_plus": "18+",
+        "under_18": "Under 18"
+      },
+      "yes": "Yes",
+      "no": "No",
+      "anonymous": "Anonymous",
+      "name": "Name",
+      "referee_has_been_updated": "Referee has been successfully updated",
+      "caller_info": "Caller Information",
+      "did_you_answer_the_call": "Did you answer this call, or are you returning a missed call?",
+      "have_you_called": "Have you called the Childsafe Hotline Before?",
+      "anonymous_referee": "Anonymous Referee",
+      "gender": "Gender",
+      "are_you_over_18": "Are you over 18 years old?",
+      "referee_phone": "Referee Phone Number",
+      "referee_email": "Referee Email Address",
+      "address": "Address",
+      "outside_cambodia": "International",
+      "cancel": "Cancel",
+      "save": "save"
+    }
+  },
+  "genderLists": {
+    "female": "Female",
+    "male": "Male",
+    "lgbt": "LGBT",
+    "unknown": "Unknown",
+    "prefer_not_to_say": "Prefer not to answer/Non-specified",
+    "other": "Other"
+  }
+}

@@ -1,16 +1,20 @@
-class ReferralHistory
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class ReferralHistory < ActiveRecord::Base
+  belongs_to :client, with_deleted: true
+  belongs_to :followed_up_by, class_name: 'User', foreign_key: 'followed_up_by_id', with_deleted: true
+  belongs_to :received_by, class_name: 'User', foreign_key: 'received_by_id', with_deleted: true
 
-  store_in database: -> { Organization.current.mho? ? ENV['MHO_HISTORY_DATABASE_NAME'] : Rails.configuration.history_database_name }
-  default_scope { where(tenant: Organization.current.try(:short_name)) }
+  validates :client_id, presence: true
+  validates :referral_date, presence: true
 
-  field :object, type: Hash
-  field :tenant, type: String, default: -> { Organization.current.short_name }
+  def self.max_count
+    group(:client_id).count.values.max || 0
+  end
 
-  protected
+  def users
+    User.where(id: user_ids.compact)
+  end
 
-  def self.initial(referral)
-    create(object: referral.attributes)
+  def initial_referral_date
+    referral_date || created_at
   end
 end

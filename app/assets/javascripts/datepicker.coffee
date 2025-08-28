@@ -18,7 +18,7 @@ $(document).on 'ready page:load', ->
     format: 'yyyy-mm-dd',
     todayHighlight: true,
     disableTouchKeyboard: true,
-    orientation: 'bottom'
+    orientation: 'auto'
     startDate: '1899,01,01',
     todayBtn: true
   .attr('readonly', 'true').css('background-color','#ffffff').keypress (e) ->

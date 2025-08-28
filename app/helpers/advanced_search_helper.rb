@@ -196,7 +196,8 @@ module AdvancedSearchHelper
       case_note: I18n.t('dashboards.case_note_tab.case_note'),
       other: I18n.t('advanced_search.fields.other'),
       common_searches: I18n.t('advanced_search.fields.common_searches'),
-      risk_assessment: I18n.t('risk_assessments._attr.risk_assessment')
+      risk_assessment: I18n.t('risk_assessments._attr.risk_assessment'),
+      has_disability: I18n.t('risk_assessments._attr.has_disability')
     }
 
     translations = label_translations(address_translation(group_name)).merge(translations)
@@ -207,6 +208,8 @@ module AdvancedSearchHelper
       translations[:custom_completed_date] = I18n.t('datagrid.columns.assessment_completed_date', assessment: I18n.t('families.family_assessment'))
       translations[:custom_csi_domain_scores] = I18n.t('advanced_search.fields.family_assessment_domain_scores')
     end
+
+    translations[key.to_sym] = "#{key[/\d/].to_i.ordinalize} #{I18n.t("clients.attr.#{key[/.*([^_\d])/]}")}" if key[/_\d/]
 
     translations[key.to_sym] || ''
   end

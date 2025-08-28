@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def setting
-    @setting ||= Setting.cache_first
+    @setting ||= Setting.first
   end
 
   def asset_data_base64(path)
@@ -71,6 +71,8 @@ module ApplicationHelper
 
   def client_report_builder_cache_key
     [
+      Apartment::Tenant.current,
+      'client-report-builder',
       current_user.roles,
       setting,
       params[:locale],
@@ -217,7 +219,9 @@ module ApplicationHelper
   end
 
   def date_format(date)
-    date.strftime('%d %B %Y') if date.present?
+    return unless date
+
+    date.strftime('%d %B %Y')
   end
 
   def date_time_format(date_time)
@@ -419,7 +423,7 @@ module ApplicationHelper
       ]
     end
 
-    options = options.unshift([0, setting.default_assessment, { 'data-type' => :default, 'data-select-group' => t('advanced_search.fields.csi_domain_scores') }]) if setting.enable_default_assessment?
+    options.unshift([0, setting.default_assessment, { 'data-type' => :default, 'data-select-group' => t('advanced_search.fields.csi_domain_scores') }]) if setting.enable_default_assessment?
     options
   end
 
@@ -442,6 +446,19 @@ module ApplicationHelper
     when 'thailand' then 'Thai'
     when 'lesotho' then 'English'
     when 'indonesia' then 'Bahasa'
+    when 'vietnam' then 'Vietnamese'
+    end
+  end
+
+  def country_to_flag(country)
+    case country
+    when 'cambodia' then 'Cambodia.png'
+    when 'myanmar' then 'Myanamar-icon.png'
+    when 'thailand' then 'thailand.png'
+    when 'indonesia' then 'indonesia.png'
+    when 'vietnam' then 'vietnam.png'
+    else
+      'United-Kingdom.png'
     end
   end
 
@@ -450,8 +467,9 @@ module ApplicationHelper
       en: { label: t('.english'), flag_file_name: 'United-Kingdom.png' },
       km: { label: t('.khmer'), flag_file_name: 'Cambodia.png' },
       my: { label: t('.burmese'), flag_file_name: 'Myanamar-icon.png' },
-      th: { label: t('.thainland'), flag_file_name: 'thailand.png' },
-      id: { label: t('.bahasa'), flag_file_name: 'indonesia.png' }
+      th: { label: t('.thai'), flag_file_name: 'thailand.png' },
+      id: { label: t('.bahasa'), flag_file_name: 'indonesia.png' },
+      vn: { label: t('.vietnam'), flag_file_name: 'vietnam.png' }
     }
   end
 
@@ -531,5 +549,9 @@ module ApplicationHelper
   def age_in_hash(dob)
     now = Time.now.utc
     distance_of_time_in_words_hash(now, dob)
+  end
+
+  def list_ordinal_numbers
+    (2..100).map(&:ordinalize)
   end
 end

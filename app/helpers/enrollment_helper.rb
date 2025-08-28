@@ -20,13 +20,13 @@ module EnrollmentHelper
 
     if program_permission_editable?(program_stream) && policy(@programmable).create?
       link_to path do
-        content_tag :div, class: 'btn btn-primary btn-xs btn-width' do 
+        content_tag :div, class: 'btn btn-primary btn-xs btn-width' do
           t('.enroll')
         end
       end
     else
       link_to_if false, path do
-        content_tag :div, class: 'btn btn-primary btn-xs btn-width disabled' do 
+        content_tag :div, class: 'btn btn-primary btn-xs btn-width disabled' do
           t('.enroll')
         end
       end

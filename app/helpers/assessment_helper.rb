@@ -1,13 +1,13 @@
 module AssessmentHelper
   def assessment_edit_link(client, assessment)
-    if assessment_editable?
-      link_to(edit_client_assessment_path(assessment.client, assessment)) do
+    if assessment_editable? || assessment.created_at >= 1.week.ago.to_date
+      link_to(edit_client_assessment_path(client, assessment)) do
         content_tag :div, class: 'btn btn-outline btn-success' do
           fa_icon('pencil')
         end
       end
     else
-      link_to_if(false, edit_client_assessment_path(assessment.client, assessment)) do
+      link_to_if(false, edit_client_assessment_path(client, assessment)) do
         content_tag :div, class: 'btn btn-outline btn-success disabled' do
           fa_icon('pencil')
         end
@@ -17,13 +17,13 @@ module AssessmentHelper
 
   def assessment_destroy_link(client, assessment)
     if assessment_deleted?
-      link_to(client_assessment_path(assessment.client, assessment), method: 'delete', data: { confirm: t('.are_you_sure') }) do
+      link_to(client_assessment_path(client, assessment), method: 'delete', data: { confirm: t('.are_you_sure') }) do
         content_tag :div, class: 'btn btn-outline btn-danger' do
           fa_icon('trash')
         end
       end
     else
-      link_to_if(false, client_assessment_path(assessment.client, assessment), method: 'delete', data: { confirm: t('.are_you_sure') }) do
+      link_to_if(false, client_assessment_path(client, assessment), method: 'delete', data: { confirm: t('.are_you_sure') }) do
         content_tag :div, class: 'btn btn-outline btn-danger disabled' do
           fa_icon('trash')
         end
@@ -49,7 +49,6 @@ module AssessmentHelper
   def assessment_editable?
     return true if current_user.admin?
     return false if current_user.strategic_overviewer?
-    current_user.permission.assessments_editable
   end
 
   def assessment_deleted?
@@ -399,7 +398,7 @@ module AssessmentHelper
 
     return sum if sum.zero?
 
-    (sum.to_f / current_setting.selected_domain_ids.compact.size).round
+    format('%.2f', sum.to_f / current_setting.selected_domain_ids.compact.size)
   end
 
   def check_setting_assessment_type_name_selected(assessment)

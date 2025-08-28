@@ -1,0 +1,655 @@
+{
+  "address": {
+    "outside_address": "ที่อยู่อื่น ๆ",
+    "provicne": "จังหวัด",
+    "district": "อำเภอ",
+    "commune": "ชุมชน / แขวง",
+    "village": "หมู่บ้าน",
+    "street_number": "หมายเลขถนน",
+    "house_number": "บ้านเลขที่",
+    "address_name": "ชื่อที่อยู่",
+    "address_type": "ประเภทของที่อยู่",
+    "locality": "สถานที่",
+    "lesotho": {
+      "description_house_landmark": "คำอธิบายของบ้านและจุดสังเกต",
+      "directions": "ทิศทาง",
+      "suburb": "ชานเมือง"
+    },
+    "myanmar": {
+      "state": "สถานะ",
+      "township": "เทาน์ชิพ",
+      "street_line1": "ถนน - ส่วนที่ 1 ",
+      "street_line2": "ถนน - ส่วนที่ 2 (ไม่บังคับ)"
+    },
+    "thailand": {
+      "district": "เขต",
+      "plot": "ที่อยู่, หมู่บ้าน",
+      "postal_code": "รหัสไปรษณีย์",
+      "province": "จังหวัด",
+      "road": "ถนน",
+      "subdistrict": "ตำบล"
+    },
+    "nepal": {
+      "province": "จังหวัด",
+      "district": "เขต",
+      "municipality": "เทศบาล",
+      "plot": "ที่อยู่, หมู่บ้าน",
+      "postal_code": "รหัสไปรษณีย์",
+      "road": "ถนน"
+    }
+  },
+  "admin": {
+    "admin_information": "ข้อมูลทางบริหาร",
+    "receiving_staff": "รับสมาชิกพนักงาน",
+    "date_referral": "วันที่อ้างอิง",
+    "case_worker": "ผู้ดูแลกรณี / ผู้จัดการพนักงานที่ได้รับมอบหมาย",
+    "first_follow_by": "การติดตามครั้งแรกโดย",
+    "first_follow_date": "วันที่ของการติดตามครั้งแรก"
+  },
+  "carerInfo": {
+    "name": "ชื่อ",
+    "gender": "เพศ",
+    "carer_phone": "โทรศัพท์ผู้ดูแล",
+    "carer_email": "อีเมลผู้ดูแล",
+    "client_relationship": "ความสัมพันธ์ของผู้ดูแลกับลูกค้า",
+    "family_record": "ลูกค้าปฏิเสธ",
+    "address": "ที่อยู่",
+    "same_as_client": "เหมือนกับลูกค้า",
+    "outside_cambodia": "ระหว่างประเทศ",
+    "sam_as_client": "เหมือนกับลูกค้า"
+  },
+  "createFamilyModal": {
+    "wait_for_server_req": "การตรวจสอบการทำซ้ำกำลังทำงาน โปรดรอสักครู่!",
+    "create_family_record": "คุณต้องการสร้างบันทึกครอบครัวสำหรับลูกค้าคนนี้หรือเชื่อมต่อกับครอบครัวที่มีอยู่แล้ว?",
+    "create_family": "สร้างครอบครัวใหม่กับลูกค้า",
+    "attach_family_to_client": "แนบไปยังบันทึกครอบครัวที่มีอยู่",
+    "no": "ไม่",
+    "save": "บันทึก",
+    "successfully_created": "ลูกค้าได้ถูกสร้างเรียบร้อยแล้วค่ะ"
+  },
+  "customInfo": {
+    "custom_id_1": "หมายเลขรหัสปรับแต่ง 1",
+    "custom_id_2": "หมายเลขรหัสปรับแต่ง 2",
+    "rate_client_id": "ลูกค้าได้รับการจัดอันดับเป็นระดับความยากลำบากในการระบุตัวตนหรือไม่?",
+    "has_already_taken": "ถูกใช้ไปแล้ว"
+  },
+  "donorInfo": {
+    "other_agencies": "หน่วยงานอื่นที่เกี่ยวข้อง",
+    "donor": "ผู้บริจาค"
+  },
+  "index": {
+    "referee_info": "ข้อมูลที่เกี่ยวข้องเกี่ยวกับผู้ชี้แนะ",
+    "referral_info": "ข้อมูลทั่วไปของลูกค้า / ข้อมูลที่เกี่ยวข้องเกี่ยวกับการชี้แนะ",
+    "referral_more_info": "ข้อมูลทั่วไปของลูกค้า / ข้อมูลที่เกี่ยวข้องเกี่ยวกับการชี้แนะ - ข้อมูลเพิ่มเติม",
+    "referral_vulnerability": "Client / Referral - ข้อมูลลูกคู้ / ข้อบกพร่องและบันทึกย่อ",
+    "wait": "การตรวจสอบการทำซ้ำกำลังทำงาน โปรดรอสักครู่!",
+    "duplicate_checker": "การตรวจสอบการทำซ้ำกำลังทำงาน โปรดรอสักครู่!",
+    "cancel": "ยกเลิก",
+    "next": "ถัดไป",
+    "previous": "ก่อนหน้า",
+    "save": "บันทึก",
+    "similar_record": "บันทึกข้อมูลลูกค้าที่คุณกำลังบันทึกมีความคล้ายคลึงกับบันทึกอื่นใน OSCaR ในฟิลด์ต่อไปนี้:",
+    "checking_message": "ลูกค้าที่ซ้ำนี้จะถูกจัดประเภทและบันทึกไว้ในรายการความซ้ำซ้อนสำหรับ OSCaR ตรวจสอบ",
+    "duplicate_message": "คุณลักษณะตรวจสอบความซ้ำซ้อนในปัจจุบันอยู่ในช่วงทดสอบเบต้า กรุณาส่งอีเมล: %{sender_email} หากคุณมีปัญหาใดๆ เกี่ยวกับผลลัพธ์เท็จบวก/ลบเกินไป",
+    "continue": "ดำเนินการต่อ",
+    "client_confirm": "การยืนยันของลูกค้า",
+    "warning": "คำเตือน",
+    "informing": "การแจ้งให้ทราบ",
+    "successfully_created": "ลูกค้าได้ถูกสร้างเรียบร้อยแล้วค่ะ",
+    "successfully_updated": "ลูกค้าได้รับการอัปเดตเรียบร้อยแล้วค่ะ"
+  },
+  "refereeInfo": {
+    "anonymous": "ไม่ระบุชื่อ",
+    "referee_info": "ข้อมูลที่เกี่ยวข้องเกี่ยวกับผู้ชี้แนะ",
+    "anonymous_referee": "ผู้ตัดสินไม่ระบุชื่อ",
+    "name": "ชื่อ",
+    "gender": "เพศ",
+    "referee_phone": "หมายเลขโทรศัพท์ของผู้ตัดสิน",
+    "referee_email": "อีเมลผู้ตัดสินใจ",
+    "referral_source_cat": "หมวดหมู่แหล่งข้อมูลการชี้แนะ",
+    "referral_source": "แหล่งข้อมูลการชี้แนะ",
+    "address": "ที่อยู่",
+    "outside_cam": "ระหว่างประเทศ",
+    "female": "หญิง",
+    "male": "ชาย",
+    "lgbt": "สหภาพสมาคม LGBT",
+    "unknown": "ไม่ทราบ",
+    "prefer_not_to_say": "ไม่ต้องการตอบ/ไม่ระบุ",
+    "other": "อื่น ๆอื่น ๆ"
+  },
+  "referralInfo": {
+    "referral_info": "ข้อมูลทั่วไปของลูกค้า / ข้อมูลที่เกี่ยวข้องเกี่ยวกับการชี้แนะ",
+    "given_name": "ชื่อ (ภาษาอังกฤษ)",
+    "family_name": "นามสกุล (ภาษาอังกฤษ)",
+    "local_given_name": "ชื่อ(Khmer)",
+    "local_family_name": "นามสกุล (ภาษาอังกฤษ)",
+    "gender": "เพศ",
+    "genderLists": {
+      "female": "หญิง",
+      "male": "ชาย",
+      "lgbt": "สหภาพสมาคม LGBT",
+      "unknown": "ไม่ทราบ",
+      "prefer_not_to_say": "ไม่ต้องการตอบ/ไม่ระบุ",
+      "other": "อื่น ๆอื่น ๆ"
+    },
+    "date_of_birth": "วันเกิด",
+    "birth_province": "จังหวัดเกิด",
+    "client_relationship": "ความสัมพันธ์ของผู้ดูแลกับลูกค้า",
+    "caller_relationship": "ความสัมพันธ์ของผู้ดูแลกับลูกค้า",
+    "contact_info": "ข้อมูลการติดต่อ",
+    "client_is_outside": "ระหว่างประเทศ",
+    "what_3_word": "อะไรคือ 3 ประโยค",
+    "client_phone": "หมายเลขโทรศัพท์ของผู้ติดต่อลูกค้า",
+    "phone_owner": "เจ้าของโทรศัพท์",
+    "client_email": "ที่อยู่อีเมลของลูกค้า",
+    "profile": "รูปหน้าคลุม",
+    "remove": "เอา",
+    "for_testing": "นี่เป็นลูกค้าทดสอบหรือไม่?"
+  },
+  "referralMoreInfo": {
+    "referral_more_info": "ข้อมูลทั่วไปของลูกค้า / ข้อมูลที่เกี่ยวข้องเกี่ยวกับการชี้แนะ - ข้อมูลเพิ่มเติม",
+    "do_you_want": "คุณต้องการเพิ่มใช่หรือไม่",
+    "carer_info": "ข้อมูลสำหรับผู้ดูแล",
+    "school_info": "ข้อมูลโรงเรียน?",
+    "donor_info": "ข้อมูลสำหรับผู้บริจาค?",
+    "other_info": "ข้อมูลอื่น ๆ"
+  },
+  "referralVulnerability": {
+    "referral_vulnerability": "Client / Referral - ข้อมูลลูกคู้ / ข้อบกพร่องและบันทึกย่อ",
+    "enter_a_breif": "ใส่บันทึกสั้นๆ เกี่ยวกับการแนะนำของลูกค้า"
+  },
+  "schoolInfo": {
+    "school_name": "ชื่อโรงเรียน",
+    "school_grade": "ระดับชั้นโรงเรียน",
+    "main_school_contact": "ผู้ติดต่อหลักของโรงเรียน"
+  },
+  "validation": {
+    "cannot_blank": "ไม่สามารถเว้นว่าง"
+  },
+  "addressType": {
+    "Home": "บ้าน",
+    "Business": "ธุรกิจ",
+    "RCI": "RCI",
+    "Dormitory": "หอพัก",
+    "Other": "อื่น ๆอื่น ๆ"
+  },
+  "phoneOwner": {
+    "Self": "ตัวเอง",
+    "Family Member": "สมาชิกในครอบครัว",
+    "Friend": "เพื่อน",
+    "Helping Professional": "ผู้ช่วยอาชีพ",
+    "Government / Local Authority": "รัฐบาล / เจ้าหน้าที่ท้องถิ่น",
+    "Other": "อื่น ๆอื่น ๆ"
+  },
+  "refereeRelationShip": {
+    "Self": "ตัวเอง",
+    "Family Member": "สมาชิกในครอบครัว",
+    "Friend": "เพื่อน",
+    "Helping Professional": "ผู้ช่วยอาชีพ",
+    "Government / Local Authority": "รัฐบาล / เจ้าหน้าที่ท้องถิ่น",
+    "Other": "อื่น ๆอื่น ๆ",
+    "Child": "เด็ก",
+    "In same community": "ในชุมชนเดียวกัน",
+    "Client": "ผู้ใช้บริการ",
+    "Stranger": "คนแปลกหน้า"
+  },
+  "clientRelationShip": {
+    "Husband": "สามี",
+    "Son": "ลูกชาย",
+    "Daughter": "ลูกสาว",
+    "Parent": "ผู้ปกครอง",
+    "Grandparent": "ปู่ย่าตายาย",
+    "Grandson": "หลานชาย",
+    "Granddaughter": "หลานสาว",
+    "Aunt / Uncle": "ป้า / ลุง",
+    "Sibling": "พี่น้อง",
+    "Cousin": "ลูกพี่ลูกน้อง",
+    "Family Friend": "ครอบครัว/เพื่อน",
+    "Foster Carer": "ฟอสเตอร์ เคร์",
+    "Temporary Carer": "ผู้ดูแลชั่วคราว",
+    "RCI Carer": "ผู้ดูแล RCI",
+    "Adopted Parent": "ผู้ปกครองบุตรบุญธรรม",
+    "Other": "อื่น ๆอื่น ๆ"
+  },
+  "callerRelationship": {
+    "Self": "ตัวเอง",
+    "Child": "เด็ก",
+    "Family Member": "สมาชิกในครอบครัว",
+    "Friend": "เพื่อน",
+    "In same community": "ในชุมชนเดียวกัน",
+    "Client": "ผู้ใช้บริการ",
+    "Stranger": "คนแปลกหน้า",
+    "Other": "อื่น ๆอื่น ๆ"
+  },
+  "schoolGrade": {
+    "Bachelors": "ปริญญาตรี",
+    "Kindergarten 1": "ปฐมวัย 1",
+    "Kindergarten 2": "โรงเรียนอนุบาล 2",
+    "Kindergarten 3": "โรงเรียนอนุบาล 3",
+    "Kindergarten 4": "โรงเรียนอนุบาล 4",
+    "1": "1",
+    "2": "2",
+    "3": "3",
+    "4": "4",
+    "5": "5",
+    "6": "6",
+    "7": "7",
+    "8": "8",
+    "9": "9",
+    "10": "10",
+    "11": "11",
+    "12": "12",
+    "Year 1": "ปี 1",
+    "Year 2": "ปี 2",
+    "Year 3": "ปี 3",
+    "Year 4": "ปี 4",
+    "Year 5": "ปี 5",
+    "Year 6": "ปี 6",
+    "Year 7": "ปี 7",
+    "Year 8": "ปี 8"
+  },
+  "agency": {
+    "Church": "โบสถ์",
+    "Gov't": "รัฐบาล",
+    "Hospital / Clinic / Doctor": "โรงพยาบาล / คลินิก / หมอ",
+    "Local": "ท้องถิ่น",
+    "Mother's heart": "ใจแม่",
+    "Other NGO": "องค์กรอื่น ๆ",
+    "Police": "ตำรวจ"
+  },
+  "newCall": {
+    "address": {
+      "outside_address": "ที่อยู่อื่น ๆ",
+      "provicne": "จังหวัด",
+      "district": "อำเภอ",
+      "commune": "ชุมชน / แขวง",
+      "village": "หมู่บ้าน",
+      "street_number": "หมายเลขถนน",
+      "house_number": "หมายเลขบ้าน",
+      "address_name": "ชื่อที่อยู่",
+      "address_type": "ประเภทของที่อยู่"
+    },
+    "addTaskModal": {
+      "please_input_all_require_field": "กรุณากรอกในช่องที่จำเป็นทั้งหมด",
+      "completion_date": "วันที่เสร็จสิ้น",
+      "task_details": "รายละเอียดของงาน",
+      "domain": "โดเมน",
+      "save": "บันทึก",
+      "cancel": "ยกเลิก",
+      "add_new_tasks": "เพิ่มงานใหม่"
+    },
+    "admin": {
+      "calltypes": {
+        "new_referral_case": "การแนะนำใหม่: ต้องดำเนินการทางเคส",
+        "new_referral_notifier": "ระบบการแนะนำใหม่: ไม่จำเป็นต้องดำเนินการทางกรณี",
+        "providing_update": "การให้ข้อมูลอัพเดต",
+        "phone_conseling": "การให้คำปรึกษาทางโทรศัพท์",
+        "seeking_information": "ค้นหาข้อมูล",
+        "spam_call": "สแปมโทรหา",
+        "wrong_number": "หมายเลขโทรศัพท์ผิด"
+      },
+      "referee_answered_call": "ผู้ตัดสินได้ตอบโทรศัพท์นี้หรือโทรกลับจากการไม่รับสาย?",
+      "referee_called_before": "ผมอยากทราบว่าผู้ตัดสินเรียกไหม?",
+      "call_information": "ข้อมูลการโทร",
+      "phone_call": "รหัสการโทรออก #",
+      "receiving_staff": "พนักงานรับสมาชิก",
+      "call_type": "ประเภทการโทร",
+      "confirmation": "การยืนยัน",
+      "save_call_as": "คุณแน่ใจหรือไม่ว่าต้องการบันทึกสายนี้เป็น",
+      "add_note_about_the_content": "เพิ่มบันทึกเกี่ยวกับเนื้อหาของการสนทนากับผู้โทรเข้ามา.",
+      "information_provide": "ข้อมูลที่ให้ไว้",
+      "go": "ไป",
+      "go_back": "กลับไป",
+      "go_to_client": "ไปที่ลูกค้า",
+      "please_select_client": "โปรดเลือกลูกค้า",
+      "verify_message": "คุณเลือก 'ไม่จำเป็นต้องดำเนินการเคส' สำหรับการโทรนี้ ซึ่งหมายความว่าคุณไม่เชื่อว่าการโทรนี้จำเป็นต้องทำการติดตามเพิ่มเติมอีก เชิญตรวจสอบให้แน่ใจว่าเป็นการตัดสินใจที่ถูกต้องสำหรับการโทรนี้นะคะ กด 'ฉันแน่ใจ' เพื่อดำเนินการต่อ กด 'ย้อนกลับ' หากต้องการเปลี่ยนการเลือกของคุณค่ะ.",
+      "date_of_call": "วันที่โทร",
+      "time_call_began": "เวลาที่เริ่มโทร",
+      "time_call_ended": "เวลาที่โทรหยุด",
+      "not_a_phone_call": "ไม่ใช่การโทรศัพท์"
+    },
+    "callAbout": {
+      "basicNecessities": {
+        "1": "มองหาความช่วยเหลือด้านสุขภาพ/การแพทย์ (รวมถึงฉุกเฉิน การตั้งครรภ์ หรือปัญหาสุขภาพอื่นๆ)",
+        "2": "มองหาข้อมูลการศึกษาและคำขอวัสดุสำหรับการลงทะเบียนเรียนที่โรงเรียน; กลับมาเรียน; ต้องการความช่วยเหลือในการอยู่ร่วมกันในโรงเรียน.",
+        "3": "ค้นหาอาหาร, น้ำ, นม, การสนับสนุนที่เกี่ยวกับที่อยู่อาศัย.",
+        "4": "มองหาการฝึกอาชีพ/การจ้างงาน.",
+        "5": "ผู้ดูแลที่ต้องการส่งลูกของตนไปที่ RCI.",
+        "6": "อื่น ๆอื่น ๆ"
+      },
+      "childProtectionConcerns": {
+        "1": "ความรุนแรงทางร่างกายของเด็ก",
+        "2": "ความรุุนแรงทางอารมณ์",
+        "3": "ความรุนแรงทางเพศ",
+        "4": "ทอดทิ้ง/ไม่มีการดูแลจากผู้ใหญ่",
+        "5": "การช่วยเหลือเหยื่อการค้ามนุษย์ (การกลับถิ่น / การทำงานร่วมกับเจ้าหน้าที่เพื่อช่วยเหลือ)",
+        "6": "แรงงานบังคับ (การค้าเพศ, การใช้เหยื่อ, การขายของบนถนน, โรงงานอิฐ, หรือการทำงานที่เสี่ยงต่อสุขภาพและความปลอดภัยของเด็ก)",
+        "7": "การใช้ยา (การค้นหาการสนับสนุนในการฟื้นฟูสุขภาพ)",
+        "8": "การดื่มแอลกอฮอล์ (การค้นหาการสนับสนุนในการฟื้นฟูสุขภาพ)",
+        "9": "เด็กที่ถูกแยกจากครอบครัว - ถูกทอดทิ้ง; สูญหาย; อาศัยอยู่บนถนน.",
+        "10": "เด็กและพ่อแม่ที่อาศัยอยู่บนถนน.",
+        "11": "พิการ",
+        "12": "อื่น ๆอื่น ๆ"
+      },
+      "what_is_the_call": "คำถามเกี่ยวกับ / ร้องขอความช่วยเหลือสำหรับอะไร?",
+      "basic_necessities": "ความจำเป็นพื้นฐาน",
+      "child_protection": "ความกังวลเกี่ยวกับการปกป้องคุ้มครอง",
+      "enter_a_brief": "ป้อนบันทึกสรุปสั้น ๆ เกี่ยวกับการโทรออก",
+      "other_more_information": "อื่น ๆ - ข้อมูลเพิ่มเติมอื่น ๆ "
+    },
+    "carerInfo": {
+      "genderLists": {
+        "female": "หญิง",
+        "male": "ชาย",
+        "lgbt": "สหภาพสมาคม LGBT",
+        "unknown": "ไม่ทราบ",
+        "prefer_not_to_say": "ไม่ต้องการตอบ/ไม่ระบุ",
+        "other": "อื่น ๆอื่น ๆ"
+      },
+      "name": "ชื่อ",
+      "gender": "เพศ",
+      "carer_phone": "โทรศัพท์ผู้ดูแล",
+      "carer_email": "อีเมลผู้ดูแล",
+      "relationship": "ความสัมพันธ์ของผู้ดูแลกับลูกค้า",
+      "family_record": "ลูกค้าปฏิเสธ",
+      "address": "ที่อยู่",
+      "same_as_client": "เหมือนกับลูกค้า",
+      "outside_cambodia": "ระหว่างประเทศ"
+    },
+    "caseActionNotRequiredModalFooter": {
+      "iam_sure": "ฉันแน่ใจ",
+      "go_back": "กลับไป"
+    },
+    "clientAddressInfo": {
+      "address": "ที่อยู่",
+      "outside_cambodia": "ระหว่างประเทศ",
+      "client_contact": "หมายเลขโทรศัพท์ของผู้ติดต่อลูกค้า",
+      "phone_owner": "เจ้าของโทรศัพท์",
+      "client_email": "ข้อมูลการติดต่อทางอีเมลของลูกค้า",
+      "email_owner": "เจ้าของอีเมล",
+      "location_description": "คำอธิบายตำแหน่ง"
+    },
+    "concernAddress": {
+      "outside_cambodia": "ระหว่างประเทศ",
+      "province": "จังหวัด",
+      "district": "อำเภอ",
+      "commune": "ชุมชน / แขวง",
+      "village": "หมู่บ้าน",
+      "street_number": "หมายเลขบ้าน",
+      "house_number": "บ้านเลขที่",
+      "address_name": "ชื่อที่อยู่",
+      "address_type": "ประเภทของที่อยู่"
+    },
+    "customInfo": {
+      "custom_id_1": "หมายเลขรหัสปรับแต่ง 1",
+      "custom_id_2": "หมายเลขรหัสปรับแต่ง 2",
+      "is_client_rated": "ลูกค้าได้รับการจัดอันดับเป็นระดับความยากลำบากในการระบุตัวตนหรือไม่?"
+    },
+    "donorInfo": {
+      "other_agencies": "หน่วยงานอื่นที่เกี่ยวข้อง",
+      "donor": "ผู้บริจาค"
+    },
+    "index": {
+      "tabs": {
+        "caller_info": "ข้อมูลการโทร",
+        "client_referral_info": "ข้อมูลทั่วไปของลูกค้า / ข้อมูลที่เกี่ยวข้องเกี่ยวกับการชี้แนะ",
+        "client_referral_question": "Client / Referral - คุณต้องการเพิ่มหรือไม่:",
+        "client_referral_call": "ข้อมูลทั่วไปของลูกค้า / ข้อมูลที่เกี่ยวข้องเกี่ยวกับการชี้แนะ - โทรหาเรื่อง"
+      },
+      "message": {
+        "call_has_been_created": "เคสได้ถูกสร้างเรียบร้อยแล้วค่ะ",
+        "call_has_been_updated": "การโทรได้ถูกอัปเดตเรียบร้อยแล้ว",
+        "referee_has_been_updated": "บันทึกการปล่อยได้ถูกอัปเดตเรียบร้อยแล้วค่ะ"
+      },
+      "cancel": "ยกเลิก",
+      "previous": "ก่อนหน้า",
+      "next": "ถัดไป",
+      "save": "บันทึก"
+    },
+    "noClientAttachedModal": {
+      "add_note_about_the_content": "เพิ่มบันทึกเกี่ยวกับเนื้อหาของการสนทนากับผู้โทรเข้ามา.",
+      "information_provided": "ข้อมูลที่ให้ไว้",
+      "go_back": "กลับไป",
+      "save": "บันทึก"
+    },
+    "confirmRemoveClientModal": {
+      "are_you_sure": "ต้องการนำรายการนี้ออกหรือไม่?",
+      "no": "ไม่",
+      "yes": "ใช่"
+    },
+    "providingUpdate": {
+      "please_select_client": "โปรดเลือกลูกค้า",
+      "go_back": "กลับไป",
+      "go": "ไป"
+    },
+    "refereeInfo": {
+      "genderLists": {
+        "female": "หญิง",
+        "male": "ชาย",
+        "lgbt": "สหภาพสมาคม LGBT",
+        "unknown": "ไม่ทราบ",
+        "prefer_not_to_say": "ไม่ต้องการตอบ/ไม่ระบุ",
+        "other": "อื่น ๆอื่น ๆ"
+      },
+      "answeredCallOpts": {
+        "call_answered": "ตอบโทรศัพท์",
+        "return_missed_call": "การโทรกลับหาผู้โทรไม่ได้"
+      },
+      "ageOpts": {
+        "18_plus": "18+",
+        "under_18": "ต่ำกว่า 18"
+      },
+      "yes": "ใช่",
+      "no": "ไม่",
+      "anonymous": "ไม่ระบุชื่อ",
+      "caller_info": "ข้อมูลการโทร",
+      "did_you_answer_the_call": "คุณตอบโทรศัพท์นี้หรือกำลังโทรกลับจากการไม่รับสาย?",
+      "have_you_called": "คุณเคยโทรหาเส้นด่วน Childsafe มาก่อนหรือไม่?",
+      "are_you_a_child_safe_agent": "คุณเป็นตัวแทนเด็กปลอดภัยหรือไม่?",
+      "anonymous_referee": "ผู้ตัดสินไม่ระบุชื่อ",
+      "name": "ชื่อ",
+      "gender": "เพศ",
+      "are_you_over_18": "คุณอายุมากกว่า 16 รึไม่?",
+      "referee_phone": "หมายเลขโทรศัพท์ของผู้ตัดสิน",
+      "referee_email": "อีเมลผู้ตัดสินใจ",
+      "referral_source_catgeory": "หมวดหมู่แหล่งข้อมูลการชี้แนะ",
+      "referral_source": "แหล่งข้อมูลการชี้แนะ",
+      "address": "ที่อยู่",
+      "outside_cambodia": "ระหว่างประเทศ",
+      "this_caller_has_requested": "ผู้โทรขออัปเดตเคสหลังจากการเข้ามากำหนดการเสร็จสิ้นแล้ว"
+    },
+    "referralInfo": {
+      "genderLists": {
+        "female": "หญิง",
+        "male": "ชาย",
+        "lgbt": "สหภาพสมาคม LGBT",
+        "unknown": "ไม่ทราบ",
+        "prefer_not_to_say": "ไม่ต้องการตอบ/ไม่ระบุ",
+        "other": "อื่น ๆอื่น ๆ"
+      },
+      "client_referral": "ข้อมูลทั่วไปของลูกค้า / ข้อมูลที่เกี่ยวข้องเกี่ยวกับการชี้แนะ",
+      "given_name": "ชื่อ (ภาษาอังกฤษ)",
+      "family_name": "นามสกุล (ภาษาอังกฤษ)",
+      "given_name_khmer": "ชื่อ(Khmer)",
+      "family_name_khmer": "นามสกุล (ภาษาอังกฤษ)",
+      "nickname": "ชื่อเล่น",
+      "date_of_birth": "วันเกิด",
+      "gender": "เพศ",
+      "birth_province": "จังหวัดเกิด",
+      "relationshio_to_caller": "ความสัมพันธ์ของผู้ดูแลกับลูกค้า",
+      "case_worker": "ผู้ดูแลกรณี / ผู้จัดการพนักงานที่ได้รับมอบหมาย",
+      "contact_info": "ข้อมูลการติดต่อ",
+      "client_is_outside": "ระหว่างประเทศ",
+      "client_phone": "หมายเลขโทรศัพท์ของผู้ติดต่อลูกค้า",
+      "phone_owner": "เจ้าของโทรศัพท์",
+      "client_email": "ข้อมูลการติดต่อทางอีเมลของลูกค้า",
+      "email_owner": "เจ้าของอีเมล",
+      "location_description": "คำอธิบายตำแหน่งการติดต่อ",
+      "location_of_concern": "สถานที่ที่เกี่ยวข้อง",
+      "same_as_client": "เหมือนกับลูกค้า",
+      "concern_is_outside_cambodia": "ระหว่างประเทศ",
+      "relevant_contact_phone": "หมายเลขโทรศัพท์ของผู้ติดต่อที่เกี่ยวข้อง",
+      "relevant_email": "ข้อมูลการติดต่อทางอีเมลที่เกี่ยวข้อง",
+      "locatin_description": "คำอธิบายตำแหน่งของความกังวล",
+      "add_another_client": "เพิ่มลูกค้าใหม่",
+      "remove_client": "ปฏิเสธลูกค้า",
+      "confirmation": "การยืนยัน"
+    },
+    "referralMoreInfo": {
+      "client_referral_more_info": "ข้อมูลทั่วไปของลูกค้า / ข้อมูลที่เกี่ยวข้องเกี่ยวกับการชี้แนะ - ข้อมูลเพิ่มเติม",
+      "do_you_want_to_add": "คุณต้องการเพิ่มใช่หรือไม่",
+      "carer_info": "ข้อมูลสำหรับผู้ดูแล",
+      "school_info": "ข้อมูลโรงเรียน?",
+      "donor_info": "ข้อมูลสำหรับผู้บริจาค?",
+      "other_info": "ข้อมูลอื่น ๆ",
+      "phone_counselling": "สรุปการให้คำปรึกษาทางโทรศัพท์"
+    },
+    "schoolInfo": {
+      "school_name": "ชื่อโรงเรียน",
+      "school_grade": "ระดับชั้นโรงเรียน",
+      "main_school_contact": "ผู้ติดต่อหลักของโรงเรียน"
+    }
+  },
+  "callsOld": {
+    "index": {
+      "no_call": "ไม่มีสายเรียก",
+      "create_new_call": "สร้างการโทรใหม่",
+      "phone_call_id": "รหัสการโทรออก",
+      "call_type": "ประเภทการโทร"
+    }
+  },
+  "commons": {
+    "listTable": {
+      "index": {
+        "action": "การดำเนินการ",
+        "Address Type": "ประเภทของที่อยู่",
+        "Adult": "ผู้ใหญ่",
+        "Anonymous": "ไม่ระบุชื่อ",
+        "Answered Call": "ตอบโทรศัพท์",
+        "Basic Necessities": "ความจำเป็นพื้นฐาน",
+        "Call Type": "ประเภทการโทร",
+        "Called Before": "เรียกก่อน",
+        "Childsafe Agent": "ตัวแทนความปลอดภัยสำหรับเด็ก",
+        "Child Protection Concerns": "ความกังวลเกี่ยวกับการปกป้องคุ้มครอง",
+        "Current Address": "ที่อยู่ปัจจุบัน",
+        "Date Of Call": "วันที่โทร",
+        "Email": "อีเมล",
+        "Full Name": "ชื่อจริง",
+        "Gender": "เพศ",
+        "Information Provided": "ข้อมูลที่ให้ไว้",
+        "Name": "ชื่อ",
+        "House Number": "บ้านเลขที่",
+        "no_client": "ไม่มีลูกค้า",
+        "Phone": "โทรศัพท์",
+        "Phone Call Id": "รหัสการโทรออก",
+        "Receiving Staff": "พนักงานรับสมาชิก",
+        "Requested Update": "อัปเดตที่ขอแล้ว",
+        "Street Number": "หมายเลขบ้าน",
+        "Time Call Began": "เวลาที่เริ่มโทร",
+        "Time Call Ended": "เวลาที่โทรหยุด",
+        "Not A Phone Call": "ไม่ใช่การโทรศัพท์",
+        "Start Datetime": "เวลาของการโทร",
+        "Other More Information": "อื่น ๆ - ข้อมูลเพิ่มเติม",
+        "Brief Note Summary": "สรุปบันทึกสั้น ๆ",
+        "Suburb": "ชานเมือง",
+        "Description House Landmark": "คำอธิบายบ้านจุดสังเกต",
+        "Directions": "ทิศทาง",
+        "Street Line1": "ถนน - ส่วนที่ 1 ",
+        "Street Line2": "ถนน - ส่วนที่ 2 (ไม่บังคับ)",
+        "Plot": "แผนการตั้งแผน",
+        "Road": "ถนน",
+        "Postal Code": "รหัสไปรษณีย์",
+        "Locality": "สถานที่"
+      }
+    }
+  },
+  "detailCall": {
+    "call": {
+      "about_call": "เกี่ยวกับการโทร",
+      "New Referral: Case Action Required": "การแนะนำใใหม่: ต้องดำเนินการทางเคส",
+      "New Referral: Case Action NOT Required": "ระบบการแนะนำใหม่: ไม่จำเป็นต้องดำเนินการทางกรณี",
+      "Providing Update": "การให้ข้อมูลอัพเดต",
+      "Phone Counselling": "การให้คำปรึกษาทางโทรศัพท์",
+      "Seeking Information": "ค้นหาข้อมูล",
+      "Spam Call": "สแปมโทรหา",
+      "Wrong Number": "หมายเลขโทรศัพท์ผิด"
+    },
+    "listClient": {
+      "list_clients": "รายชื่อลูกค้า"
+    },
+    "referee": {
+      "referee": "ผู้ตัดสิน"
+    },
+    "index": {}
+  },
+  "editCall": {
+    "index": {
+      "calltypes": {
+        "new_referral_case": "การแนะนำใใหม่: ต้องดำเนินการทางเคส",
+        "new_referral_notifier": "ระบบการแนะนำใหม่: ไม่จำเป็นต้องดำเนินการทางกรณี",
+        "providing_update": "การให้ข้อมูลอัพเดต",
+        "phone_conseling": "การให้คำปรึกษาทางโทรศัพท์",
+        "seeking_information": "ค้นหาข้อมูล",
+        "spam_call": "สแปมโทรหา",
+        "wrong_number": "หมายเลขโทรศัพท์ผิด"
+      },
+      "message": {
+        "call_has_been_updated": "การโทรได้ถูกอัปเดตเรียบร้อยแล้ว"
+      },
+      "call_information": "ข้อมูลการโทร",
+      "receiving_staff": "รับสมาชิกพนักงาน",
+      "date_of_call": "วันที่โทร",
+      "time_call_began": "เวลาของการโทร",
+      "time_call_ended": "เวลาที่โทรหยุด",
+      "call_type": "ประเภทการโทร",
+      "information_provided": "ข้อมูลที่ให้ไว้",
+      "cancel": "ยกเลิก",
+      "save": "บันทึก"
+    }
+  },
+  "editCallReferee": {
+    "index": {
+      "genderLists": {
+        "female": "หญิง",
+        "male": "ชาย",
+        "lgbt": "สหภาพสมาคม LGBT",
+        "unknown": "ไม่ทราบ",
+        "prefer_not_to_say": "ไม่ต้องการตอบ/ไม่ระบุ",
+        "other": "อื่น ๆอื่น ๆ"
+      },
+      "answeredCallOpts": {
+        "call_answered": "ตอบโทรศัพท์",
+        "return_missed_call": "การโทรกลับหาผู้โทรไม่ได้"
+      },
+      "ageOpts": {
+        "18_plus": "18+",
+        "under_18": "ต่ำกว่า 18"
+      },
+      "yes": "ใช่",
+      "no": "ไม่",
+      "anonymous": "ไม่ระบุชื่อ",
+      "name": "ชื่อ",
+      "referee_has_been_updated": "บันทึกการปล่อยได้ถูกอัปเดตเรียบร้อยแล้วค่ะ",
+      "caller_info": "ข้อมูลการโทร",
+      "did_you_answer_the_call": "คุณตอบโทรศัพท์นี้หรือกำลังโทรกลับจากการไม่รับสาย?",
+      "have_you_called": "คุณเคยโทรหาเส้นด่วน Childsafe มาก่อนหรือไม่?",
+      "anonymous_referee": "ผู้ตัดสินไม่ระบุชื่อ",
+      "gender": "เพศ",
+      "are_you_over_18": "คุณอายุมากกว่า 16 รึไม่?",
+      "referee_phone": "หมายเลขโทรศัพท์ของผู้ตัดสิน",
+      "referee_email": "อีเมลผู้ตัดสินใจ",
+      "address": "ที่อยู่",
+      "outside_cambodia": "ระหว่างประเทศ",
+      "cancel": "ยกเลิก",
+      "save": "บันทึก"
+    }
+  },
+  "genderLists": {
+    "female": "หญิง",
+    "male": "ชาย",
+    "lgbt": "สหภาพสมาคม LGBT",
+    "unknown": "ไม่ทราบ",
+    "prefer_not_to_say": "ไม่ต้องการตอบ/ไม่ระบุ",
+    "other": "อื่น ๆอื่น ๆ"
+  }
+}

@@ -5,11 +5,11 @@ module Api
       include CreateBulkTask
       include GoogleCalendarServiceConcern
 
-      before_action :find_client
+      before_action :find_client, only: [:create, :update]
+      before_action :find_case_note, only: [:show, :upload_attachment, :destroy, :delete_attachment]
 
       def show
-        case_note = CaseNote.find(params[:id])
-        render json: case_note
+        render json: @case_note
       end
 
       def create
@@ -53,26 +53,37 @@ module Api
         end
       end
 
+      def upload_attachment
+        files = @case_note.attachments
+        files += params.dig(:case_note, :attachments) || []
+        @case_note.attachments = files
+        @case_note.save(validate: false)
+
+        render json: { message: t('.successfully_uploaded') }, status: '200'
+      end
+
       def destroy
-        case_note = CaseNote.find(params[:id])
         if params[:file_index].present?
-          remove_attachment_at_index(case_note, params[:file_index].to_i)
+          remove_attachment_at_index(@case_note, params[:file_index].to_i)
         end
 
         head 204 if case_note.destroy
       end
 
       def delete_attachment
-        case_note = CaseNote.find(params[:id])
-        remove_attachment_at_index(case_note, params[:file_index].to_i)
-        if case_note.save
+        remove_attachment_at_index(@case_note, params[:file_index].to_i)
+        if @case_note.save
           head 204
         else
-          render json: case_note.errors, status: :unprocessable_entity
+          render json: @case_note.errors, status: :unprocessable_entity
         end
       end
 
       private
+
+      def find_case_note
+        @case_note = CaseNote.find(params[:id])
+      end
 
       def remove_attachment_at_index(case_note, index)
         remain_attachments = case_note.attachments

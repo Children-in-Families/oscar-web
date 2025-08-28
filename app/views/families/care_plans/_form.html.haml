@@ -8,6 +8,7 @@
           = f.hidden_field :assessment_domain_id, value: ad.object.id
           - score_color = ad.object.domain.send("score_#{ad.object.score}_color")
           - domain = ad.object.domain
+
           %h4= domain.name
           %div{ class: "assessment-domain-item domain-#{domain.id}" }
             .ibox
@@ -19,6 +20,7 @@
                 %p
                   = "#{t('care_plans.form.score_from_assessment')} :"
                   %span.btn.btn-default= ad.object.score
+              = render 'shared/care_plan_date_input', f: f
               .ibox-content
                 %p.hide.required-message= t('care_plans.form.required_message')
                 .row.goal-task-title

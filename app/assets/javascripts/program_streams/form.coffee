@@ -109,7 +109,7 @@ CIF.Program_streamsNew = CIF.Program_streamsEdit = CIF.Program_streamsCreate = C
     $('#description select, #rule-tab select').select2()
 
   _initSelect2TimeOfFrequency = ->
-    $('.program_stream_trackings_frequency select').select2
+    $('.program_stream_trackings_frequency select, .allowed_edit_until').select2
       minimumInputLength: 0
       allowClear: true
 

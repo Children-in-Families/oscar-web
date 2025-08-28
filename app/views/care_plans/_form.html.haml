@@ -3,7 +3,7 @@
   = f.hidden_field :assessment_id, value: assessment.id
   .row.care_plan-domains
     .col-xs-12
-      = render 'care_plan_date_input', f: f
+      = render 'shared/care_plan_date_input', f: f
       #rootwizard.root-wizard{ data: { cancel: t('.cancel'), next: t('.next'), previous: t('.previous'), finish: t('.finish'), save: t('.save'), saving: t('saving'), action: params['action'] }, style: 'padding-top: 0px;' }
         = f.simple_fields_for 'assessment_domains', order_assessment(assessment) do |ad|
           = f.hidden_field :assessment_domain_id, value: ad.object.id

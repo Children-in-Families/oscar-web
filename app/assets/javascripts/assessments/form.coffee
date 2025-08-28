@@ -217,15 +217,16 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
     scoreColors = $('.score_option.with-def')[0].dataset
     total = 0
     $.each $('.risk-assessment-domain-score'), (index, element) ->
-      scoreValue = domainOptionScores[element.dataset.domainId]
-      if !_.isEmpty(domainOptionScores) && scoreValue
+      scoreValue = domainOptionScores[element.dataset.domainId] || element.dataset.domainScore
+
+      if scoreValue
         color = scoreColors["score-#{scoreValue}"]
         $(element).addClass("btn-#{color || 'primary'}")
         $(element).html(scoreValue)
-        total += parseInt($(element).html())
+        total += parseInt(scoreValue)
 
-    total = Math.round(parseFloat(total) / $('.risk-assessment-domain-score').length)
-    $('#btn-total').html(total) if total != 0
+    total = Math.abs(parseFloat(total) / $('.risk-assessment-domain-score').length)
+    $('#btn-total').html(total.toFixed(2)) if total != 0
 
   _appendSaveButton = ->
     if $('#rootwizard').find('a[href="#finish"]:visible').length == 0 && $("#btn-save").length == 0
@@ -333,7 +334,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         theme: "explorer"
         allowedFileExtensions: ['jpg', 'png', 'jpeg', 'doc', 'docx', 'xls', 'xlsx', 'pdf']
         uploadUrl: $(fileInput).closest(".assessment-domain-item").data("uploadAttachmentUrl")
-      
+
       $(fileInput).on "filebatchselected", (event, files) ->
         $(this).fileinput("upload")
         return

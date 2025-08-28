@@ -182,7 +182,7 @@ export default (props) => {
               field: "province_id"
             })}
             inlineClassName="referree-province"
-            hintText={hintText[objectKey].referral_province}
+            hintText={hintText.referee.referral_province}
           />
         </div>
 
@@ -199,7 +199,7 @@ export default (props) => {
               field: "district_id"
             })}
             inlineClassName="referree-districs"
-            hintText={hintText.referee.referral_districs}
+            hintText={hintText.referee.referral_district}
           />
         </div>
 

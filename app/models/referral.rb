@@ -159,7 +159,7 @@ class Referral < ActiveRecord::Base
   end
 
   def create_referral_history
-    ReferralHistory.initial(self)
+    ReferralDocument.initial(self)
   end
 
   def slug_exist?

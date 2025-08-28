@@ -26,6 +26,16 @@ th-TH:
       carer_phone: N/A
       carer_relationship: N/A
       carer_same_as_client: N/A
+      referral_address_name: N/A
+      referral_address_type: N/A
+      referral_commune: To view the list, first select Address - District/Khan.
+      referral_district: To view the list, first select Current Province.
+      referral_house_number: N/A
+      referral_province: Select the province where the client is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the client moves to a different province.
+      referral_source: The list in this field will change based on the Referral Source Category you chose. Admin/Manager/Case Worker, If a name is not on the list, add a new source from Manage >> Referral Sources.
+      referral_source_category: Select the type of organization who referred the client to your organization. The Referral Source field will show the list of applicable organizations only AFTER a category is selected here.
+      referral_street_number: N/A
+      referral_village: To view the list, first select Address - Commune/Sangkat
     case_notes:
       index:
         new_button: Document any communication or updates related to the client here.
@@ -40,7 +50,7 @@ th-TH:
             list3: "<strong class='text-warning'>Yellow</strong> – Action needs to be taken soon, but not immediately."
             list4: "<strong class='text-success'>Blue</strong> – Observe the situation. If it gets worse or doesn’t improve on its own, action may be necessary."
             list5: "<strong class='text-info'>Green</strong> – No immediate concerns. The client is not vulnerable in this situation."
-        goal: 'A goal should be <strong>SMART</strong>: <strong>S</strong>pecific, <strong>M</strong>easurable, <strong>A</strong>ttainable before the next assessment begins, <strong>R</strong>ealistic and <strong>T</strong>ime based (three or six months according to your organization assessment timeline). Discuss with your client’s family and/or caregiver to set a goal(s). Ensure you engage and involve the client in this discussion as much as you can. The goal can be optional if the client’s situation is not vulnerable.'
+        goal: "A goal should be <strong>SMART</strong>: <strong>S</strong>pecific, <strong>M</strong>easurable, <strong>A</strong>ttainable before the next assessment begins, <strong>R</strong>ealistic and <strong>T</strong>ime based (three or six months according to your organization assessment timeline). Discuss with your client’s family and/or caregiver to set a goal(s). Ensure you engage and involve the client in this discussion as much as you can. The goal can be optional if the client’s situation is not vulnerable."
         observation: Read each option carefully. First, consider the client’s situation, ask questions and observe the situation. Choose an option based on these considerations.
         task_arising: You can either add task here or at the end of the assessment.
       buttons:
@@ -64,7 +74,7 @@ th-TH:
               list1: Enter the client’s name and family name in both Latin (see above) and Khmer. This helps in maintaining a complete record and avoid duplicates in the OSCaR system.
           step4:
             lists:
-              list1: 'This section is specific to your organization. Any additional data that your organization needs to track should be recorded here. If the more data points need to be added here, contact your Administrator. Admin: Add the data points through <strong>Manage >> Custom Referral Data</strong>.'
+              list1: "This section is specific to your organization. Any additional data that your organization needs to track should be recorded here. If the more data points need to be added here, contact your Administrator. Admin: Add the data points through <strong>Manage >> Custom Referral Data</strong>."
       index:
         buttons:
           assessment_data: View and compare the CSI assessment scores of all the clients that appear in your search. The pop-up window will show you the assessment scores only for clients whose assessment was completed.
@@ -123,7 +133,7 @@ th-TH:
       donor_donor: For the clients who are financially supported by an organization or individual. Admin, If the donor is not in the list, add it from Manage &gt;&gt; Donors.
       donor_involved: For clients who will be managed jointly with other organization(s). You can choose more than one agency. Admin/Manager/Caseworker, If the organization is not in the list, add it from Manage &gt;&gt; Agencies.
     exit_form:
-      circumstance: 'The field will auto-updated to show: Rejected Referral – If you clicked the Reject button. [The organization rejected to take the referred case.] OR Exited %{entity} – If you close the case through the Exit from NGO button. [The organization supported the %{entity}, but not continuing to support.]'
+      circumstance: "The field will auto-updated to show: Rejected Referral – If you clicked the Reject button. [The organization rejected to take the referred case.] OR Exited %{entity} – If you close the case through the Exit from NGO button. [The organization supported the %{entity}, but not continuing to support.]"
       client: Client
       date: N/A
       family: Family
@@ -142,13 +152,13 @@ th-TH:
         accepted: Accept indicates your organization will work with the client. The next step is to perform client assessment and enroll in the program stream(s).
         exit_ngo: This will close the case. That indicates, the organization will not spend more resources on this family. However, the record will remain in the OSCaR system.
         active_program: View/Edit/Delete the enrollment information, add new tracking form(s), or exit family from the program(s).
-        enroll_program: 'Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>.'
+        enroll_program: "Enlist the family in existing program stream(s) here. Admin: If the program doesn’t exist, add a new program stream through <strong>Manage >> Program Streams</strong>."
         reject: Reject indicates your organization cannot work with the family for some reason. The case will remain in the database and show <strong>Exited</strong> status with exit circumstance as <strong>Reject Referral</strong>.
       status: Manually update the status. Active means one or more clients within a family are on support. If no client is currently under care, update as <strong>Inactive</strong>.
     partner:
       background: A brief history of the partner organization. Include their vision, mission, and services.
-      engagement: 'Describe what the organization is partnering on with your organization. Give details about what services the partner will be involved with your organization for client care. [For example: partnering in certain programs, consultation, financial aid, fostering, etc.] '
-      organization_type: 'Select what type of organization the partner belongs to. [For example, Church, NGO, Government agency, etc.] Admin/Manager: If the type doesn’t exist, add a new organization type through <strong>Manage >> Organization Types</strong>.'
+      engagement: "Describe what the organization is partnering on with your organization. Give details about what services the partner will be involved with your organization for client care. [For example: partnering in certain programs, consultation, financial aid, fostering, etc.] "
+      organization_type: "Select what type of organization the partner belongs to. [For example, Church, NGO, Government agency, etc.] Admin/Manager: If the type doesn’t exist, add a new organization type through <strong>Manage >> Organization Types</strong>."
     referee:
       email: N/A
       gender: Other - if the client’s gender is something other than male or female. Unknown - if the client’s gender is not known. This can be edited later after you find out the gender.
@@ -157,7 +167,7 @@ th-TH:
       referral_address_name: N/A
       referral_address_type: N/A
       referral_commune: To view the list, first select Address - District/Khan.
-      referral_districs: To view the list, first select Current Province.
+      referral_district: To view the list, first select Current Province.
       referral_house_number: N/A
       referral_province: Select the province where the client is staying now, it can be different than the birth province. You cannot select Khan/Sangkat/Phum in the fields below if you leave Province blank. Update the province and address if the client moves to a different province.
       referral_source: The list in this field will change based on the Referral Source Category you chose. Admin/Manager/Case Worker, If a name is not on the list, add a new source from Manage >> Referral Sources.

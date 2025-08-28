@@ -726,6 +726,7 @@ CIF.ClientsIndex = CIF.ClientsWelcome = do ->
         'bInfo': false
         'bLengthChange': false
         'bPaginate': false
+        'bSortable': false
       )
     else
       $('.clients-table').addClass('table-responsive')

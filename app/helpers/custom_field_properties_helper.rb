@@ -1,7 +1,7 @@
 module CustomFieldPropertiesHelper
   def custom_field_properties_edit_link(custom_field_property)
     is_custom_field_editable = is_custom_field_property_editable?(custom_field_property)
-    if is_custom_field_editable
+    if is_custom_field_editable && @custom_field.allowed_edit?(current_user)
       link_to edit_polymorphic_path([@custom_formable, custom_field_property], custom_field_id: @custom_field) do
         content_tag :div, class: 'btn btn-outline btn-success' do
           fa_icon('pencil')

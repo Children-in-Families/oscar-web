@@ -28,14 +28,14 @@ module ClientEnrollmentTrackingHelper
   end
 
   def client_enrolled_tracking_edit_link(enrollment_tracking)
-    if program_permission_editable?(@enrollment.program_stream_id) && enrollment_tracking.is_tracking_editable_limited?
-      link_to edit_client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking)do
+    if program_permission_editable?(@enrollment.program_stream_id) && enrollment_tracking.is_tracking_editable_limited? && enrollment_tracking.allowed_edit?(current_user)
+      link_to edit_client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking) do
         content_tag :div, class: ' btn btn-success btn-outline' do
           fa_icon('pencil')
         end
       end
     else
-      link_to_if false, edit_client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking)do
+      link_to_if false, edit_client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking) do
         content_tag :div, class: ' btn btn-success btn-outline disabled' do
           fa_icon('pencil')
         end
@@ -45,13 +45,13 @@ module ClientEnrollmentTrackingHelper
 
   def client_enrollment_tracking_destroy_link(enrollment_tracking)
     if program_permission_editable?(@enrollment.program_stream_id)
-      link_to client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking), method: 'delete',  data: { confirm: t('.are_you_sure') } do
+      link_to client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking), method: 'delete', data: { confirm: t('.are_you_sure') } do
         content_tag :div, class: 'btn btn-danger btn-outline' do
           fa_icon('trash')
         end
       end
     else
-      link_to_if false, client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking), method: 'delete',  data: { confirm: t('.are_you_sure') } do
+      link_to_if false, client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking), method: 'delete', data: { confirm: t('.are_you_sure') } do
         content_tag :div, class: 'btn btn-danger btn-outline disabled' do
           fa_icon('trash')
         end

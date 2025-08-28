@@ -22,6 +22,7 @@
             %thead
               %tr
                 %th= t('service_deliveries.index.task_completed_date')
+                %th= t('service_deliveries.index.task_name')
                 %th= t('service_deliveries.index.service_provided')
                 %th= t('service_deliveries.index.category')
                 %th.text-center= t('.done_by')
@@ -29,6 +30,7 @@
               - @tasks.each do |task|
                 %tr
                   %td= date_format(task.completion_date)
-                  %td= task.name
+                  %td= task.task_name
+                  %td= task.service_delivery_name
                   %td= task.category
                   %td= task.completed_by&.name

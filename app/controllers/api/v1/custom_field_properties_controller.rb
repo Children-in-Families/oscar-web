@@ -84,7 +84,7 @@ module Api
       end
 
       def mapping_custom_name_with_label(custom_field_id, custom_field_property_attribute)
-        custom_field = CustomField.find(custom_field_id)
+        custom_field = find_custom_field(custom_field_id)
         properties = map_property_attribute(custom_field_property_attribute[:properties], custom_field)
 
         custom_field_property_attribute.merge(properties: properties)
@@ -99,7 +99,8 @@ module Api
         end
       end
 
-      def map_attachments_attribute(attachment_attributes, custom_field)
+      def map_attachments_attribute(attachment_attributes, custom_field_id)
+        custom_field = find_custom_field(custom_field_id)
         (attachment_attributes || []).each do |k, value|
           file_labels = {}
           custom_field.fields.each do |field|
@@ -112,6 +113,10 @@ module Api
         end
 
         attachment_attributes
+      end
+
+      def find_custom_field(id)
+        CustomField.find(id)
       end
     end
   end

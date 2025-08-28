@@ -96,7 +96,17 @@ module AdvancedSearches
     end
 
     def case_history_date_type_list
-      ['initial_referral_date', 'follow_up_date', 'accepted_date', 'exit_date']
+      date_list = ['accepted_date', 'exit_date']
+      referral_history_count = ReferralHistory.max_count
+      if referral_history_count > 1
+        (1..referral_history_count).each do |ordered_number|
+          date_list.push("referral_date_#{ordered_number}")
+          date_list.push("follow_up_date_#{ordered_number}")
+        end
+      else
+        date_list = ['referral_date', 'follow_up_date', 'accepted_date', 'exit_date']
+      end
+      date_list
     end
 
     def case_note_date_type_list
@@ -149,20 +159,32 @@ module AdvancedSearches
 
     def case_history_dropdown_list
       yes_no_options = { true: 'Yes', false: 'No' }
-      [
+      referral_history_count = ReferralHistory.max_count
+
+      users_list = [
         ['user_id', user_select_options],
         ['exit_circumstance', { 'Exited Client': 'Exited Client', 'Rejected Referral': 'Rejected Referral' }],
-        ['followed_up_by_id', followed_up_by_options],
         ['referred_from', referral_from_options],
         ['referred_to', referral_to_options],
         ['exit_reasons', exit_reasons_options],
-        ['received_by_id', received_by_options],
         ['active_program_stream', active_program_options],
         ['enrolled_program_stream', enrolled_program_options],
         ['donor_name', donor_options],
         ['has_been_in_orphanage', yes_no_options],
         ['has_been_in_government_care', yes_no_options]
       ]
+
+      if referral_history_count > 1
+        user_list = []
+        (1..referral_history_count).each do |ordered_number|
+          user_list.push(["received_by_id_#{ordered_number}", received_by_options])
+          user_list.push(["followed_up_by_id_#{ordered_number}", followed_up_by_options])
+        end
+      else
+        user_list = [['followed_up_by_id', followed_up_by_options], ['received_by_id', received_by_options]]
+      end
+
+      users_list.push(*user_list)
     end
 
     def case_note_dropdown_list
@@ -180,7 +202,8 @@ module AdvancedSearches
         ['created_by', user_select_options],
         ['type_of_service', get_type_of_services],
         ['has_overdue_forms', yes_no_options],
-        ['has_overdue_task', yes_no_options]
+        ['has_overdue_task', yes_no_options],
+        ['has_disability', yes_no_options]
       ]
     end
 

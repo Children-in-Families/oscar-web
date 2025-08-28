@@ -15,7 +15,7 @@
           - qtypes.last.each do |qcase|
             %li
               %strong= qcase.value
-    - @client.client_quantitative_free_text_cases.each do |qtc_free_text|
+    - @client.client_quantitative_free_text_cases.includes(:quantitative_type).each do |qtc_free_text|
       - next unless quantitative_type_readable?(qtc_free_text.quantitative_type_id)
       - next unless qtc_free_text.quantitative_type.try(:visible_for_client?)
       %tr

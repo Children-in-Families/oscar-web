@@ -8,7 +8,7 @@ class DomainSerializer < ActiveModel::Serializer
              :score_1_local_definition, :score_2_local_definition, :score_3_local_definition, :score_4_local_definition,
              :score_5_local_definition, :score_6_local_definition, :score_7_local_definition, :score_8_local_definition,
              :score_9_local_definition, :score_10_local_definition, :custom_domain, :custom_assessment_setting_id,
-             :created_at, :updated_at
+             :created_at, :updated_at, :domain_type
 
   (1..10).each do |t|
     define_method("score_#{t}") { { color: object.send("score_#{t}_color"), definition: object.send("score_#{t}_definition") } }

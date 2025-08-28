@@ -4,6 +4,7 @@ class Client < ActiveRecord::Base
   include NextClientEnrollmentTracking
   include ClientConstants
   include CsiConcern
+  include OutsideConcern
 
   extend FriendlyId
 
@@ -132,6 +133,7 @@ class Client < ActiveRecord::Base
   has_many :case_conferences, dependent: :destroy
   has_many :internal_referrals, dependent: :destroy
   has_many :screening_assessments, dependent: :destroy
+  has_many :referral_histories, dependent: :destroy
 
   has_paper_trail
 
@@ -165,6 +167,7 @@ class Client < ActiveRecord::Base
   after_commit :delete_referee, on: :destroy
   after_save :enqueue_flush_cache_job
   after_commit :update_first_referral_status, on: :update
+  after_save :administrative_changes, on: :update, if: -> { initial_referral_date_changed? || received_by_id_changed? || followed_up_by_id_changed? || follow_up_date_changed? || users.any?(&:changed?) }
 
   scope :given_name_like, -> (value) { where('clients.given_name iLIKE :value OR clients.local_given_name iLIKE :value', { value: "%#{value.squish}%" }) }
   scope :family_name_like, -> (value) { where('clients.family_name iLIKE :value OR clients.local_family_name iLIKE :value', { value: "%#{value.squish}%" }) }
@@ -396,6 +399,14 @@ class Client < ActiveRecord::Base
     end
   end
 
+  def outside=(value)
+    if Organization.current&.country == 'international'
+      write_attribute(:outside, true)
+    else
+      write_attribute(:outside, value)
+    end
+  end
+
   def self.fetch_75_chars_of(value)
     number_of_char = (value.length * 75) / 100
     value[0..(number_of_char - 1)]
@@ -454,7 +465,7 @@ class Client < ActiveRecord::Base
     if percentage < 0.0
       return nil
     end
-      
+
     if percentage > 1.0
       percentage = 1.0
     end
@@ -1358,7 +1369,7 @@ class Client < ActiveRecord::Base
   end
 
   def address_contrain
-    return unless Organization.current.country == 'cambdia'
+    return unless Organization.current&.country == 'cambdia'
 
     if district_id && province_id
       district = District.find(district_id)
@@ -1418,6 +1429,27 @@ class Client < ActiveRecord::Base
     referral.level_of_risk = 'no action' if referral.level_of_risk.blank?
     referral.referral_status = status
     referral.save
+  end
+
+  def administrative_changes
+    referral_history = referral_histories.last
+    if referral_history&.persisted?
+      referral_history.update_columns(
+        referral_date: initial_referral_date,
+        received_by_id: received_by_id,
+        followed_up_by_id: followed_up_by_id,
+        follow_up_date: follow_up_date,
+        user_ids: case_worker_clients.pluck(:user_id)
+      )
+    else
+      referral_histories.create(
+        referral_date: initial_referral_date,
+        received_by_id: received_by_id,
+        followed_up_by_id: followed_up_by_id,
+        follow_up_date: follow_up_date,
+        user_ids: case_worker_clients.pluck(:user_id)
+      )
+    end
   end
 
   def remove_tasks(case_worker)
