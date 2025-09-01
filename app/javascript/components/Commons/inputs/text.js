@@ -28,11 +28,14 @@ export default (props) => {
       const latinRegex = /^[A-Za-z0-9 _.,!"'/$]*$/;
       if (e.target.value === "" || latinRegex.test(e.target.value)) {
         setLatin(true);
+        if (onChange) onChange(e);
       } else {
         setLatin(false);
+        setNewValue("");
       }
+    } else {
+      if (onChange) onChange(e);
     }
-    if (onChange) onChange(e);
   };
 
   return (
