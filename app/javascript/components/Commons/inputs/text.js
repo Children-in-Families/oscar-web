@@ -30,9 +30,11 @@ export default (props) => {
         setLatin(true);
       } else {
         setLatin(false);
+        if (onChange) onChange(e);
       }
+    } else {
+      if (onChange) onChange(e);
     }
-    if (onChange) onChange(e);
   };
 
   return (
