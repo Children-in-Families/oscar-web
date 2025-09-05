@@ -12,7 +12,18 @@
             .btn.btn-primary.btn-outline
               = t('.programs_list')
   .ibox-content
-    .table-responsive
-      = datagrid_table @tracking_grid, html: { class: 'table table-bordered table-striped table-hover client_enrolled_program_tracking'}
+    %div
+      %ul.nav.nav-tabs{role: "tablist"}
+        %li.active{role: "presentation"}
+          %a{"aria-controls" => "tracking-form", "data-toggle" => "tab", href: "#tracking-form", role: "tab"}= t('program_streams.tracking.tracking_form')
+        %li{role: "presentation"}
+          %a{"aria-controls" => "archived-tracking-form", "data-toggle" => "tab", href: "#archived-tracking-form", role: "tab"} Archived Tracking
+      .tab-content
+        #tracking-form.tab-pane.active{role: "tabpanel"}
+          .table-responsive
+            = datagrid_table @tracking_grid, html: { class: 'table table-bordered table-striped table-hover client_enrolled_program_tracking'}
+        #archived-tracking-form.tab-pane{role: "tabpanel"}
+          .table-responsive
+            = datagrid_table @archived_tracking_grid, html: { class: 'table table-bordered table-striped table-hover client_enrolled_program_tracking'}
   .ibox-footer
     = paginate @tracking_grid.assets

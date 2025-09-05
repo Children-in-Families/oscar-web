@@ -156,7 +156,8 @@
     "main_school_contact": "Main School Contact"
   },
   "validation": {
-    "cannot_blank": "Cannot be blank."
+    "cannot_blank": "Cannot be blank.",
+    "latin_only": "Only Latin characters are allowed."
   },
   "addressType": {
     "female": "Female",

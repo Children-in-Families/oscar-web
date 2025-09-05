@@ -438,7 +438,6 @@ module ClientGridOptions
         column = domain.convert_identity.to_sym
       end
       @client_grid.column(column, class: 'domain-scores', header: identity) do |client|
-        assessment_domains = map_assessment_and_score(client, identity, domain.id)
         assessment_results = map_assessment_and_score(client, identity, domain.id)
         assessments = domain.custom_domain ? assessment_results.customs : assessment_results
         assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
@@ -557,16 +556,11 @@ module ClientGridOptions
           elsif format_field_value == 'Does Not Have This Form'
             properties = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids }).where.not('DATE(client_enrollment_trackings.created_at) BETWEEN ? AND ?', values.first, values.last)
             properties.pluck(:created_at).map { |date| date_format(date) }.join(', ')
-          else
-            client_enrollment_trackings = ClientEnrollmentTracking.joins(:tracking).where(trackings: { name: fields.third }, client_enrollment_trackings: { client_enrollment_id: ids })
-            properties = form_builder_query(client_enrollment_trackings, fields.first, field[:id].gsub('&qoute;', '"')).properties_by(format_field_value, client_enrollment_trackings)
-
-            properties.map { |prop| check_is_string_date?(prop) }.join(', ')
           end
         elsif fields.first == 'exitprogramdate'
           ids = client.client_enrollments.inactive.ids
           if data == 'recent'
-            properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first&.exit_date
+            LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first&.exit_date
           else
             properties = date_filter(LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }), fields.join('__')).map { |date| date.exit_date }
             properties = property_filter(properties, format_field_value)
@@ -574,6 +568,7 @@ module ClientGridOptions
           end
         elsif fields.first == 'exitprogram'
           ids = client.client_enrollments.inactive.ids
+          leave_program_properties = []
           if data == 'recent'
             leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).order(exit_date: :desc).first&.properties
             leave_program_properties = property_filter(leave_program_properties, format_field_value)
@@ -581,8 +576,8 @@ module ClientGridOptions
           else
             leave_program_properties = LeaveProgram.joins(:program_stream).where(program_streams: { name: fields.second }, leave_programs: { client_enrollment_id: ids }).properties_by(format_field_value)
             leave_program_properties = property_filter(leave_program_properties, format_field_value)
-            leave_program_properties.map { |properties| check_is_string_date?(properties) }.join(', ')
           end
+          leave_program_properties.map { |properties| check_is_string_date?(properties) }.join(', ')
         end
       end
     end

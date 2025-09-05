@@ -5,7 +5,7 @@ class ServiceDeliveriesController < AdminController
   def index
     @main_services = ServiceDelivery.only_parents
     @service_deliveries = ServiceDelivery.only_children
-    @categories = ServiceDelivery.where(parent_id: @main_services.ids)
+    @categories = ServiceDelivery.includes(:parent).where(parent_id: @main_services.ids)
   end
 
   def new
@@ -38,6 +38,15 @@ class ServiceDeliveriesController < AdminController
     else
       messages = @service_delivery.errors.full_messages.uniq.join('\n')
       redirect_to service_deliveries_path, alert: messages
+    end
+  end
+
+  def disable
+    @service_delivery = ServiceDelivery.find(params[:id])
+    if @service_delivery.update(disabled: !@service_delivery.disabled)
+      redirect_to service_deliveries_path, notice: t('.successfully_disabled')
+    else
+      redirect_to service_deliveries_path, alert: @service_delivery.errors.full_messages.to_sentence
     end
   end
 

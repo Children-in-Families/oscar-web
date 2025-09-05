@@ -1,0 +1,15 @@
+
+-----------------------------------------------------------------
+  pg_upgrade run on Mon Jun 30 10:45:29 2025
+-----------------------------------------------------------------
+
+check for "/path/to/old/bin" failed: No such file or directory
+
+
+-----------------------------------------------------------------
+  pg_upgrade run on Mon Jun 30 10:46:07 2025
+-----------------------------------------------------------------
+
+Performing Consistency Checks
+-----------------------------
+Checking cluster versions                                   Old cluster data and binary directories are from different major versions.

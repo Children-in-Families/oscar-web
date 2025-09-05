@@ -23,6 +23,7 @@ class Tracking < ActiveRecord::Base
 
   default_scope { order(:created_at) }
   scope :visible, -> { where(hidden: false) }
+  scope :hidden, -> { where(hidden: true) }
 
   delegate :name, to: :program_stream, prefix: true, allow_nil: true
 
@@ -63,6 +64,7 @@ class Tracking < ActiveRecord::Base
 
   def auto_update_trackings
     return unless self.fields_changed?
+
     enrollment_tracking_objs = self.program_stream.attached_to_client? ? self.client_enrollment_trackings : self.enrollment_trackings
     labels_update(self.fields_change.last, self.fields_was, enrollment_tracking_objs)
   end

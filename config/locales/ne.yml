@@ -5259,6 +5259,32 @@ ne:
   field_settings:
     update:
       successfully_updated: Setting have been successfully updated.
+  service_deliveries:
+    _attr: &SERVICE_DELIVERY_ATTR
+      add_new_service_delivery: Tambah penyampaian pelayanan baru
+      category: Kategori
+      done_by: dilaksanakan oleh
+      id: ID
+      manage: Mengatur
+      service_delivery: penyampaian pelayanan
+      service_provided: Pelayanan diberikan
+      service_received: Pelayanan diterima
+      task_completed_date: Tanggal tugas dilengkapi
+    create:
+      successfully_created: Pelayanan berhasil dibuat.
+    destroy:
+      alert: Pelayanan tidak bisa dihapus.
+      successfully_deleted: Pelayanan Telah berhasil dihapus.
+    disable:
+      successfully_disabled: Service has been successfully disabled.
+    form:
+      <<: *SERVICE_DELIVERY_ATTR
+    index:
+      <<: *SERVICE_DELIVERY_ATTR
+    new:
+      <<: *SERVICE_DELIVERY_ATTR
+    update:
+      successfully_updated: Pelayanan telah berhasil diperbarui.
   shared:
     x_lists_of: "%{x} lists of"
     new_x: "New %{x}"

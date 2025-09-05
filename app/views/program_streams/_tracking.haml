@@ -1,12 +1,26 @@
 %h4= t('.tracking_form')
 %section
   #trackings{ data: { complete_tracking: t('.complete_tracking') } }
-    = f.simple_fields_for :trackings, @tracking do |ff|
-      = render 'tracking_fields', f: ff
-    .links
-      = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'
-  #not-require-tracking
-    = f.input :tracking_required, label: t('.not_require_tracking'), input_html: { class: 'i-checks' }
+    %div
+      %ul.nav.nav-tabs{role: "tablist"}
+        %li.active{role: "presentation"}
+          %a{"aria-controls" => "tracking-form", "data-toggle" => "tab", href: "#tracking-form", role: "tab"}= t('.tracking_form')
+        %li{role: "presentation"}
+          %a{"aria-controls" => "hidden-tracking-form", "data-toggle" => "tab", href: "#hidden-tracking-form", role: "tab"} Archived Tracking
+      .tab-content
+        #tracking-form.tab-pane.active{role: "tabpanel"}
+          = f.simple_fields_for :trackings, f.object.trackings.visible do |ff|
+            = render 'tracking_fields', f: ff
+          .links
+          = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'
+          #not-require-tracking
+            = f.input :tracking_required, label: t('.not_require_tracking'), input_html: { class: 'i-checks' }
+        #hidden-tracking-form.tab-pane.active{role: "tabpanel"}
+          = f.simple_fields_for :trackings, f.object.trackings.hidden do |ff|
+            = render 'tracking_fields', f: ff
+          .links
+          = link_to_add_association t('.add_tracking'), f, :trackings, class: 'btn btn-primary pull-right'
+
 
 - form_builder_selection_options(@program_stream, 'trackings')
 %div.hidden.tracking_select_option{"data-tracking-select-option" => "#{@select_field}"}
