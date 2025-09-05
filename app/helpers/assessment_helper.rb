@@ -1,6 +1,6 @@
 module AssessmentHelper
   def assessment_edit_link(client, assessment)
-    if assessment_editable? && assessment.created_at >= 1.week.ago.to_date
+    if assessment_editable? || assessment.created_at >= 1.week.ago.to_date
       link_to(edit_client_assessment_path(client, assessment)) do
         content_tag :div, class: 'btn btn-outline btn-success' do
           fa_icon('pencil')
@@ -398,7 +398,7 @@ module AssessmentHelper
 
     return sum if sum.zero?
 
-    (sum.to_f / current_setting.selected_domain_ids.compact.size)
+    format('%.2f', sum.to_f / current_setting.selected_domain_ids.compact.size)
   end
 
   def check_setting_assessment_type_name_selected(assessment)

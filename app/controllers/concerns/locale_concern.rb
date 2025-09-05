@@ -1,6 +1,6 @@
 module LocaleConcern
   def set_locale
-    _, local = I18n.locale
+    prev_local, local = I18n.locale
 
     local = params[:locale] if params[:locale] && I18n.available_locales.include?(params[:locale].to_sym)
 
@@ -8,8 +8,11 @@ module LocaleConcern
       flash.clear
       flash[:alert] = detect_browser
     end
+    session[:locale] = local if session[:locale].to_s != params[:local]
 
-    I18n.locale = local unless request.xhr?
+    current_local = local || prev_local || session[:locale] || current_user&.preferred_language || I18n.default_locale
+
+    I18n.locale = current_local
   end
 
   def detect_browser

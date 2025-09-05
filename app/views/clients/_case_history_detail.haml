@@ -13,7 +13,7 @@
             - case_history = object.class.table_name
             - case case_history
             - when "clients"
-              - referral_history = object.referral_histories.first || object
+              - referral_history = object.referral_histories.order(:id).first || object
               %tr
                 %td
                   = t('clients.attr.initial_referral_date')

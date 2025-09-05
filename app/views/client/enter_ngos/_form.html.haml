@@ -10,15 +10,6 @@
       .modal-body
         = simple_form_for [@client, @client.enter_ngos.build] do |f|
           = f.error_notification
-          .form-group.date
-            %label.date.required.control-label
-              %abbr{ title: 'required' } *
-              = t('.accepted_date')
-            .input-group
-              = f.text_field :accepted_date, class: 'date form-control enter_date', readonly: 'readonly', type: 'text', name: 'enter_ngo[accepted_date]', autocomplete: 'off'
-              %span.input-group-addon
-                %i.fa.fa-calendar-check-o
-
           .form-inputs
             %label.control-label
               = t('.received_by')
@@ -48,6 +39,15 @@
               = t('clients.show.follow_up_date')
             .input-group
               = f.text_field :follow_up_date, class: 'date form-control enter_date', type: 'text', readonly: 'readonly', name: 'enter_ngo[follow_up_date]', data: { date_start_date: initial_referral_date_picker_format(@client) }
+              %span.input-group-addon
+                %i.fa.fa-calendar-check-o
+
+          .form-group.date
+            %label.date.required.control-label
+              %abbr{ title: 'required' } *
+              = t('.accepted_date')
+            .input-group
+              = f.text_field :accepted_date, class: 'date form-control enter_date', readonly: 'readonly', disabled: true, type: 'text', name: 'enter_ngo[accepted_date]', autocomplete: 'off'
               %span.input-group-addon
                 %i.fa.fa-calendar-check-o
 

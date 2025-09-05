@@ -19,7 +19,7 @@ class CreateReferralHistories < ActiveRecord::Migration
     reversible do |dir|
       dir.up do
         values = Client.all.map do |client|
-          "('#{(client.follow_up_date || client.initial_referral_date || client.created_at).to_s}', '#{(client.initial_referral_date || client.created_at).to_s}', #{client.received_by_id || 'NULL'}, #{client.followed_up_by_id || 'NULL'}, #{client.id})"
+          "(#{client.follow_up_date && "'#{client.follow_up_date.to_s}'" || 'NULL'}, '#{(client.initial_referral_date || client.created_at).to_s}', #{client.received_by_id || 'NULL'}, #{client.followed_up_by_id || 'NULL'}, #{client.id})"
         end.join(', ')
 
         if values.present?
@@ -27,8 +27,8 @@ class CreateReferralHistories < ActiveRecord::Migration
           execute <<-SQL.squish
               INSERT INTO referral_histories (follow_up_date, referral_date, received_by_id, followed_up_by_id, client_id, created_at, updated_at)
               SELECT
-                mapping_values.follow_up_date::timestamptz,
-                mapping_values.initial_referral_date::timestamptz,
+                mapping_values.follow_up_date::timestamp,
+                mapping_values.initial_referral_date::timestamp,
                 NULLIF(mapping_values.received_by_id, NULL)::integer,
                 NULLIF(mapping_values.followed_up_by_id, NULL)::integer,
                 mapping_values.client_id::integer,

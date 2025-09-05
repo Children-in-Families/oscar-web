@@ -38,22 +38,24 @@ class EnterNgo < ActiveRecord::Base
   private
 
   def update_entity_status
-    entity.status = 'Accepted'
+    entity.update_column(:status, 'Accepted') if entity.present? && entity.status != 'Accepted'
 
     if user_ids.any?
       if entity.present?
-        entity.user_ids = self.user_ids
-        entity.received_by_id = received_by_id
-        entity.followed_up_by_id = followed_up_by_id
-        # entity.initial_referral_date = initial_referral_date
-        entity.follow_up_date = follow_up_date
+        entity.user_ids = user_ids
+        entity.save(validate: false)
+        entity.update_columns(
+          received_by_id: received_by_id,
+          followed_up_by_id: followed_up_by_id,
+          initial_referral_date: referral_date,
+          follow_up_date: follow_up_date.presence
+        )
       elsif acceptable.present?
         # note the relation between users and acceptable obj
         entity.case_worker_ids = self.user_ids
+        entity.save(validate: false)
       end
     end
-
-    entity.save(validate: false)
   end
 
   def create_enter_ngo_history

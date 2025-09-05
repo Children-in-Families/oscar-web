@@ -226,7 +226,7 @@ CIF.AssessmentsNew = CIF.AssessmentsEdit = CIF.AssessmentsCreate = CIF.Assessmen
         total += parseInt(scoreValue)
 
     total = Math.abs(parseFloat(total) / $('.risk-assessment-domain-score').length)
-    $('#btn-total').html(total) if total != 0
+    $('#btn-total').html(total.toFixed(2)) if total != 0
 
   _appendSaveButton = ->
     if $('#rootwizard').find('a[href="#finish"]:visible').length == 0 && $("#btn-save").length == 0

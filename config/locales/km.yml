@@ -1856,8 +1856,7 @@ km:
       follow_up_by: បុគ្គលិកតាមដានករណី
       follow_up_date: កាលបរិច្ឆេទតាមដានដំបូង
       followed_up_by: បុគ្គលិកតាមដានករណី
-      followed_up_by_id: First Follow Up by
-      follow_up_date: Date of First Follow Up
+      followed_up_by_id: បុគ្គលិកតាមដានករណី
       from: ចាប់ពី
       gender: ភេទ
       general_question: សំនួរទូទៅ
@@ -6064,7 +6063,8 @@ km:
       service_delivery: ការផ្តល់សេវា
       service_provided: សេវាដែលបានផ្តល់ឲ្យ
       service_received: សេវាដែលបានទទួល
-      task_completed_date: Task Completed Date
+      task_completed_date: Intervention Completed Date
+      task_name: Intervention Name
     create:
       successfully_created: Service has been successfully created.
     destroy:

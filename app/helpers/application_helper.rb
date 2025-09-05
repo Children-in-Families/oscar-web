@@ -6,7 +6,7 @@ module ApplicationHelper
   end
 
   def setting
-    @setting ||= Setting.cache_first
+    @setting ||= Setting.first
   end
 
   def asset_data_base64(path)
@@ -72,6 +72,7 @@ module ApplicationHelper
   def client_report_builder_cache_key
     [
       Apartment::Tenant.current,
+      'client-report-builder',
       current_user.roles,
       setting,
       params[:locale],

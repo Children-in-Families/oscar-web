@@ -572,6 +572,7 @@ Rails.application.routes.draw do
       get 'header_count' => 'settings#header_count'
       get 'test_client' => 'settings#test_client'
       get 'risk_assessment' => 'settings#risk_assessment'
+      post 'risk_assessment' => 'settings#risk_assessment'
       get 'customize_case_note' => 'settings#customize_case_note'
 
       get 'integration' => 'settings#integration'

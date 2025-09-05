@@ -317,7 +317,7 @@
                 - else
                   .row
                     .col-sm-12
-                      = render 'clients/administrative_info', client: client_first_referral(@client), editable_case_worker_options: editable_case_worker_options
+                      = render 'clients/administrative_info', client: @client, editable_case_worker_options: editable_case_worker_options
                       %table.table.table-bordered.referee_information
                         %thead
                           %tr
@@ -880,7 +880,7 @@
                             = inner_idex.ordinalize
                           - unless Rails.env.production?
                             %td= case_history.created_at.to_s
-                          %td= date_format(case_history.referral_date)
+                          %td= date_format(referral_history.referral_date)
                           %td
                             .text-center
                               %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#referral_history_#{inner_idex}", 'data-toggle' => 'modal'}= fa_icon('eye')
@@ -895,7 +895,7 @@
                     = 1.ordinalize
                   - unless Rails.env.production?
                     %td= @client.created_at.to_s
-                  %td= date_format(@client.enter_ngos.last.try(:initial_referral_date) || @client.initial_referral_date)
+                  %td= date_format(@client.referral_histories.first.try(:referral_date) || @client.initial_referral_date)
                   %td
                     .text-center
                       %button.btn.btn-outline.btn-primary.btn-xs{'data-target' => "#case_history_initial_referral_date", 'data-toggle' => 'modal'}= fa_icon('eye')

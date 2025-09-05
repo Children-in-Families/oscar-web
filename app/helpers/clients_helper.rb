@@ -96,14 +96,6 @@ module ClientsHelper
     client.users.distinct.sort
   end
 
-  def client_first_referral(client)
-    return client if client.enter_ngos.empty?
-
-    return client.enter_ngos.last if client.exit_ngos.last.try(:persisted?) && client.exit_ngos.last > client.enter_ngos.last.created_at
-
-    client
-  end
-
   def partner(partner)
     if can? :manage, :all
       link_to partner.name, partner_path(partner)
@@ -123,8 +115,11 @@ module ClientsHelper
 
   def rails_i18n_translations
     # Change slice inputs to adapt your need
-    return {} unless I18n.backend.send(:translations).present?
-    return {} unless I18n.backend.send(:translations).key?(I18n.locale)
+    if session[:locale].to_s != I18n.locale.to_s
+      session[:locale] = I18n.locale.to_s
+      I18n.backend.reload!
+      I18n.backend.load_custom_translations
+    end
 
     translations = I18n.backend.send(:translations)[I18n.locale].slice(
       :clients,
@@ -816,7 +811,7 @@ module ClientsHelper
         sub_case_note_type_result_hash = mapping_param_value(sub_case_note_type_results, 'case_note_type')
         sub_case_note_type_result_hash.each { |k, o, v| sub_case_note_type_hashes[k] << { o => v } }
         sub_case_note_type_sql_hash = mapping_query_string(object, sub_case_note_type_hashes, 'case_notes.interaction_type', 'case_note_type')
-        sub_case_note_type_query = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, data[:condition])
+        sub_case_note_type_query = mapping_query_string_with_query_value(sub_case_note_type_sql_hash, sub_case_note_type_results['condition'])
       end
     end
     [sub_case_note_date_query, sub_case_note_type_query]
