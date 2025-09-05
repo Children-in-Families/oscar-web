@@ -44,7 +44,7 @@ class Tracking < ActiveRecord::Base
   def self.cached_program_stream_program_ids(program_ids)
     program_ids = program_ids.is_a?(Array) ? program_ids.sort : program_ids
     Rails.cache.fetch([Apartment::Tenant.current, 'Tracking', 'cached_program_stream_program_ids', *program_ids]) {
-      joins(:program_stream).where(program_stream_id: program_ids)
+      visible.joins(:program_stream).where(program_stream_id: program_ids)
     }
   end
 
@@ -72,5 +72,7 @@ class Tracking < ActiveRecord::Base
     Rails.cache.delete([Apartment::Tenant.current, 'Tracking', id])
     cached_program_stream_program_ids_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/cached_program_stream_program_ids/].blank? }
     cached_program_stream_program_ids_keys.each { |key| Rails.cache.delete(key) }
+    cached_tracking_keys = Rails.cache.instance_variable_get(:@data).keys.reject { |key| key[/#{Apartment::Tenant.current}\/(Tracking|client-report-builder)/].blank? }
+    cached_tracking_keys.each { |key| Rails.cache.delete(key) }
   end
 end
