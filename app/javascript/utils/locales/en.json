@@ -221,6 +221,8 @@
     "Temporary Carer": "Temporary Carer",
     "RCI Carer": "RCI Carer",
     "Adopted Parent": "Adopted Parent",
+    "Step Mother": "Step Mother",
+    "Step Father": "Step Father",
     "Other": "Other"
   },
   "callerRelationship": {
