@@ -164,7 +164,8 @@
     "main_school_contact": "ผู้ติดต่อหลักของโรงเรียน"
   },
   "validation": {
-    "cannot_blank": "ไม่สามารถเว้นว่าง"
+    "cannot_blank": "ไม่สามารถเว้นว่าง",
+    "latin_only": "อนุญาตให้ใช้ตัวอักษรละตินเท่านั้น"
   },
   "addressType": {
     "Home": "บ้าน",
