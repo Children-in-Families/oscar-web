@@ -59,7 +59,7 @@ th:
         button: Document any communication or updates related to the client here.
         date: The actual date when the Case Worker interacted, communicated, and talked about or with the client.
         note: Case notes should provide accurate and objective descriptions of all the work you did with or for a client. Enter detailed notes summarizing each client interaction. Include things like what the client said or did, major topics of conversation; any interventions completed with or for the client. Do not include subjective statements or assessments which you are not qualified to make. For example, Case Worker should not make medical diagnoses, as they do not have medical degrees.
-        type: Choose how you interacted the client":" Visit – Met client in person. Non-face to face – Contacted client without meeting in person. [For example phone, video call, email, message, Facebook, etc.] 3rd Party – Gathered information through another person. [For example teacher, NGO staff, doctor, neighbor, friend, etc.] Other – Any other way in which you tracked or contacted the client.
+        type: เลือกวิธีที่คุณโต้ตอบกับลูกค้า":" ไปเยี่ยม (ไปนัดเจอกันที่ข้างนอก). นัดเข้ามา (เจอกันที่มูลนิธิฯ).ไม่ได้เจอหน้ากัน (ใช้ช่องทางอื่นๆในการติดต่อ โทรศัพท์ อีเมล์ วิดีโอคอลต่างๆ). ได้รับข้อมูลผ่านทางคนอื่น (เก็บข้อมูลผ่านทางคนอื่น เช่น คุณครู หมอ เพื่อน เพื่อนบ้าน เป็นต้น). อื่นๆ (วิธีอื่นที่ติดต่อหรือติดตามเคส).
         who: Details of the person(s) present during the visit or the conversation.
       form:
         notes:
