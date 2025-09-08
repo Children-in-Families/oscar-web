@@ -28,7 +28,7 @@ module ClientEnrollmentTrackingHelper
   end
 
   def client_enrolled_tracking_edit_link(enrollment_tracking)
-    if program_permission_editable?(@enrollment.program_stream_id) && enrollment_tracking.is_tracking_editable_limited? && enrollment_tracking.allowed_edit?(current_user)
+    if program_permission_editable?(@enrollment.program_stream_id) && enrollment_tracking.is_tracking_editable_limited? && enrollment_tracking.allowed_edit?(current_user) && !enrollment_tracking.tracking.hidden?
       link_to edit_client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, enrollment_tracking, tracking_id: enrollment_tracking.tracking) do
         content_tag :div, class: ' btn btn-success btn-outline' do
           fa_icon('pencil')
@@ -60,7 +60,7 @@ module ClientEnrollmentTrackingHelper
   end
 
   def client_enrolled_tracking_new_link
-    if program_permission_editable?(@enrollment.program_stream_id)
+    if program_permission_editable?(@enrollment.program_stream_id) && !@tracking.hidden?
       link_to new_client_client_enrolled_program_client_enrolled_program_tracking_path(@client, @enrollment, tracking_id: @tracking) do
         content_tag :div, class: 'btn btn-primary btn-outline' do
           t('.new_tracking')

@@ -13,7 +13,9 @@ class ClientEnrolledProgramTrackingsController < AdminController
 
   def index
     @tracking_grid = ClientEnrolledProgramTrackingGrid.new(params[:tracking_grid])
+    @archived_tracking_grid = ClientEnrolledProgramTrackingGrid.new(params[:tracking_grid])
     @tracking_grid.scope { |scope| scope.visible.where(program_stream_id: @program_stream).page(params[:page]).per(20) }
+    @archived_tracking_grid.scope { |scope| scope.hidden.where(program_stream_id: @program_stream).page(params[:page]).per(20) }
   end
 
   def new
