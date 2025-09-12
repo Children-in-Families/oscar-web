@@ -47,7 +47,7 @@ Datagrid.module_eval do
           case_note.interaction_type,
           case_note.attendee,
           case_note.note,
-          *label_values.map { |field| custom_field_property.properties[field['label']] }
+          *label_values.map { |field| custom_field_property && custom_field_property.properties[field['label']] || '' }
         ]
       end
     end
