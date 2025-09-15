@@ -254,9 +254,13 @@ module NotificationConcern
     ).to_a.group_by { |task| [task.client_slug, task.client_name] }
   end
 
-  def mapping_notify_assessment
+  def mapping_notify_assessment(clients = nil)
     setting = Setting.first
-    client_ids = Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
+    client_ids = if clients
+                   clients.ids
+                 else
+                   Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
+                 end
 
     sql = <<~SQL
       SELECT c.id,

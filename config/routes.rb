@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     get '/dashboards/notify_assessment' => 'dashboards#notify_assessment'
     get '/dashboards/notify_custom_assessment' => 'dashboards#notify_custom_assessment'
     get '/dashboards/notify_client_custom_form' => 'dashboards#notify_client_custom_form'
+    get '/dashboards/user_filter_overdue_assessments' => 'dashboards#user_filter_overdue_assessments'
     get 'notify_overdue_case_note' => 'notifications#notify_overdue_case_note'
     get 'notify_user_custom_field' => 'notifications#notify_user_custom_field'
     get 'notify_family_custom_field' => 'notifications#notify_family_custom_field'

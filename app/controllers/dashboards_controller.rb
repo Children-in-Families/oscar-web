@@ -87,6 +87,12 @@ class DashboardsController < AdminController
     @client_custom_form_notifications = mapping_notify_client_custom_form
   end
 
+  def user_filter_overdue_assessments
+    @user = User.find(params[:user_id])
+    eligible_clients = active_young_clients(@user.clients)
+    @assessment_notifications = mapping_notify_assessment(eligible_clients)
+  end
+
   private
 
   def find_overdue_task_params
