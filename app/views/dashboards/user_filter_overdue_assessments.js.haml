@@ -3,8 +3,5 @@
   $('#assessment_list.modal #overdue-assessments .panel-body').html(appearence);
   toastr.clear()
   $('#assessment_list.modal').modal('show');
-  $('input.i-checks').iCheck('uncheck')
-  $('input#checkbox-assessment').iCheck('check')
   $('#assessment_list #users-filter').removeClass('hide')
   $('#assessment_list #filtered_by_user').attr('action', '#{dashboards_user_filter_overdue_assessments_path}');
-

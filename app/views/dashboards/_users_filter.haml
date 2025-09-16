@@ -5,7 +5,7 @@
       .col-xs-12.col-md-4
         .form-group
           %label{ for: 'user_id' }= t('.filter_by_user')
-          = select_tag 'user_id', options_for_select(@users.map{|u| [u.name, u.id] }, selected: params[:user_id])
+          = select_tag 'user_id', options_for_select(@users.map{|u| [u.name, u.id] }, selected: params[:user_id]), include_blank: '--- Please select a user ---'
     - else
       %input{type: 'hidden', value: current_user.id, id: 'user_id', name: 'user_id'}
 

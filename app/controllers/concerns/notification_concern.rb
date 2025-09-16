@@ -254,9 +254,13 @@ module NotificationConcern
     ).to_a.group_by { |task| [task.client_slug, task.client_name] }
   end
 
-  def mapping_notify_assessment
+  def mapping_notify_assessment(clients = nil)
     setting = Setting.first
-    client_ids = Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
+    client_ids = if clients
+                   clients.ids
+                 else
+                   Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
+                 end
 
     sql = <<~SQL
       SELECT c.id,
@@ -280,9 +284,14 @@ module NotificationConcern
     fetch_client_by_sql(client_ids, sql)
   end
 
-  def mapping_notify_custom_assessment
+  def mapping_notify_custom_assessment(clients = nil)
     CustomAssessmentSetting.only_enable_custom_assessment.map do |custom_setting|
-      client_ids = Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting&.custom_age || 18).ids
+      if clients
+        client_ids = clients.ids
+      else
+        client_ids = Client.accessible_by(current_ability).active_accepted_status.where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', custom_setting&.custom_age || 18).ids
+      end
+
       sql = <<~SQL
         SELECT
           c.id,
@@ -309,12 +318,17 @@ module NotificationConcern
     end
   end
 
-  def mapping_notify_client_custom_form
+  def mapping_notify_client_custom_form(clients = nil)
     setting = Setting.first
     custom_field_ids = current_user.custom_field_permissions.where(editable: false).pluck(:custom_field_id)
-    client_ids = Client.accessible_by(current_ability).active_accepted_status
-                       .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
-    sql = "AND cf.id NOT IN (#{custom_field_ids.join(',')}) AND c.id IN (#{client_ids.join(',')}) " if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
+    client_ids = if clients
+                   clients.ids
+                 else
+                   Client.accessible_by(current_ability).active_accepted_status
+                     .where('(EXTRACT(year FROM age(current_date, coalesce(clients.date_of_birth, CURRENT_DATE))) :: int) < ?', setting&.age || 18).ids
+                 end
+    # sql = "AND cf.id NOT IN (#{custom_field_ids.join(',')}) AND c.id IN (#{client_ids.join(',')}) " if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
+    sql = "AND cf.id NOT IN (#{custom_field_ids.join(',')})" if (current_user.case_worker? || current_user.manager?) && custom_field_ids.any?
 
     custom_form_sql = <<~SQL
       WITH latest_entries AS (
@@ -336,7 +350,8 @@ module NotificationConcern
       INNER JOIN custom_field_properties cp ON le.id = cp.id AND le.created_at = cp.created_at
       INNER JOIN custom_fields cf ON cp.custom_field_id = cf.id
       INNER JOIN clients c ON cp.custom_formable_id = c.id AND cp.custom_formable_type = 'Client' AND c.status IN ('Active', 'Accepted')
-      WHERE DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
+      WHERE c.id IN (#{client_ids.any? ? client_ids.join(', ') : '0'})
+      AND DATE(cp.created_at + (cf.time_of_frequency || ' ' || CASE cf.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       #{sql}
       ORDER BY cp.custom_formable_id;
     SQL
@@ -361,8 +376,9 @@ module NotificationConcern
       INNER JOIN client_enrollment_trackings cet ON le.id = cet.id AND le.created_at = cet.created_at
       INNER JOIN trackings t ON t.id = cet.tracking_id AND t.deleted_at IS NULL
       INNER JOIN client_enrollments ce ON ce.id = cet.client_enrollment_id AND ce.deleted_at IS NULL
-      INNER JOIN clients c ON c.id = ce.client_id AND c.status IN ('Active', 'Accepted') AND c.id IN (#{client_ids.join(',')})
+      INNER JOIN clients c ON c.id = ce.client_id AND c.status IN ('Active', 'Accepted')
       WHERE ce.status = 'Active'
+      AND c.id IN (#{client_ids.any? ? client_ids.join(', ') : '0'})
       AND DATE(cet.created_at + (t.time_of_frequency || ' ' || CASE t.frequency WHEN 'Daily' THEN 'day' WHEN 'Weekly' THEN 'week' WHEN 'Monthly' THEN 'month' WHEN 'Yearly' THEN 'year' END)::interval) < CURRENT_DATE
       ORDER BY cet.client_enrollment_id;
     SQL
