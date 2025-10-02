@@ -424,7 +424,9 @@ Datagrid.module_eval do
 
   def case_note_custom_fields
     cn_custom_field = CaseNotes::CustomField.first
-    cn_custom_field.data_fields.reject { |field| field['type'] == 'file' }.map { |field| field.slice('label') }
+    return [] unless cn_custom_field
+
+    @case_note_custom_fields ||= cn_custom_field.data_fields.reject { |field| field['type'] == 'file' }.map { |field| field.slice('label') }
   end
 end
 
