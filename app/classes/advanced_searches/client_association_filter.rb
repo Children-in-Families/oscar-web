@@ -578,9 +578,9 @@ module AdvancedSearches
       query_string = get_any_query_string(results, 'case_notes')
       sql = query_string.reject(&:blank?).map { |query| "(#{query})" }.join(" #{basic_rules[:condition]} ")
 
-      if basic_rules[:selected_assessment_id] == 0
+      if basic_rules[:selected_assessment_id].to_id == 0
         clients = @clients.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id').where(case_notes: { custom: false })
-      elsif basic_rules[:selected_assessment_id] > 0
+      elsif basic_rules[:selected_assessment_id].to_i > 0
         clients = @clients.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id').where(case_notes: { custom_assessment_setting_id: basic_rules[:selected_assessment_id] })
       else
         clients = @clients.joins('LEFT OUTER JOIN case_notes ON case_notes.client_id = clients.id')
