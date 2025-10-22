@@ -41,7 +41,7 @@ class EnterNgo < ActiveRecord::Base
     entity.update_column(:status, 'Accepted') if entity.present? && entity.status != 'Accepted'
 
     if user_ids.any?
-      if entity.present? && entity.has_attribute? :user_ids
+      if entity.present? && entity.has_attribute?(:user_ids)
         entity.user_ids = user_ids
         entity.save(validate: false)
         entity.update_columns(
