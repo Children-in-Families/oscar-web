@@ -16,8 +16,11 @@ class Client::EnterNgosController < AdminController
     @enter_ngo = @client.enter_ngos.find(params[:id])
     authorize @enter_ngo
 
-    if !@client.accepted? && @enter_ngo.update_attributes(enter_ngo_params)
-      ReferralHistory.update_attributes(referral_history_params.merge(client_id: @client.id, enter_ngo_id: @enter_ngo.id, user_ids: @enter_ngo.user_ids))
+    if !@client.exit_ngo? && @enter_ngo.update_attributes(enter_ngo_params)
+      ReferralHistory.find_or_create_by(client_id: @client.id, enter_ngo_id: @enter_ngo.id) do |referral_history|
+        referral_history.user_ids = @enter_ngo.user_ids
+        referral_history.save
+      end
       redirect_to @client, notice: t('.successfully_updated')
     else
       redirect_to @client, alert: t('.failed_update')
