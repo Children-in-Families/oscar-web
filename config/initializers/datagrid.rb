@@ -140,17 +140,24 @@ Datagrid.module_eval do
         query_string = get_query_string(results, 'tracking', 'client_enrollment_trackings.properties')
       end
 
+      client_enrollment_trackings = ClientEnrollmentTracking.joins(:client_enrollment)
+                                                            .where(client_enrollments: { program_stream_id: program_stream_ids, client_id: clients.map(&:id) },
+                                                                   tracking_id: tracking.id)
+                                                            .where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
+                                                            .select('client_enrollment_trackings.*, client_enrollments.client_id') if query_string
+
       clients.each do |client|
-        client_enrollments = client.client_enrollments
-        tracing_field_properties = client_enrollments.joins(:client_enrollment_trackings).where(program_stream_id: program_stream_ids, client_enrollment_trackings: { tracking_id: tracking.id }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} ")).distinct.map(&:client_enrollment_trackings).flatten.select { |cet| cet.tracking_id == tracking.id }
+        if client_enrollment_trackings.any?
+          tracing_field_properties = client_enrollment_trackings.select { |cet| cet.client_id == client.id }
+        else
+          tracing_field_properties = client.client_enrollments.joins(:client_enrollment_trackings).where(client_enrollment_trackings: { tracking_id: tracking.id }).distinct.map(&:client_enrollment_trackings).flatten.select { |cet| cet.tracking_id == tracking.id }
+        end
+
         next if tracing_field_properties.blank?
 
         tracing_field_properties.sort_by(&:created_at).reverse.each_with_index do |tracking_field_property, i|
           answers = fields.map do |field|
             field = field.strip.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')
-            # client_enrollment_trackings = ClientEnrollmentTracking.cached_client_enrollment_tracking(client, field, client_enrollments.ids)
-            # Rails.cache.delete([Apartment::Tenant.current, 'Client', client.id, 'ClientEnrollmentTracking', 'cached_client_enrollment_tracking', *field, *ids.sort])
-            # object.joins(:client_enrollment).where(client_enrollments: { program_stream_id: selected_program_stream }).where(query_string.reject(&:blank?).join(" #{basic_rules['condition']} "))
             answer = field_property_answer(field, tracking_field_property)
             answer = answer.join(' | ') if answer.is_a?(Array)
             answer
