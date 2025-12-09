@@ -285,9 +285,10 @@ class User < ActiveRecord::Base
                    [Apartment::Tenant.current, 'notifications', 'user', id, 'overdue_and_due_today_forms']
                  end
 
-    Rails.cache.fetch(cache_keys) do
-      overdue_and_due_today_forms(self, active_accepted_clients)
-    end
+    # Rails.cache.write(cache_keys, expires_in: 1.day) do
+      # overdue_and_due_today_forms(self, active_accepted_clients)
+    # end
+    { overdue_forms: [], today_forms: [], upcoming_forms: [] }
   end
 
   def case_notes_due_today_and_overdue(ngo_clients)
