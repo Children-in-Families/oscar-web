@@ -17,4 +17,4 @@
 .row
   .col-xs-12
     .ibox-content#client-search-form.collapse
-      = datagrid_form_for @client_grid, url: advanced_search_clients_url, html: { class: 'grid-form' }
+      = datagrid_form_for @client_grid, url: advanced_search_clients_url, method: :post, html: { class: 'grid-form' }
