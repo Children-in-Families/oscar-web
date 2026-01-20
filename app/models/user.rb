@@ -286,7 +286,7 @@ class User < ActiveRecord::Base
                  end
 
     # Rails.cache.write(cache_keys, expires_in: 1.day) do
-      # overdue_and_due_today_forms(self, active_accepted_clients)
+    # overdue_and_due_today_forms(self, active_accepted_clients)
     # end
     { overdue_forms: [], today_forms: [], upcoming_forms: [] }
   end
@@ -385,7 +385,7 @@ class User < ActiveRecord::Base
     return User.none unless subordinates.any?
 
     User.where(id: subordinates.map(&:id)).or(
-      User.where(id: subordinates.includes(:subordinates).flat_map(&:all_subordinates).map(&:id))
+      User.where(id: subordinates.map { |subordinate| subordinate.subordinates.map(&:id) }.flatten.compact.uniq)
     )
   end
 
