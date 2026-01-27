@@ -378,7 +378,8 @@ class User < ActiveRecord::Base
     return User.none unless manager
 
     # Recursively collect all managers
-    User.where(id: manager.id).or(User.where(id: manager.all_managers.map(&:id)))
+    manager_ids = find_manager_manager(manager.id, [])
+    User.where(id: manager_ids)
   end
 
   def all_subordinates
