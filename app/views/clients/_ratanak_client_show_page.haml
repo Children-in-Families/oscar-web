@@ -104,6 +104,15 @@
             %td
               %strong
                 = editable @client, :local_family_name, url: api_client_path(@client.id), pk: @client.id
+
+        - if policy(@client).show?(:client_phone)
+          %tr
+            %td.spacing-first-col
+              = t("clients.form.client_phone")
+            %td.address
+              %strong
+                = editable @client, :client_phone, value: @client.public_send(:client_phone), url: api_client_path(@client.id), pk: @client.id
+
         - if current_setting.try(:enable_hotline) == true
           %tr
             %td.spacing-first-col
