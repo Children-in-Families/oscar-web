@@ -543,7 +543,7 @@ module ApplicationHelper
   end
 
   def request_method
-    (['clients', 'families'].include?(params[:controller]) && params[:action].in?(%w(index welcome))) ? 'Post' : 'Get'
+    (['clients', 'families'].include?(params[:controller]) && params[:action].in?(%w(index))) ? 'Post' : 'Get'
   end
 
   def age_in_hash(dob)

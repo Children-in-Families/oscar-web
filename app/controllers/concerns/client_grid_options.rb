@@ -438,7 +438,6 @@ module ClientGridOptions
         column = domain.convert_identity.to_sym
       end
       @client_grid.column(column, class: 'domain-scores', header: identity) do |client|
-        assessment_domains = map_assessment_and_score(client, identity, domain.id)
         assessment_results = map_assessment_and_score(client, identity, domain.id)
         assessments = domain.custom_domain ? assessment_results.customs : assessment_results
         assessment_domains = assessments.includes(:assessment_domains).map { |assessment| assessment.assessment_domains.joins(:domain).where(domains: { identity: identity }) }.flatten.uniq
@@ -489,6 +488,8 @@ module ClientGridOptions
     data = params[:data].presence
     column_form_builder.each do |field|
       fields = field[:id].gsub('&qoute;', '"').split('__')
+      next if fields.first == 'tracking'
+
       rule = get_rule(params, fields.last)
       @client_grid.column(field[:id].to_sym, header: form_builder_format_header(fields)) do |client|
         format_field_value = fields.last.gsub("'", "''").gsub('&qoute;', '"').gsub('&', '&amp;').gsub('<', '&lt;').gsub('>', '&gt;')

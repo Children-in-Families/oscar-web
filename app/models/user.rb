@@ -285,9 +285,10 @@ class User < ActiveRecord::Base
                    [Apartment::Tenant.current, 'notifications', 'user', id, 'overdue_and_due_today_forms']
                  end
 
-    Rails.cache.fetch(cache_keys) do
-      overdue_and_due_today_forms(self, active_accepted_clients)
-    end
+    # Rails.cache.write(cache_keys, expires_in: 1.day) do
+    # overdue_and_due_today_forms(self, active_accepted_clients)
+    # end
+    { overdue_forms: [], today_forms: [], upcoming_forms: [] }
   end
 
   def case_notes_due_today_and_overdue(ngo_clients)
@@ -377,14 +378,15 @@ class User < ActiveRecord::Base
     return User.none unless manager
 
     # Recursively collect all managers
-    User.where(id: manager.id).or(User.where(id: manager.all_managers.map(&:id)))
+    manager_ids = find_manager_manager(manager.id, [])
+    User.where(id: manager_ids)
   end
 
   def all_subordinates
     return User.none unless subordinates.any?
 
     User.where(id: subordinates.map(&:id)).or(
-      User.where(id: subordinates.includes(:subordinates).flat_map(&:all_subordinates).map(&:id))
+      User.where(id: subordinates.map { |subordinate| subordinate.subordinates.map(&:id) }.flatten.compact.uniq)
     )
   end
 

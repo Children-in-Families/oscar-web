@@ -24,6 +24,7 @@ class Organization < ActiveRecord::Base
   scope :visible_only_cif, -> { where.not(short_name: ['cwd', 'myan', 'rok', 'shared', 'my', 'tutorials']) }
   scope :test_ngos, -> { where(short_name: ['demo', 'tutorials']) }
   scope :cambodian, -> { where(country: 'cambodia') }
+  scope :thailand, -> { where(country: 'thailand') }
   scope :skip_dup_checking_orgs, -> { where(short_name: ['demo', 'cwd', 'myan', 'rok', 'my']) }
   scope :only_integrated, -> { where(integrated: true) }
   scope :completed, -> { where(onboarding_status: 'completed') }

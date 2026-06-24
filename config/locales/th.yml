@@ -1088,12 +1088,12 @@ th:
       tasks_arising: งานที่เกิดขึ้น:งานที่เกิดขึ้น
       type: 'ประเภท (หมายเหตุ: เลือก ''เยี่ยม'' เท่านั้นหากคุณได้พบกับลูกค้า)'
       type_options:
-        visit: เข้าชม
-        come_to_us: Come to us
-        non_face_to_face: ไม่ต้องพบหน้าต่อหน้า
-        rd_party: บุคคลที่สาม
+        visit: ไปเยี่ยม
+        come_to_us: นัดเข้ามา
+        non_face_to_face: ไม่ได้เจอหน้ากัน
+        rd_party: ได้รับข้อมูลผ่านทางคนอื่น
         supervision: ควบคุมการดูแล
-        other_option: อื่น ๆ
+        other_option: อื่นๆ
     form_with_assessment_domains:
       add_task: เพิ่มงาน
       domain: โดเมน
