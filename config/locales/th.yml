@@ -6191,12 +6191,10 @@ th:
     create:
       successfully_created: การบริจาคได้ถูกสร้างเรียบร้อยแล้ว
     destroy:
-      alert: ไม่สามารถลบผู้บริจาคได้。
-      successfully_deleted: ผู้บริจาคได้ถูกสร้างเรียบร้อยแล้วค่ะ.
-    disable:
-      successfully_disabled: Service has been successfully disabled.
       alert: ไม่สามารถลบการบริจาคได้
       successfully_deleted: การบริจาคได้ถูกลบเรียบร้อยแล้ว
+    disable:
+      successfully_disabled: Service has been successfully disabled.
     form:
      <<: *SERVICE_DELIVERY_ATTR
     index:
