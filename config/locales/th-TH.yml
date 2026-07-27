@@ -10,12 +10,12 @@ th:
     create:
       successfully_created: การคัดกรองได้ถูกสร้างเรียบร้อย
     destroy:
-      alert: ไม่สามารถลบการคัดกรองได้ 
+      alert: ไม่สามารถลบการคัดกรองได้
       successfully_deleted: การคัดกรองได้ถูกลบเรียบร้อยแล้ว
     edit:
       general_question: คำถามทั่วไป
     form:
-      alert_manager:แจ้งเตือนผู้จัดการ
+      alert_manager: แจ้งเตือนผู้จัดการ
       cancel: ยกเลิก
       general_question: คำถามทั่วไป
       group: กลุ่ม
@@ -50,16 +50,16 @@ th:
         edit:
           general_question: แก้ไขคำถามทั่วไป
         form:
-          alert_manager:แจ้งเตือนผู้จัดการ
+          alert_manager: แจ้งเตือนผู้จัดการ
           mode: โหมด
           question: คำถาม
         new:
           general_question: คำถามใหม่
         update:
-          successfully_updated:อัปเดตสำเร็จแล้ว
+          successfully_updated: อัปเดตสำเร็จแล้ว
       stages:
         able_screening_question_fields:
-          alert_manager:แจ้งเตือนผู้จัดการ
+          alert_manager: แจ้งเตือนผู้จัดการ
           are_you_sure: คุณแน่ใจหรือไม่?
           group: กลุ่ม
           mode: โหมด
@@ -75,7 +75,7 @@ th:
           edit_stage: แก้ไขขั้นตอน
         form:
           add_question: เพิ่มคำถาม
-          alert_manager:แจ้งเตือนผู้จัดการ
+          alert_manager: แจ้งเตือนผู้จัดการ
           from_age: จากอายุ (เป็นปี)
           mode: โหมด
           question: คำถาม
@@ -99,7 +99,7 @@ th:
         questions: คำถาม
         stage: ขั้นตอน
         update:
-          successfully_updated:อัปเดตสำเร็จแล้ว
+          successfully_updated: อัปเดตสำเร็จแล้ว
   accepted_date: วันที่ได้รับการยอมรับ
   activerecord:
     attributes:
@@ -143,12 +143,12 @@ th:
         role: บทบาท
       family:
         case_worker_ids: ผู้จัดการเคส/เจ้าหน้าที่ที่ได้รับมอบหมาย
-        code: รหัส 
+        code: รหัส
         commune_id: ชุมชน
         community_ids: ชุมชน/กลุ่ม
         contract_date: วันที่ทำสัญญาครอบครัว
-        custom_forms: แบบฟอร์ม 
-        dependable_income: รายได้หลัก 
+        custom_forms: แบบฟอร์ม
+        dependable_income: รายได้หลัก
         district_id: อำเภอ
         donor_ids: ผู้บริจาค
         family_type: ประเภทครอบครัว
@@ -162,9 +162,9 @@ th:
         name_en: ชื่อหัวหน้าครัวเรือน (ภาษาอังกฤษ)
         province_id: จังหวัด
         received_by_id: เจ้าหน้าที่ผู้รับแรก
-        referee_phone_number: หมายเลขโทรศัพท์ของผู้ส่งต่อ 
+        referee_phone_number: หมายเลขโทรศัพท์ของผู้ส่งต่อ
         referral_source_category_id: หมวดหมู่แหล่งข้อมูลการส่งต่อ
-        referral_source_id: แหล่งข้อมูลการส่งต่อ 
+        referral_source_id: แหล่งข้อมูลการส่งต่อ
         street: หมายเลขถนน
         village_id: หมู่บ้าน
         'yes': 'ใช่'
@@ -387,13 +387,13 @@ th:
               blank: จำเป็นต้องกรอกช่องนี้
               greater_than:
                 one: จะต้องมากกว่าค่าต่ำสุด
-                other: จะต้องมากกว่า %{count} 
+                other: จะต้องมากกว่า %{count}
             max_case_note:
               blank: จำเป็นต้องกรอกช่องนี้
             min_assessment:
               blank: จำเป็นต้องกรอกช่องนี้
               less_than:
-                one: ต้องน้อยกว่าค่าสูงสุด 
+                one: ต้องน้อยกว่าค่าสูงสุด
                 other: ต้องน้อยกว่า %{count}
         stage:
           attributes:
@@ -402,7 +402,7 @@ th:
             to_age:
               blank: จำเป็นต้องกรอกช่องนี้
               greater_than:
-                one:จะต้องมากกว่าค่าต่ำสุด 
+                one: จะต้องมากกว่าค่าต่ำสุด
                 other: จะต้องมากกว่า %{count}
               taken: ถูกใช้ไปแล้ว
         task:
@@ -426,12 +426,12 @@ th:
             password_confirmation:
               confirmation: ไม่ตรง
             pin_code:
-              not_an_integer: Value is required and can't be empty
-              wrong_length: Value is required and can't be empty
+              not_an_integer: "Value is required and can't be empty"
+              wrong_length: "Value is required and can't be empty"
             roles:
               blank: จำเป็นต้องกรอกช่องนี้
     update:
-      successfully_updated:อัปเดตสำเร็จแล้ว
+      successfully_updated: อัปเดตสำเร็จแล้ว
   add_event_success: เหตุการณ์ถูกเพิ่มในปฏิทินเรียบร้อยแล้ว
   advanced_search:
     fields:
@@ -462,13 +462,13 @@ th:
       carer_phone: โทรศัพท์ผู้ดูแล
       carer_email: อีเมลผู้ดูแล
       case_note_date: วันที่บันทึกเคส
-      case_note_type: ประเภทบันทึกเคส 
+      case_note_type: ประเภทบันทึกเคส
       case_type: ประเภทกรณี
-      case_worker: ผูัจัดการเคส 
+      case_worker: ผูัจัดการเคส
       case_worker_or_staff: ผูัจัดการเคส  / เจ้าหน้าที่
-      client_contact_phone: หมายเลขโทรศัพท์ของผู้รับบริการ 
+      client_contact_phone: หมายเลขโทรศัพท์ของผู้รับบริการ
       address_type: ประเภทที่อยู่ของผู้รับบริการ
-      client_email_address: ที่อยู่อีเมลของผู้รับบริการ 
+      client_email_address: ที่อยู่อีเมลของผู้รับบริการ
       code: หมายเลขรหัสปรับแต่ง 1
       common_searches: คำค้นหาทั่วไป
       commune: ชุมชน
@@ -482,7 +482,7 @@ th:
       family_assessment_domain_scores: คะแนนโดเมนการประเมินครอบครัว
       custom_csi_domain_scores: คะแนนโดเมนที่กำหนดเอง
       custom_csi_group: ที่
-      custom_form: แบบฟอร์ม 
+      custom_form: แบบฟอร์ม
       date_of_assessments: "วันที่ %{assessment}"
       date_of_birth: วันเกิด
       date_of_referral: วันที่ส่งต่อ
@@ -497,12 +497,12 @@ th:
       exit_ec_date: วันที่ออก
       exit_fc_date: วันที่ออก
       exit_kc_date: วันที่ออก
-      exit_note: บันทึกการออก 
+      exit_note: บันทึกการออก
       exit_program: ออกจากโปรแกรม
       exit_reasons: เหตุผลที่ออก
       family: ครอบครัว
       family_basic_fields: ไฟล์พื้นฐานของครอบครัว
-      common_searches: 
+      common_searches:
       family_id: ทะเบียนบ้าน
       family_name: นามสกุล (ภาษาอังกฤษ)
       follow_up_by: ติดตามครั้งแรกโดย
@@ -518,8 +518,8 @@ th:
       has_been_in_orphanage: ผู้รับบริการอยู่ในสถานสงเคราะห์เด็กหรือไม่
       house_number: หมายเลขบ้าน
       id: รหัสประจำตัว (ID)
-      id_poor: หมายเลขบัตรสวัสดิการแห่งรัฐ  
-      initial_referral_date: วันที่รับเคสส่งต่อ 
+      id_poor: หมายเลขบัตรสวัสดิการแห่งรัฐ
+      initial_referral_date: วันที่รับเคสส่งต่อ
       kid_id: หมายเลขรหัสปรับแต่ง 2
       live_with: ชื่อผู้ดูแล
       local_family_name: นามสกุล
@@ -528,11 +528,11 @@ th:
       month_number: เดือน
       name: ชื่อ
       name_of_referee: ชื่อผู้ส่งต่อ
-      ngo_accepted_date: วันที่NGOตอบรับ 
-      no_case_note_date: ไม่มีวันที่บันทึกเคส 
+      ngo_accepted_date: วันที่NGOตอบรับ
+      no_case_note_date: ไม่มีวันที่บันทึกเคส
       ngo_exit_date: วันที่ออกจาก NGO
-      no_case_note_date: 
-      number_client_referred_gatekeeping: จำนวนเคสทั้งหมดที่ได้รับการส่งต่อ 
+      no_case_note_date:
+      number_client_referred_gatekeeping: จำนวนเคสทั้งหมดที่ได้รับการส่งต่อ
       number_client_billable: จำนวนเคสที่คิดค่าบริการ (เดือน)
       other_info_of_exit: อื่น ๆ - ข้อมูลเพิ่มเติม
       phone_owner: เจ้าของโทรศัพท์
@@ -542,9 +542,9 @@ th:
       program_stream: โปรแกรมทำงาน
       province: จังหวัดที่เกิด
       province_id: จังหวัดปัจจุบัน
-      quantitative: ข้อมูลรับการส่งต่อเคส 
+      quantitative: ข้อมูลรับการส่งต่อเคส
       rated_for_id_poor: ผู้รับบริการมีบัตรสวัสดิการแห่งรัฐไหม?
-      received_by: ผู้รับเคส 
+      received_by: ผู้รับเคส
       received_by_id:
       referral_email: อีเมลผู้ส่งต่อ
       referral_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
@@ -554,29 +554,29 @@ th:
       referred_from: ส่งต่อจาก
       referred_in: จำนวนที่รับการส่งต่อ
       referred_out: จำนวนที่ส่งต่อ
-      referred_to: ส่งต่อไปที่ 
-      referred_out: 
+      referred_to: ส่งต่อไปที่
+      referred_out:
       referee: ผู้ส่งต่อ
       referee_relationship: ความสัมพันธ์ของผู้ส่อต่อกับผู้รับบริการ
       referee_name: ชื่อผู้ส่งต่อ
       referee_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
       referee_email: อีเมลผู้ส่งต่อ
       reject_note: หมายเหตุเรื่องการปฏิเสธการส่งต่อ
-      relevant_referral_information: ข้อมูลที่เกี่ยวข้องเกี่ยวกับการส่งต่อ 
+      relevant_referral_information: ข้อมูลที่เกี่ยวข้องเกี่ยวกับการส่งต่อ
       road: ถนน
       school_grade: ระดับชั้นโรงเรียน
       school:
         no_school: ไม่ระบุการเรียน
-        pre_school: เตรียมอนุบาล 
-        primary_school: ประถมศึกษา 
-        secondary_school: มัธยมต้น 
-        high_school: มัธยมปลาย 
+        pre_school: เตรียมอนุบาล
+        primary_school: ประถมศึกษา
+        secondary_school: มัธยมต้น
+        high_school: มัธยมปลาย
         university: มหาวิทยาลัย
       school_grade_list:
         kindergarten_1: เตรียมอนุบาล
-        kindergarten_2: อนุบาล 1 
-        kindergarten_3: อนุบาล 2 
-        kindergarten_4: อนุบาล 3 
+        kindergarten_2: อนุบาล 1
+        kindergarten_3: อนุบาล 2
+        kindergarten_4: อนุบาล 3
         grade_1: ป.1
         grade_2: ป.2
         grade_3: ป.3
@@ -610,8 +610,8 @@ th:
       suburb: ชานเมือง
       telephone_number: โทรศัพท์ผู้ดูแล
       time_in_care: เวลาในการดูแล
-      time_in_cps: เวลาของโปรแกรมที่ได้กำหนดเอง 
-      time_in_ngo: เวลาขององค์กร 
+      time_in_cps: เวลาของโปรแกรมที่ได้กำหนดเอง
+      time_in_ngo: เวลาขององค์กร
       time_of_frequency: ความถี่ของเวลา
       township: เทาน์ชิพ
       tracking: การติดตาม
@@ -620,7 +620,7 @@ th:
       user_id: ผู้จัดการเคส
       village: หมู่บ้าน
       what3words: What3words
-      client_rejected: ปฏิเสธเคส 
+      client_rejected: ปฏิเสธเคส
       other: อื่น ๆ
   advanced_search_save_queries:
     create:
@@ -693,7 +693,7 @@ th:
       download: ดาวน์โหลด
       max_file_size: "*ขนาดไฟล์สูงสุด: 5MB/ไฟล์และ 30MB/การอัปโหลด."
       preview_download: ตัวอย่างและดาวน์โหลด
-    client_name: ชื่อผู้รับบริการ 
+    client_name: ชื่อผู้รับบริการ
     create:
       successfully_created: การประเมินได้ถูกสร้างเรียบร้อยแล้ว
     destroy:
@@ -710,18 +710,18 @@ th:
       domain: โดเมน
       finish: เสร็จแล้ว
       finished_assessment_msg: การประเมินนี้พร้อมที่จะถูกบันทึกแล้ว!
-      goal: 'เป้าหมาย: เฉพาะเจาะจงเคสที่จะทำในระยะเวลาหลายเดือนข้างหน้าคืออะไร?'
+      goal: "เป้าหมาย: เฉพาะเจาะจงเคสที่จะทำในระยะเวลาหลายเดือนข้างหน้าคืออะไร?"
       level_risk_summary: สรุประดับความเสี่ยง
       next: ถัดไป
       previous: ก่อนหน้า
       reason: การสังเกต
-      reason_placeholder: ป้อนสังเกตการณ์ของคุณต่อสถานการณ์ของผู้รับบริการ โดยขึ้นอยู่กับสิ่งที่คุณเห็นและได้ยินจากผู้รับบริการและครอบครัวของเขา
-      reason_placeholder_family: ป้อนสังเกตการณ์ของคุณต่อสถานการณ์ของครอบครัว โดยขึ้นอยู่กับสิ่งที่คุณเห็นและได้ยินจากผู้รับบริการและครอบครัวของเขา
+      reason_placeholder: "ป้อนสังเกตการณ์ของคุณต่อสถานการณ์ของผู้รับบริการ โดยขึ้นอยู่กับสิ่งที่คุณเห็นและได้ยินจากผู้รับบริการและครอบครัวของเขา"
+      reason_placeholder_family: "ป้อนสังเกตการณ์ของคุณต่อสถานการณ์ของครอบครัว โดยขึ้นอยู่กับสิ่งที่คุณเห็นและได้ยินจากผู้รับบริการและครอบครัวของเขา"
       save: บันทึก
-      score_label: เลือกคำอธิบายดังต่อไปนี้ที่ใกล้เคียงกับสถานการณ์ของผู้รับบริการ โดยอิงจากการสังเกตของคุณ
-      score_label_family: เลือกคำอธิบายดังต่อไปนี้ที่ใกล้เคียงกับสถานการณ์ครอบครัว โดยอิงจากสิ่งที่คุณสังเกตได้
+      score_label: "เลือกคำอธิบายดังต่อไปนี้ที่ใกล้เคียงกับสถานการณ์ของผู้รับบริการ โดยอิงจากการสังเกตของคุณ"
+      score_label_family: "เลือกคำอธิบายดังต่อไปนนี้ที่ใกล้เคียงกับสถานการครอบครัว โดยอิงจากสิ่งที่คุณสังเกตได้"
       set_goal: คุณต้องการตั้งเป้าหมายหรือไม่?
-      tasks_arising: 'งานที่จะเกิดขึ้น'
+      tasks_arising: "งานที่จะเกิดขึ้น"
     incomplete_detail:
       goal: เป้าหมาย
       reason: การสังเกต
@@ -736,17 +736,17 @@ th:
       domain: โดเมน
       finish: เสร็จแล้ว
       finished_assessment_msg: การประเมินนี้พร้อมที่จะถูกบันทึกแล้ว!
-      goal: 'เป้าหมาย: เฉพาะเจาะจงเคสที่จะทำในระยะเวลาหลายเดือนข้างหน้าคืออะไร?'
+      goal: "เป้าหมาย: เฉพาะเจาะจงเคสที่จะทำในระยะเวลาหลายเดือนข้างหน้าคืออะไร?"
       next: ถัดไป
       previous: ก่อนหน้า
       reason: การสังเกต
-      reason_placeholder: ป้อนสังเกตการณ์ของคุณต่อสถานการณ์ของผู้รับบริการ โดยขึ้นอยู่กับสิ่งที่คุณเห็นและได้ยินจากผู้รับบริการและครอบครัวของเขา
-      reason_placeholder_family: ป้อนสังเกตการณ์ของคุณต่อสถานการณ์ของครอบครัว โดยขึ้นอยู่กับสิ่งที่คุณเห็นและได้ยินจากผู้รับบริการและครอบครัวของเขา
+      reason_placeholder: "ป้อนสังเกตการณ์ของคุณต่อสถานการณ์ของผู้รับบริการ โดยขึ้นอยู่กับสิ่งที่คุณเห็นและได้ยินจากผู้รับบริการและครอบครัวของเขา"
+      reason_placeholder_family: "ป้อนสังเกตการณ์ของคุณต่อสถานการณ์ของครอบครัว โดยขึ้นอยู่กับสิ่งที่คุณเห็นและได้ยินจากผู้รับบริการและครอบครัวของเขา"
       save: บันทึก
-      score_label: 'เลือกคำอธิบายดังต่อไปนี้ที่ใกล้เคียงกับสถานการณ์ของผู้รับบริการ โดยอิงจากการสังเกตของคุณ 
-      score_label_family: เลือกคำอธิบายดังต่อไปนนี้ที่ใกล้เคียงกับสถานการครอบครัว โดยอิงจากสิ่งที่คุณสังเกตได้
+      score_label: "เลือกคำอธิบายดังต่อไปนี้ที่ใกล้เคียงกับสถานการณ์ของผู้รับบริการ โดยอิงจากการสังเกตของคุณ"
+      score_label_family: "เลือกคำอธิบายดังต่อไปนนี้ที่ใกล้เคียงกับสถานการครอบครัว โดยอิงจากสิ่งที่คุณสังเกตได้"
       set_goal: คุณต้องการตั้งเป้าหมายหรือไม่?
-      tasks_arising: 'งานที่จะเกิดขึ้น:'
+      tasks_arising: "งานที่จะเกิดขึ้น:"
     index:
       assessment_completed_on: "วันที่เสร็จสิ้น %{assessment}"
       assessment_created_on: "วันที่สร้าง %{assessment}"
@@ -786,7 +786,7 @@ th:
       successfully_updated: การประเมินได้ถูกอัปเดตเรียบร้อยแล้ว
   at: 'บน'
   back: กลับมา
-  blank_field_warning: คำเตือน! คุณไม่สามารถส่งต่อผู้รับบริการได้ ถ้าไม่ระบุ ชื่อ วันเดือนปีเกิด และเพศ 
+  blank_field_warning: คำเตือน! คุณไม่สามารถส่งต่อผู้รับบริการได้ ถ้าไม่ระบุ ชื่อ วันเดือนปีเกิด และเพศ
   calendars:
     index:
       sync_with_google: ซิงค์กับปฏิทิน Google
@@ -795,16 +795,16 @@ th:
     brief_note_summary: สรุปบันทึกสั้น ๆ
     call_type: ประเภทการโทร
     called_before: เคยโทรแล้ว
-    childsafe_agent: เจ้าหน้าที่คุ้มครองสวัสดิภาพเด็ก 
+    childsafe_agent: เจ้าหน้าที่คุ้มครองสวัสดิภาพเด็ก
     date_of_call: วันที่โทร
     end_datetime: วันที่หยุดโทร
-    end_time: เวลาที่หยุดโทร 
+    end_time: เวลาที่หยุดโทร
     edit:
       add_note_about_the_content: เพิ่มบันทึกเกี่ยวกับเนื้อหาของการสนทนากับผู้โทรเข้ามา
       answered_call: ตอบโทรศัพท์
       are_you_a_child_safe_agent: คุณเป็นเจ้าหน้าที่คุ้มครองสวัสดิภาพเด็กหรือไม่?
       basic_necessities:
-        "1": มองหาความช่วยเหลือด้านสุขภาพ/การแพทย์ (รวมถึงฉุกเฉิน การตั้งครรภ์ หรือปัญหาสุขภาพอื่นๆ) 
+        "1": มองหาความช่วยเหลือด้านสุขภาพ/การแพทย์ (รวมถึงฉุกเฉิน การตั้งครรภ์ หรือปัญหาสุขภาพอื่นๆ)
         "2": มองหาข้อมูลการศึกษาและอุปกรณ์การเรียน ชุดนักเรียน สำหรับการลงทะเบียนเรียนที่โรงเรียน; กลับมาเรียน; ต้องการความช่วยเหลือเพื่อจะศึกษาต่อ.
         "3": มองหาอาหาร, น้ำ, นม, การสนับสนุนที่เกี่ยวกับที่อยู่อาศัย
         "4": มองหาการฝึกอาชีพ/การจ้างงาน.
@@ -832,12 +832,12 @@ th:
         "10": เด็กและพ่อแม่ที่อาศัยอยู่บนถนน.
         "11": พิการ
         "12": อื่นๆ
-      receiving_staff: เจ้าหน้าที่แรกรับ 
+      receiving_staff: เจ้าหน้าที่แรกรับ
       referee_answered_call: ผู้ส่งต่อได้ตอบโทรศัพท์นี้หรือโทรกลับจากการไม่รับสาย?
       referee_called_before: ผู้ส่งต่อ?
       returning_missed_call: การโทรกลับหาผู้โทรไม่ได้
       time_call_began: เวลาของการโทร
-      time_call_ended: เวลาที่หยุดโทร 
+      time_call_ended: เวลาที่หยุดโทร
       types:
         new_referral_case_action_not_required: "แนะนำเคสใหม่: ไม่จำเป็นต้องจัดการเคส"
         new_referral_case_action_required: "แนะนำเคสใหม่: ต้องจัดการเคส"
@@ -909,9 +909,9 @@ th:
     care_plan_based_on: วันที่ของแผนการดูแล
     completed_date: วันที่เสร็จสิ้น
     create:
-      successfully_created: "{care_plan} ได้ถูกสร้างเรียบร้อยแล้ว."
+      successfully_created: "%{care_plan} ได้ถูกสร้างเรียบร้อยแล้ว."
     destroy:
-      successfully_deleted: "{care_plan} ได้ถูกลบเรียบร้อยแล้ว."
+      successfully_deleted: "%{care_plan} ได้ถูกลบเรียบร้อยแล้ว."
     form:
       add_goal: เพิ่มเป้าหมาย
       cancel: ยกเลิก
@@ -932,7 +932,7 @@ th:
     index:
       assessment_created_on: วันที่สร้าง Assessment
       back: กลับมา
-      care_plan_created_on: "วันที่สร้าง %{care_plan}
+      care_plan_created_on: "วันที่สร้าง %{care_plan}"
       care_plan_history: "ประวัติ %{care_plan}"
       new_care_plan: "แผนดูแลใหม่ %{care_plan}"
       review_care_plan: "ตรวจสอบ %{care_plan}"
@@ -1019,8 +1019,8 @@ th:
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       attachments: ไฟล์แนบ
       attendants: เจ้าหน้าที่
-      back:กลับมา
-      begin_now: 
+      back: กลับมา
+      begin_now:
       case_conference: การประชุมเคส
       case_conference_edit_duration:
       initial_assessment:
@@ -1085,13 +1085,13 @@ th:
       remove_domain_group_hint: คุณได้สร้างงานที่เกี่ยวข้องกับกลุ่มโดเมนนี้ หากต้องการลบแท็กโดเมนนี้ โปรดลบงานก่อน
       save: บันทึก
       task: งาน
-      tasks_arising: งานที่เกิดขึ้น:
+      tasks_arising: "งานที่เกิดขึ้น:"
       type: 'ประเภท (หมายเหตุ: เลือก ''เยี่ยมเยียน'' ถ้าได้พบเจอผู้รับบริการเท่านั้น)'
       type_options:
         visit: เยี่ยมเยียน
-        non_face_to_face: พูดคุยแบบไม่เจอหน้า 
-        rd_party: ติดต่อผ่านทางคนอื่น 
-        supervision: ผู้กำกับดูแล 
+        non_face_to_face: พูดคุยแบบไม่เจอหน้า
+        rd_party: ติดต่อผ่านทางคนอื่น
+        supervision: ผู้กำกับดูแล
         other_option: อื่น ๆ
     form_with_assessment_domains:
       add_task: เพิ่มงาน
@@ -1122,7 +1122,7 @@ th:
       no_custom_domains_available: ไม่มีโดเมนที่กำหนดเองให้ใช้งาน
       note: หมายเหตุ
       please_add_custom_domains: คุณอาจต้องการเพิ่มโดเมนที่กำหนดเองก่อนที่จะสามารถดำเนินการนี้ได้.
-      present: ?
+      present: ผู้ไปเยี่ยมเยียนและพูดคุยมีใครบ้าง
       task: งาน
       type: ประเภทบันทึกกรณี
       you_need_to_create_assessment: คุณต้องสร้างการประเมิน
@@ -1186,10 +1186,10 @@ th:
       failed_create: การสร้างบันทึกการเปลี่ยนแปลงล้มเหลว
       successfully_created: บันทึกการเปลี่ยนแปลงได้ถูกสร้างเรียบร้อยแล้ว
     destroy:
-      failed_delete: ลบบันทึกการเปลี่ยนแปลงล้มเหลว 
-      successfully_deleted: บันทึกการเปลี่ยนแปลงได้ถูกลบเรียบร้อยแล้ว 
+      failed_delete: ลบบันทึกการเปลี่ยนแปลงล้มเหลว
+      successfully_deleted: บันทึกการเปลี่ยนแปลงได้ถูกลบเรียบร้อยแล้ว
     edit:
-      edit_releaselog: แก้ไขบันทึกการเปลี่ยนแปลง 
+      edit_releaselog: แก้ไขบันทึกการเปลี่ยนแปลง
     form:
       add_change: เพิ่มการเปลี่ยนแปลง
       cancel: ยกเลิก
@@ -1223,7 +1223,7 @@ th:
     dashboard:
       due_today_assessments_count:
         one: คุณมีการประเมิน 1 รายการที่ครบกำหนดวันนี้
-        other:คุณมีการประเมิน %{count} รายการที่ครบกำหนดวันนี้
+        other: คุณมีการประเมิน %{count} รายการที่ครบกำหนดวันนี้
       emergency_cares_html: การดูแลฉุกเฉิน <br/>และการดูแล
       female_emergency_cares: หญิง <br/> EC
       female_foster_cares: หญิง <br/> FC
@@ -1236,24 +1236,24 @@ th:
       male_kinship_cares: ชาย <br/> KC
       males: ชาย
       overdue_assessments_count:
-        one: คุณมีการประเมิน 1 รายการที่ล่าช้า 
-        other:คุณมีการประเมิน %{count} รายการที่ล่าช้า 
+        one: คุณมีการประเมิน 1 รายการที่ล่าช้า
+        other: คุณมีการประเมิน %{count} รายการที่ล่าช้า
   client:
     enter_ngos:
       create:
-        failed_create:การสร้างล้มเหลว
+        failed_create: การสร้างล้มเหลว
         successfully_created: ผู้รับบริการได้รับการสร้างสำเร็จแล้ว
       edit_form:
         accept: ยอมรับ
         accept_ngo_form: กรอกแบบฟอร์มองค์กรเอกชน
         accepted_date: วันที่ได้รับการยอมรับ
-        case_worker_or_staff: ผูัจัดการเคส/ เจ้าหน้าที่ 
+        case_worker_or_staff: ผูัจัดการเคส/ เจ้าหน้าที่
       form:
         accept: ยอมรับ
         accept_ngo_form: กรอกแบบฟอร์มองค์กรเอกชน
         accepted_date: วันที่ได้รับการยอมรับ
         accepting: ยอมรับ...
-        case_worker_or_staff: ผู้จัดการเคส / เจ้าหน้าที่ 
+        case_worker_or_staff: ผู้จัดการเคส / เจ้าหน้าที่
       update:
         failed_update: การอัปเดตผู้รับบริการล้มเหลว
         successfully_updated: ผู้รับบริการได้รับการอัปเดตสำเร็จแล้ว
@@ -1264,7 +1264,7 @@ th:
           client_died: ผู้รับบริการเสียชีวิต
           client_does_not_meet_service_criteria: ผู้รับบริการไม่ได้อยู่ในเกณฑ์ในการให้บริการ
           client_does_not_required_support: ผู้รับบริการไม่ต้องการการสนับสนุนแล้ว
-          client_missing: ติดต่อผู้รับบริการไม่ได้ 
+          client_missing: ติดต่อผู้รับบริการไม่ได้
           client_move_out_international: ย้ายออกนอกพื้นที่เป้าหมายขององค์กร (ระหว่างประเทศ)
           client_move_out_within_cambodia: ย้ายออกนอกพื้นที่เป้าหมายขององค์กร (ในประเทศไทย)
           client_refuse_service: ผู้รับบริการปฏิเสธบริการ
@@ -1275,21 +1275,21 @@ th:
         failed_create: การสร้างผู้รับบริการล้มเหลว
         successfully_created: ผู้รับบริการได้รับการสร้างเรียบร้อยแล้ว
       destroy:
-        failed_to_delete: การลบออกจากองค์กรล้มเหลว 
+        failed_to_delete: การลบออกจากองค์กรล้มเหลว
         successfully_deleted: ลบออกจากองค์กรเรียบร้อยแล้ว
       edit_form:
         case_worker_or_staff: ผู้จัดการเคส / เจ้าหน้าที่
         exit_btn: ออก
         exit_circumstance: สถานการณ์ที่ออก
         exit_date: วันที่ออก
-        exit_ngo: ออกจากการเป็นผู้รับบริการในองค์กร 
-        exit_note: บันทึกการออก 
+        exit_ngo: ออกจากการเป็นผู้รับบริการในองค์กร
+        exit_note: บันทึกการออก
         <<: *EXIT_REASON_ATTR
         exit_reasons: เหตุผลในการออก
         exit_status: สถานะการออก
         exiting: ออก...
         other_info_of_exit: อื่น ๆ - ข้อมูลเพิ่มเติม
-        reject_client: ปฏิเสธผู้รับบริการ 
+        reject_client: ปฏิเสธผู้รับบริการ
         rejected_note: บันทึกการปฏิเสธ
       form:
         case_worker_or_staff: ผู้จัดการเคส / เจ้าหน้าทีี่
@@ -1297,13 +1297,13 @@ th:
         exit_circumstance: สถานการณ์ที่ออก
         exit_date: วันที่ออก
         exit_ngo: ออกจากการเป็นผู้รับบริการในองค์กร
-        exit_note: บันทึกการออก 
+        exit_note: บันทึกการออก
         <<: *EXIT_REASON_ATTR
-        exit_reasons: เหตุผลในการออก 
+        exit_reasons: เหตุผลในการออก
         exit_status: สถานะการออก
         exiting: ออก...
         other_info_of_exit: อื่น ๆ - ข้อมูลเพิ่มเติม
-        other_option: Value is required and can't be empty
+        other_option: "Value is required and can't be empty"
         reject_client: ปฏิเสธผู้รับบริการ
         rejected_note: บันทึกการปฏิเสธ
       update:
@@ -1313,12 +1313,12 @@ th:
       basic_fields: ฟิลด์พื้นฐานของผู้รับบริการ
       concern_basic_fields: ข้อมูลผู้รับบริการที่เกี่ยวข้อง
       csi_domain_scores: คะแนนโดเมน CSI
-      custom_form: แบบฟอร์ที่สร้างขึ้นเอง 
+      custom_form: แบบฟอร์ที่สร้างขึ้นเอง
       enrollment: ลงทะเบียน
       exit_program: ออกจากโปรแกรม
       filter_option: โปรดเลือกตัวเลือกคำถามของคุณด้านล่างนี้
       program_stream: โปรแกรมทำงาน
-      quantitative: ฐานข้อมูลของผู้รับบริการที่ส่งต่อมา 
+      quantitative: ฐานข้อมูลของผู้รับบริการที่ส่งต่อมา
       tracking: การติดตาม
     tasks:
       create:
@@ -1347,7 +1347,7 @@ th:
         new_task: งานใหม่
         overdue_tasks: งานที่ค้างอยู่
         today_tasks: งานที่ต้องทำวันนี้
-        upcoming_tasks: งานที่จะเกิดขึ้นในเร็วๆนี้ 
+        upcoming_tasks: งานที่จะเกิดขึ้นในเร็วๆนี้
       new:
         new_task_regarding: แก้ไขงานเกี่ยวกับ
         title: งานใหม่
@@ -1396,7 +1396,7 @@ th:
     calls:
       answered_call: ตอบโทรศัพท์
       call_type: ประเภทการโทร
-      called_before: เคยโทรแล้ว 
+      called_before: เคยโทรแล้ว
       date_of_call: วันที่โทร
       end_datetime: วันที่สิ้นสุดการโทร
       information_provided: ข้อมูลที่ให้ไว้
@@ -1426,7 +1426,7 @@ th:
     for: สำหรับ
     hotline:
       end_datetime: วันที่และเวลาสิ้นสุด
-      received_by: เจ้าหน้าที่ผู้รับสาย 
+      received_by: เจ้าหน้าที่ผู้รับสาย
       start_datetime: เวลาของการโทร
     incomplete: ไม่สมบูรณ์
     index:
@@ -1439,7 +1439,7 @@ th:
       overdue_tasks: เลยกำหนด
       task: งาน
       today_tasks: งานวันนี้
-      upcoming_tasks: งานที่กำลังจะเกิดขึ้นเร็วๆนี้ 
+      upcoming_tasks: งานที่กำลังจะเกิดขึ้นเร็วๆนี้
   client_enrolled_program_trackings:
     action:
       new_tracking: การติดตามใหม่
@@ -1464,7 +1464,7 @@ th:
       new_tracking: การติดตามใหม่
     show:
       back: กลับมา
-      trackings_list: รายการติดตามของผู้รับบริการ 
+      trackings_list: รายการติดตามของผู้รับบริการ
     update:
       successfully_updated: โปรแกรมติดตามได้ถูกอัปเดตสำเร็จแล้ว
   client_enrolled_programs:
@@ -1682,7 +1682,7 @@ th:
       close: ปิด
       export_to_xls: ส่งออกเป็น XLS
     book:
-      book: หนังสือผู้รับบริการสำหรับ 
+      book: หนังสือผู้รับบริการสำหรับ
     care_plan: แผนการดูแล
     case_history_detail:
       accepted_date: วันที่NGOตอบรับ
@@ -1692,12 +1692,12 @@ th:
       date_of_referral: วันที่ได้รับการส่งต่อ
       enrollment_date: วันที่ลงทะเบียน
       exit_circumstance: สถานการณ์การออก
-      exit_date: วันที่ออกจาก NGO 
+      exit_date: วันที่ออกจาก NGO
       exit_note: บันทึกการออก
       exit_program_date: วันที่ออกจากโครงการ
       exit_reasons: เหตุผลในการออก/ปฏิเสธผู้รับบริการ
       external_referral: วันที่ส่งต่อจากภายนอก
-      initial_referral_date: Value is required and can't be empty
+      initial_referral_date: "Value is required and can't be empty"
       internal_referral: วันที่ส่งต่อภายใน
       name_of_referee: ชื่อผู้ส่งต่อ
       other_info_of_exit: อื่น ๆ - ข้อมูลเพิ่มเติม
@@ -1817,7 +1817,7 @@ th:
       exit_btn: ออก
       exit_date: วันที่ออก
       exit_note: บันทึกการออก
-      exit_status:สถานการณ์ที่ออก
+      exit_status: สถานการณ์ที่ออก
       family: ครอบครัว
       family_preservation: การสนับสนุนครอบครัว?
       note: หมายเหตุ
@@ -1839,7 +1839,7 @@ th:
       exit_kc: ออกจากการดูแลโดยเครือญาติ
       exit_ngo: ออกจากการเป็นผู้รับบริการในองค์กร
       exit_note: บันทึการออก
-      exit_status:สถานการณ์การที่ออก
+      exit_status: สถานการณ์การที่ออก
       exiting: ออก...
     exit_ngo_form:
       case_worker_or_staff: ผู้จัดการเคส / เจ้าหน้าที่
@@ -1892,7 +1892,7 @@ th:
       answer: Answer
       birth_cert: 'Birth Certificate'
       birth_province: Client Birth Province
-      blank: can't be blank
+      blank: "can't be blank"
       brsc_branch: BRCS Branch
       cambodia: Cambodia
       case_worker: Case Worker
@@ -2030,7 +2030,7 @@ th:
       carer_names: ชื่อผู้ดูแล
       carer_phone_number: โทรศัพท์ผู้ดูแล
       edit_btn: แก้ไข
-      exit_btn: ออก 
+      exit_btn: ออก
       exit_date: วันที่ออกจาก
       exit_note: บันทึกเหตุออก
       exit_status: สถานการณ์การที่ออก
@@ -2065,25 +2065,25 @@ th:
       profile: ภาพถ่าย
       province:
         cambodia: จังหวัดเกิด
-        lesotho: จังหวัดเกิด 
+        lesotho: จังหวัดเกิด
         myanmar: จังหวัดเกิด
-        thailand: จังหวัดเกิด 
-      received_by_id: รับการส่งต่อโดย 
+        thailand: จังหวัดเกิด
+      received_by_id: รับการส่งต่อโดย
       referee_phone_number: หมายเลขโทรศัพท์ของผู้ส่งต่อ
       referral_email: อีเมลผู้ส่งต่อ
       referral_information: ข้อมูลที่เกี่ยวข้องกับการส่งต่อ
       referral_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
       referral_received_by: รับการส่งต่อโดย
-      referral_source:ข้อมูลรับการส่งต่อเคส
-      referral_source_category: 
+      referral_source: ข้อมูลรับการส่งต่อเคส
+      referral_source_category:
       remove_profile: ลบรูปภาพ
-      specific_point:ข้อมูลที่เกี่ยวข้อง
-      staff_responsibilities: หน้าที่ของผู้รับผิดชอบ 
+      specific_point: ข้อมูลที่เกี่ยวข้อง
+      staff_responsibilities: หน้าที่ของผู้รับผิดชอบ
       text-hint: ไม่สามารถลบผู้ดูแลกรณีนี้ได้เนื่องจากเขายังมีงานที่เหลืออยู่ที่ต้องทำให้เสร็จ
       users: ผู้จัดการเคส / เจ้าหน้าทีี่
     index:
       active_programs: โปรแกรมทำงานอย่างเต็มประสิทธิภาพ
-      add_new_client: เพิ่มผู้รับบริการใหม่ 
+      add_new_client: เพิ่มผู้รับบริการใหม่
       advanced_search: การค้นหาขั้นสูง
       all_csi_assessments: "CSI การประเมินทั้งหมด"
       all_custom_csi_assessments: "CSI การประเมินทั้งหมดที่กำหนดเอง"
@@ -2108,14 +2108,14 @@ th:
       load: กำลังโหลดเพิ่มเติม...
       load_save_search: โหลดการค้นหาที่บันทึก
       month_number: เดือน
-      most_recent: ครั้งล่าสุด 
-      popover_content: กรุณาคลิกที่ปุ่มค้นหาเพื่อดูผู้รับบริการ 
+      most_recent: ครั้งล่าสุด
+      popover_content: กรุณาคลิกที่ปุ่มค้นหาเพื่อดูผู้รับบริการ
       popover_done: ปิด
       popover_info: ประกาศ
       read_less: อ่านน้อยลง
       read_more: อ่านเพิ่มเติม
       report_builder: โปรแกรมสร้างรายงาน
-      report_builder_wizard: ตัวช่วยโปรแกรมการรายงาน 
+      report_builder_wizard: ตัวช่วยโปรแกรมการรายงาน
       reports: กราฟง่ายๆ
       results: ผลลัพธ์
       sInfoShow: แสดงผลลัพธ์จาก
@@ -2146,12 +2146,12 @@ th:
       what3words: What3words
     new:
       download_supporting_document: ดาวน์โหลดเอกสารสนับสนุน
-      new_client_title: เพิ่มเคสใหม่ 
+      new_client_title: เพิ่มเคสใหม่
       referral_has_already_been_saved: การส่งต่อถูกบันทึกไว้แล้ว
     other_detail:
       agencies: หน่วยงานอื่นที่เกี่ยวข้อง
       agencies_involved: หน่วยงานอื่นที่เกี่ยวข้อง
-      case_worker_or_staff: ผู้จัดการเคส /เจ้าหน้าที่ 
+      case_worker_or_staff: ผู้จัดการเคส /เจ้าหน้าที่
       code: หมายเลขรหัสปรับแต่ง 1
       custom_id_number1: หมายเลขรหัสปรับแต่ง 1
       custom_id_number2: หมายเลขรหัสปรับแต่ง 2
@@ -2159,7 +2159,7 @@ th:
       donors: ผู้บริจาค
       has_been_in_government_care: เคสได้อาศัยอยู่ในการดูแลของรัฐบาลหรือไม่
       has_been_in_orphanage: เคสเคยอยู่ในสถานสงเคราะห์เด็กหรือไม่
-      is_the_client_rated_for_id_poor: เคสได้รับบัตรสวัสดิการแห่งรัฐหรือไม่ 
+      is_the_client_rated_for_id_poor: เคสได้รับบัตรสวัสดิการแห่งรัฐหรือไม่
       kid_id: หมายเลขรหัสปรับแต่ง 2
       other_detail: รายละเอียดเพิ่มเติม
       other_information: ข้อมูลอื่น ๆ
@@ -2169,7 +2169,7 @@ th:
     placement:
       view_legacy_quarterly_reports: ดูรายงานประจำไตรมาสเก่า
     referral_form:
-      incomplete_fields_warning: โปรดกรอกข้อมูลเคสให้ครบก่อนส่งต่อเคส 
+      incomplete_fields_warning: โปรดกรอกข้อมูลเคสให้ครบก่อนส่งต่อเคส
       referral_form: แบบฟอร์มการส่งต่อระหว่างองค์กรของ OSCaR
       title: คำเตือน!
     remaining_programs:
@@ -2249,7 +2249,7 @@ th:
         '10': เด็กและพ่อแม่ที่อาศัยอยู่บนถนน.
         '11': พิการ
         '12': อื่น ๆ
-      client_able_answers: 
+      client_able_answers:
       client_global_identity: เอกสารประจำตัวของเคสทั่วโลก
       code: หมายเลขรหัสปรับแต่ง 1
       commune: ชุมชน
@@ -2272,14 +2272,14 @@ th:
       other_info: ข้อมูลอื่น ๆ
       carer_info: ข้อมูลสำหรับผู้ดูแล
       edit_exit_information: แก้ไขข้อมูลการออกจากระบบ
-      enrolled_program_streams: โปรแกรมทำงานอย่างเต็มประสิทธิภาพของเคส 
+      enrolled_program_streams: โปรแกรมทำงานอย่างเต็มประสิทธิภาพของเคส
       enter_ngo_information: กรอกข้อมูลองค์กร NGO
-      exit_circumstance: สถานการณ์ที่ออก 
+      exit_circumstance: สถานการณ์ที่ออก
       exit_date: วันที่ออก NGO
       exit_from_ec: ออกจาก EC
       exit_from_fc: ออกจาก FC
       exit_from_kc: ออกจาก KC
-      exit_ngo_btn: ออกจาก NGO 
+      exit_ngo_btn: ออกจาก NGO
       exit_ngo_information: ข้อมูลออกจาก NGO
       exit_note: หมายเหตุการออก
       exit_reasons: เหตุผลในการออก / การปฏิเสธเคส
@@ -2291,14 +2291,14 @@ th:
       followed_up_by: การติดตามครั้งแรกโดย
       for_testing: สำหรับการทดสอบ
       gender: เพศ
-      general_info: เกี่ยวกับเคส 
+      general_info: เกี่ยวกับเคส
       given_name: ชื่อ (ภาษาอังกฤษ)
       government_form_five: แบบฟอร์มติดตามเด็กที่ไม่ได้อยู่กับครอบครัว
-      government_form_four: แบบฟอร์มคืนสู่ครอบครัว/ที่อยู่ใหม่ 
+      government_form_four: แบบฟอร์มคืนสู่ครอบครัว/ที่อยู่ใหม่
       government_form_one: แบบฟอร์มข้อมูลเบื้องต้น
-      government_form_six: แบบฟอร์มปิดเคส 
+      government_form_six: แบบฟอร์มปิดเคส
       government_form_three: แบบแผนบริการครอบครัว
-      government_form_two: แบบประเมินสำหรับการให้ครอบครัวอยู่ด้วยกัน 
+      government_form_two: แบบประเมินสำหรับการให้ครอบครัวอยู่ด้วยกัน
       government_forms: แบบฟอร์มของรัฐบาล
       government_report: รายงานของรัฐบาล
       has_been_in_government_care: เคสได้อาศัยอยู่ในการดูแลของรัฐบาลหรือไม่
@@ -2306,7 +2306,7 @@ th:
       hotlines: เบอร์โทรศัพท์ฉุกเฉิน
       house_number: หมายเลขบ้าน
       id: หมายเลขบัตรประชาชน (ID)
-      id_poor: หมายเลขบัตรสวัสดิการแห่งรัฐ 
+      id_poor: หมายเลขบัตรสวัสดิการแห่งรัฐ
       initial_referral_date: วันที่รับการส่งต่อ
       internal_referral: วันที่ส่งต่อภายใน
       is_the_client_rated_for_id_poor: เคสได้รับบัตรสวัสดิการแห่งรัฐหรือไม่
@@ -2354,20 +2354,20 @@ th:
         thailand: จังหวัดเกิด
         uganda: จังหวัดเกิด
       received_by: รับการส่งต่อโดย
-      refer_client: ส่งต่อเคส 
-      referee_information: ข้อมูลที่เกี่ยวกับผู้ส่งต่อ 
-      administrative_info: ข้อมูลแรกรับ 
-      referral_information:ข้อมูลเคสส่งต่อ 
-      referral_more_information:ข้อมูลเคสส่งต่อ - ข้อมูลเพิ่มเติม
-      referral_vulnerability: ข้อมูลความเปราะบาง 
-      referee_phone_number:หมายเลขโทรศัพท์ของผู้ส่งต่อ
-      referral_email:อีเมล์ผู้ส่งต่อ 
+      refer_client: ส่งต่อเคส
+      referee_information: ข้อมูลที่เกี่ยวกับผู้ส่งต่อ
+      administrative_info: ข้อมูลแรกรับ
+      referral_information: ข้อมูลเคสส่งต่อ
+      referral_more_information: ข้อมูลเคสส่งต่อ - ข้อมูลเพิ่มเติม
+      referral_vulnerability: ข้อมูลความเปราะบาง
+      referee_phone_number: หมายเลขโทรศัพท์ของผู้ส่งต่อ
+      referral_email: อีเมล์ผู้ส่งต่อ
       referral_forms: แบบฟอร์มการส่งต่อ
       refer_client_to: ส่งต่อไปที่
-      referral_history: ประวัติการส่งต่อ 
-      referral_phone:หมายเลขโทรศัพท์ของผู้ส่งต่อ
+      referral_history: ประวัติการส่งต่อ
+      referral_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
       referral_source: แหล่งข้อมูลการส่งต่อ
-      referred_from: ส่งต่อจากองค์กรอื่น 
+      referred_from: ส่งต่อจากองค์กรอื่น
       referred_to: ส่งต่อไปยังองค์กรอื่น
       reject: ปฏิเสธ
       reject_client: ปฏิเสธ
@@ -2400,7 +2400,7 @@ th:
           one: "%{count} year"
           other: "ประมาณ %{count} ปี"
       time_in_cps: เวลาในโครงการ
-      time_in_ngo:เวลาใน NGO 
+      time_in_ngo: เวลาใน NGO
       assessment: การประเมิน
       custom_assessment: "CSI การประเมินทั้งหมดที่กำหนดเอง"
       view_case_notes: บันทึกกรณี
@@ -2510,7 +2510,7 @@ th:
       general_info: เกี่ยวกับชุมชน
       male_count: จำนวนสมาชิกเพศชาย
       member_count: จำนวนสมาชิก
-      program_streams: ลงทะเบียนชุมชนในโปรแกรม 
+      program_streams: ลงทะเบียนชุมชนในโปรแกรม
       read_less: อ่านน้อยลง
       read_more: อ่านเพิ่มเติม
       referral_source: แหล่งข้อมูลการส่งต่อ
@@ -2526,7 +2526,7 @@ th:
     version:
       back: กลับมา
       modification_of: บันทึกการเปลี่ยนแปลงของ
-  completed_by: ทำให้เสร็จโดย 
+  completed_by: ทำให้เสร็จโดย
   completed_date: วันที่เสร็จสิ้น
   created_by: สร้างโดย
   created_on: วันที่สร้าง
@@ -2556,7 +2556,7 @@ th:
     index:
       add_new: เพิ่มใหม่
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
-      available_on: เปิดใช้วันที่ 
+      available_on: เปิดใช้วันที่
       back: กลับมา
       created_date: วันที่สร้าง
     show:
@@ -2567,32 +2567,32 @@ th:
     active_program_streams: โปรแกรมทำงานอย่างเต็มประสิทธิภาพ
     active_tasks:
       all_active_tasks: ดูงานทั้งหมดที่กำลังดำเนินการ
-      checkbox_alert: โปรดเลือกหนึ่งช่อง 
+      checkbox_alert: โปรดเลือกหนึ่งช่อง
       domain: โดเมน
       overdue_tasks: เลยกำหนด
       today_tasks: วันนี้
       upcoming_tasks: กำลังจะเกิดขึ้น
     active_tasks_side:
       active_tasks: ดูงานทั้งหมดที่กำลังดำเนินการ
-      task_list: งานที่ต้องทำ 
+      task_list: งานที่ต้องทำ
     assessment_tab:
       assessment: การประเมิน
       assessment_you_like: คุณต้องการประเมินชนิดใด? (CSI หรือ แบบประเมินที่กำหนดเอง)
       begin_now: เพิ่มใหม่
       client_you_like: คุณต้องการทำแบบประเมินสำหรับเคสไหน?
-      csi_assessment: การประเมิน CSI 
+      csi_assessment: การประเมิน CSI
       custom_assessment: การประเมินที่กำหนดเอง
     case_note_tab:
       begin_now: เพิ่มใหม่
       case_note: บันทึกกรณี
       case_note_you_add: คุณต้องการบันทึกเคสนี้เชื่อมต่อกับการประเมินชนิดใด? (CSI หรือ แบบประเมินที่กำหนดเอง)
-      csi_assessment: การประเมิน CSI 
+      csi_assessment: การประเมิน CSI
       custom_assessment: การประเมินที่กำหนดเอง
       client_you_complete_for: คุณต้องการบันทึกเคสไหน ?
       new_case_note: บันทึกกรณีใหม่
     client:
       ables: สามารถ
-      clients: เคสในปัจจุบัน 
+      clients: เคสในปัจจุบัน
       emergency_cares_html: การดูแลฉุกเฉิน <br/>และการดูแล
       females: หญิง
       foster_cares_html: ครอบครัวทดแทนดูแล <br/>
@@ -2603,11 +2603,11 @@ th:
     client_search:
       not_found: ไม่พบคำที่ตรงกัน
       please_enter_more: โปรดใส่ 1 ตัวอักษรหรือมากกว่า
-      search_client: ค้นหาเคส 
-      search_for_client: ค้นหาเคส 
+      search_client: ค้นหาเคส
+      search_for_client: ค้นหาเคส
       searching: ค้นหา
     client_program_stream_by_gender:
-      active_progarm_streams_by_gender: โปรแกรมกิจกรรมที่ใช้งานอยู่ตามเพศของเคส 
+      active_progarm_streams_by_gender: โปรแกรมกิจกรรมที่ใช้งานอยู่ตามเพศของเคส
       client_active_in_programs: เคสในโปรแกรมทำงานอย่างเต็มประสิทธิภาพ
     client_tab:
       action: การดำเนินการ
@@ -2623,7 +2623,7 @@ th:
       previous: ก่อนหน้า
     data_agregations:
       active_case_by_donor: แยกเคสจากผู้บริจาค
-      active_case_by_gender: แยกเคสตามเพศ 
+      active_case_by_gender: แยกเคสตามเพศ
       active_progarm_streams_by_gender: เพศตามโปรแกรมทำงานอย่างเต็มประสิทธิภาพ
       data_agregation: การแยกข้อมูล
     data_validations:
@@ -2636,9 +2636,9 @@ th:
       forms: แบบฟอร์ม
       task: งาน
     family:
-      families: ครอบครัวปัจจุบันในโปรแกรม 
-      foster: ครอบครัวทดแทน 
-      kinship: ครอบครัวเครือญาติ 
+      families: ครอบครัวปัจจุบันในโปรแกรม
+      foster: ครอบครัวทดแทน
+      kinship: ครอบครัวเครือญาติ
     family_active_in_programs: ครอบครัวในโปรแกรมทำงานอย่างเต็มประสิทธิภาพ
     family_tab:
       action: การดำเนินการ
@@ -2646,9 +2646,9 @@ th:
       next: ถัดไป
       previous: ก่อนหน้า
     go_to_client:
-      go_to_client: ไปที่เคส 
+      go_to_client: ไปที่เคส
     index:
-      client_dashboard: ภาพรวมของเคส 
+      client_dashboard: ภาพรวมของเคส
       community_dashboard: ภารวมของชุมชน
       family_dashboard: ภาพรวมของครอบครัว
       hotline_dashboard: ภาพรวมของสายด่วน
@@ -2656,7 +2656,7 @@ th:
       add_new_document: เพิ่มเอกสารใหม่
       assessment: การประเมิน
       case_note: บันทึกกรณี
-      client: เคส 
+      client: เคส
       custom_forms: แบบฟอร์มเฉพาะ
       family: ครอบครัว
       form: แบบฟอร์ม
@@ -2671,7 +2671,7 @@ th:
       assessment: การประเมิน
       assessments: การประเมิน
       forms: แบบฟอร์ม
-      overdue_tasks: งานที่เลยเวลากำหนด 
+      overdue_tasks: งานที่เลยเวลากำหนด
       task: งาน
     partner_tab:
       action: การดำเนินการ
@@ -2696,7 +2696,7 @@ th:
       service_confirm_question: คุณแน่ใจหรือว่าโปรแกรมของคุณทำสิ่งมากมายขนาดนี้? หากใช่ ก็ยังคงเลือกบริการต่อไป แต่หากไม่ใช่ ลองเริ่มต้นด้วยสิ่งที่เรียบง่าย!
       type_of_service: ประเภทของบริการ
     program_stream:
-      program_stream: Program Streams  
+      program_stream: Program Streams
     program_streams_tab:
       link: การดำเนินการ
       next: ถัดไป
@@ -2714,7 +2714,7 @@ th:
       program_stream_name: โปรแกรมทำงาน
       tracking_name: แบบฟอร์มการติดตาม
     report_builder:
-      go_to_report_builder: โปรแกรมข้อมูล 
+      go_to_report_builder: โปรแกรมข้อมูล
     third_party:
       ables: สามารถ
       agencies: หน่วยงาน
@@ -2737,7 +2737,7 @@ th:
       action: Action
       next: Next
       previous: Previous
-      user_form: User Form  
+      user_form: User Form
     users_filter:
       apply: ใช้
       assessments: การประเมิน
@@ -2754,7 +2754,7 @@ th:
       assessments: การประเมิน
       case_notes: บันทึกกรณี
       cases: กรณี
-      client_custom_fields: แบบฟอร์มกรณีเคส 
+      client_custom_fields: แบบฟอร์มกรณีเคส
       client_enrollments: การลงทะเบียนเคส
       clients: ผู้ใช้บริการ
       custom_fields: แบบฟอร์มเฉพาะ
@@ -2766,11 +2766,11 @@ th:
       families: ครอบครัว
       family_custom_fields: แบบฟอร์มเฉพาะสำหรับครอบครัว
       filter_by_item: กรองตามรายการ
-      interventions: การแทรกแซง 
+      interventions: การแทรกแซง
       locations: สถานที่
       materials: อุปกรณ์/วัสดุ
       organization_types: ประเภทขององค์กร
-      partner_custom_fields: แบบฟอร์มเฉพาะสำหรับพันธมิตร 
+      partner_custom_fields: แบบฟอร์มเฉพาะสำหรับพันธมิตร
       partners: พันธมิตร
       program_streams: โปรแกรมทำงาน
       progress_note_types: ประเภทของบันทึก
@@ -2783,7 +2783,7 @@ th:
       stages: ขั้นตอน
       surveys: การสำรวจ
       task: งาน
-      user_custom_fields:แบบฟอร์มเฉพาะของผู้ใช้ 
+      user_custom_fields: แบบฟอร์มเฉพาะของผู้ใช้
       users: ผู้ใช้
     per_page_form:
       show: แสดง
@@ -2799,7 +2799,7 @@ th:
         answered_call: ตอบโทรศัพท์
         brief_note_summary: สรุปบันทึกสั้น ๆ
         call_type: ประเภทการโทร
-        called_before: เคยโทรหา 
+        called_before: เคยโทรหา
         childsafe_agent: เจ้าหน้าที่คุ้มครองสวัสดิภาพเด็ก
         date_of_call: วันที่โทร
         end_datetime: วันที่สายสิ้นสุด
@@ -2817,7 +2817,7 @@ th:
         phone_call_id: รหัสการโทรออก
         phone_counselling_summary: สรุปการให้คำปรึกษาทางโทรศัพท์
         phone_type: ประเภทโทรศัพท์
-        protection_concern_id: ความกังวลเกี่ยวกับการปกป้องคุ้มครองเด็ก 
+        protection_concern_id: ความกังวลเกี่ยวกับการปกป้องคุ้มครองเด็ก
         referee_id: ผู้ตัดสิน
         receiving_staff_id: เจ้าหน้าที่ผู้รับสาย
         requested_update: อัปเดตที่ขอแล้ว
@@ -2844,9 +2844,9 @@ th:
       carer_email: อีเมลผู้ดูแล
       carer_phone: โทรศัพท์ดูแล
       changelog: บันทึกการเปลี่ยนแปลง
-      client_contact_phone:หมายเลขโทรศัพท์ของผู้ติดต่อเคส 
-      address_type: ประเภทที่อยู่ของเคส 
-      client_email: อีเมลเคส 
+      client_contact_phone: หมายเลขโทรศัพท์ของผู้ติดต่อเคส
+      address_type: ประเภทที่อยู่ของเคส
+      client_email: อีเมลเคส
       client_enrollments:
         action: การดำเนินการ
         domain: โดเมนที่เกี่ยวข้อง
@@ -2857,7 +2857,7 @@ th:
       current_address: "%{column} - ที่อยู่ปัจจุบัน"
       other_address: "%{column} - ที่อยู่อื่น ๆ"
       clients:
-        national_id_number:หมายเลขบัตรประชาชน 
+        national_id_number: หมายเลขบัตรประชาชน
         passport_number: หมายเลขหนังสือเดินทาง
         neighbor_name: "เพื่อนบ้าน/เพื่อน: ชื่อ"
         neighbor_phone: หมายเลขโทรศัพท์
@@ -2935,13 +2935,13 @@ th:
         carer_phone: โทรศัพท์ดูแล
         carer_email: อีเมลผู้ดูแล
         carer_relationship_to_client: ความสัมพันธ์ของผู้ดูแลกับเคส
-        case_note_date: วันที่บันทึกกรณีเคส 
+        case_note_date: วันที่บันทึกกรณีเคส
         case_note_type: ประเภทบันทึกกรณีเคส
-        case_type: ประเภทกรณีเคส 
-        case_worker: เจ้าหน้าที่ดูแลกรณีเคส 
+        case_type: ประเภทกรณีเคส
+        case_worker: เจ้าหน้าที่ดูแลกรณีเคส
         case_worker_or_staff: ผู้จัดการเคส / เจ้าหน้าที่
         changelogs: บันทึกการเปลี่ยนแปลง
-        client_phone: หมายเลขโทรศัพท์ของผู้ติดต่อเคส 
+        client_phone: หมายเลขโทรศัพท์ของผู้ติดต่อเคส
         code: หมายเลขรหัสปรับแต่ง 1
         concern_address: ชื่อที่อยู่
         concern_address_type: ประเภทที่อยู่
@@ -2950,13 +2950,13 @@ th:
         concern_email: ข้อมูลการติดต่อทางอีเมลที่เกี่ยวข้อง
         concern_email_owner: เจ้าของอีเมล
         concern_house: หมายเลขบ้าน
-        concern_is_outside: ปัญหานอกประเทศ 
+        concern_is_outside: ปัญหานอกประเทศ
         concern_location: ปัญหาสถานที่่ที่เกี่ยวข้อง
         concern_outside_address: ระหว่างประเทศ
         concern_phone: หมายเลขโทรศัพท์ของผู้ติดต่อที่เกี่ยวข้อง
         concern_phone_owner: เจ้าของโทรศัพท์
         concern_province_id: จังหวัด
-        concern_same_as_client: เหมือนกับเคส 
+        concern_same_as_client: เหมือนกับเคส
         concern_street: หมายเลขบ้าน
         concern_village_id: หมู่บ้าน
         commune: ชุมชน
@@ -2995,33 +2995,33 @@ th:
         frequency: ความถี่
         gender: เพศ
         given_name: ชื่อ (ภาษาอังกฤษ)
-        has_been_in_government_cเคสเคยอยู่ในการดูแลของรัฐ 
-        has_been_in_orphanเคสเคยอยู่ในสถานสงเคราะห์เด็ก 
-        has_date_of_birth: ทราบวันเกิดไหม 
+        has_been_in_government_care: เคสเคยอยู่ในการดูแลของรัฐ
+        has_been_in_orphanage: เคสเคยอยู่ในสถานสงเคราะห์เด็ก
+        has_date_of_birth: ทราบวันเกิดไหม
         has_dob: 'ใช่'
         history_of_disability_and_or_illness: ประวัติความพิการและ/หรือความเจ็บป่วย
         history_of_harm: ความเป็นมาของความเสียหาย
         history_of_high_risk_behaviours: ความเป็นมาของพฤติกรรมที่มีความเสี่ยงสูง
         house_number: หมายเลขบ้าน
         id: หมายเลขบัตรประชาชน (ID)
-        id_poor: หมายเลขบัตรสวัสดิการแห่งรัฐ 
+        id_poor: หมายเลขบัตรสวัสดิการแห่งรัฐ
         indirect_beneficiaries: ผู้รับผลประโยชน์ทางอ้อม
-        initial_referral_date: วันที่ส่งต่อ 
+        initial_referral_date: วันที่ส่งต่อ
         kid_id: หมายเลขรหัสปรับแต่ง 2
         lesotho: เลโซโท
         live_with: ชื่อผู้ดูแล
         local_family_name: นามสกุล
         local_given_name: ชื่อ
-        location_description: คำอธิบายตำแหน่งสถานที่ 
+        location_description: คำอธิบายตำแหน่งสถานที่
         main_school_contact: ผู้ติดต่อหลักของโรงเรียน
         manage: จัดการ
-        myanmar: พม่า 
+        myanmar: พม่า
         name: ชื่อ
-        name_of_referee: ชื่อผู้ส่งต่อ 
+        name_of_referee: ชื่อผู้ส่งต่อ
         necessity_id: ความจำเป็นพื้นฐาน
         nickname: ชื่อเล่น
-        ngo_accepted_date: วันที่NGOยอมรับ 
-        ngo_exit_date: วันที่ออกจาก NGO 
+        ngo_accepted_date: วันที่NGOยอมรับ
+        ngo_exit_date: วันที่ออกจาก NGO
         no_dob: 'ไม่'
         other_info_of_exit: อื่น ๆ - ข้อมูลเพิ่มเติม
         other_more_information: อื่น ๆ - ข้อมูลเพิ่มเติม
@@ -3045,36 +3045,36 @@ th:
           start_date: วันที่เริ่มต้น
           support_amount: จำนวนการสนับสนุน
           support_note: บันทึกการสนับสนุน
-        plot: แผนที่ 
+        plot: แผนที่
         postal_code: รหัสไปรษณีย์
-        preferred_language: ภาษาที่เลือกใช้ 
+        preferred_language: ภาษาที่เลือกใช้
         program_enrollment_date: วันที่ลงทะเบียนโปรแกรม
-        program_exit_date: วันที่ออกจากโปรแกรม 
+        program_exit_date: วันที่ออกจากโปรแกรม
         program_streams: โปรแกรมทำงาน
         protection_concern_id: ความกังวลเกี่ยวกับการปกป้องคุ้มครอง
         province: จังหวัดเกิด
         quantitative_case_values: ตัวเลือกข้อมูลอ้างอิงที่เฉพาะเจาะจง
         quantitative_types: ข้อมูลอ้างอิงที่กำหนดเอง
         rated_for_id_poor: เคสได้รับบัตรสวัสดิการแห่งรัฐหรือไม่
-        reason_for_family_separation: เหตุผลที่ครอบครัวแตกแยกกัน 
+        reason_for_family_separation: เหตุผลที่ครอบครัวแตกแยกกัน
         received_by: ผู้ส่งแนะนำได้รับโดย
-        referral_email:อีเมล์ผู้ส่งต่อ 
-        referral_phone:หมายเลขโทรศัพท์ของผู้ส่งต่อ
-        referral_source: แหล่งข้อมูลการส่งต่อ 
+        referral_email: อีเมล์ผู้ส่งต่อ
+        referral_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
+        referral_source: แหล่งข้อมูลการส่งต่อ
         referral_source_category: หมวดหมู่แหล่งข้อมูลการส่งต่อ
         referred_from: ส่งต่อจาก
-        referred_to: ส่งต่อไปที่ 
-        referee_name: ชื่อผู้ส่งต่อ 
-        referee_phone:หมายเลขโทรศัพท์ของผู้ส่งต่อ
-        referee_email:อีเมล์ผู้ส่งต่อ 
-        referee_relationship_to_client: ความสัมพันธ์ของผู้ส่งต่อกับเคส 
-        client_contact_phone: หมายเลขโทรศัพท์ของผู้เคส 
-        address_type: ประเภทที่อยู่ของเคส 
-        client_email: อีเมลของเคส 
+        referred_to: ส่งต่อไปที่
+        referee_name: ชื่อผู้ส่งต่อ
+        referee_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
+        referee_email: อีเมล์ผู้ส่งต่อ
+        referee_relationship_to_client: ความสัมพันธ์ของผู้ส่งต่อกับเคส
+        client_contact_phone: หมายเลขโทรศัพท์ของผู้เคส
+        address_type: ประเภทที่อยู่ของเคส
+        client_email: อีเมลของเคส
         phone_owner: เจ้าของโทรศัพท์
         reject_note: หมายเหตุเรื่องการปฏิเสธส่งต่อ
         rejected_note: หมายเหตุเรื่องการปฏิเสธส่งต่อ
-        relevant_referral_information: ข้อมูลที่เกี่ยวข้องเกี่ยวกับการส่งต่อ 
+        relevant_referral_information: ข้อมูลที่เกี่ยวข้องเกี่ยวกับการส่งต่อ
         road: ถนน
         school_grade: ระดับชั้นโรงเรียน
         school_name: ชื่อโรงเรียน
@@ -3089,7 +3089,7 @@ th:
         thailand: ประเทศไทย
         time_in_care: เวลาในการดูแล
         time_in_cps: เวลาในโปรแกรม
-        time_in_ngo: เวลาในองค์กรNGO 
+        time_in_ngo: เวลาในองค์กรNGO
         time_of_frequency: ความถี่ของเวลา
         total: รวม
         township: เทาน์ชิพ
@@ -3105,26 +3105,26 @@ th:
       date_of_custom_assessments: "วันที่ของการประเมิน"
       date_of_family_assessment: วันที่ประเมินครอบครัว
       family_assessment_created_at: สถานที่ประเมินครอบครัว
-      exit_circumstance: ออกจากการทำงาน 
+      exit_circumstance: ออกจากการทำงาน
       exit_note: หมายเหตุออก NGO
       exit_reasons: เหตุผลที่ออก
       families:
         active_families: ครอบครัวที่ใช้บริการในช่วงเวลาที่ระบุ
         family_rejected: ครอบครัวถูกปฏิเสธ
         number_family_billable: ค่าใช้จ่ายกี่จำนวนครอบครัว (ต่อเดือน)
-        number_family_referred_gatekeeping: จำนวนครอบครัวที่ได้รับการส่งต่อ 
+        number_family_referred_gatekeeping: จำนวนครอบครัวที่ได้รับการส่งต่อ
         address: ที่อยู่
         caregiver_information: ข้อมูลสำหรับผู้ดูแล
         care_plan_count: จำนวนแผนดูแล
         care_plan_completed_date: วันที่เสร็จสิ้นแผนดูแล
-        case_history: ประวัติของเคส 
-        case_worker_name: ชื่อเจ้าหน้าที่ดูแลเคส 
+        case_history: ประวัติของเคส
+        case_worker_name: ชื่อเจ้าหน้าที่ดูแลเคส
         case_workers: ผู้จัดการเคส
         case_worker_ids: ผู้จัดการเคส/เจ้าหน้าที่ที่ได้รับมอบหมาย
         changelogs: บันทึกการเปลี่ยนแปลง
-        client: เคส 
-        clients: เคส 
-        code: รหัส 
+        client: เคส
+        clients: เคส
+        code: รหัส
         commune: สหมัณสังวรณ์
         commune_id: ชุมชน
         community_ids: ชุมชน/กลุ่ม
@@ -3136,10 +3136,10 @@ th:
         district: อำเภอ
         district_id: อำเภอ
         family: ครอบครัว
-        family_preservation:ครอบครัวอยู่ด้วยกัน?
+        family_preservation: ครอบครัวอยู่ด้วยกัน?
         family_type: ประเภทครอบครัว
         female: หญิง
-        female_adult_count: จำนวนสตรี 
+        female_adult_count: จำนวนสตรี
         female_children_count: จำนวนเด็กหญิง
         followed_up_by_id: การติดตามครั้งแรกโดย
         follow_up_date: วันที่ติดตามครั้งแรก
@@ -3154,7 +3154,7 @@ th:
           unknown: ไม่ทราบ
         house: หมายเลขบ้าน
         household_income: รายได้เฉลี่ยของครัวเรือนต่อเดือน
-        id: หมายเลขบ้าน 
+        id: หมายเลขบ้าน
         id_poor: มีบัตรสวัสดิการแห่งรัฐไหม?
         initial_referral_date: วันที่ส่งต่อ
         male: ชาย
@@ -3168,33 +3168,33 @@ th:
         phone_number: หมายเลขโทรศัพท์
         program_enrollment_date: วันที่ลงทะเบียนโปรแกรม
         program_exit_date: วันที่ออกจากโปรแกรม
-        program_streams: โปรแกรมทำงาน 
+        program_streams: โปรแกรมทำงาน
         province: จังหวัด
         province_id: รหัสไปรษณีย์
         quantitative: ข้อมูลการส่งต่อที่กำหนดเอง
         received_by: ได้รับโดยเจ้าหน้าที่
         received_by_id: ได้รับโดยเจ้าหน้าที่
-        referee_phone_number:หมายเลขโทรศัพท์ของผู้ส่งต่อ
+        referee_phone_number: หมายเลขโทรศัพท์ของผู้ส่งต่อ
         referral_source_category_id: หมวดหมู่แหล่งข้อมูลการส่งต่อ
-        referral_source_id:แหล่งข้อมูลการส่งต่อ
+        referral_source_id: แหล่งข้อมูลการส่งต่อ
         significant_family_member_count: จำนวนสมาชิกในครอบครัวที่สำคัญ
         status: สถานะ
         street: ถนน
-        total:รวมทั้งหมด 
+        total: รวมทั้งหมด
         view: ดู
         village: หมู่บ้าน
-        village_id: หมู่ที่ 
+        village_id: หมู่ที่
         'yes': 'ใช่'
       family: ครอบครัว
-      family_id: ทะเบียนบ้าน 
+      family_id: ทะเบียนบ้าน
       family_preservation: ครอบครัวอยู่ด้วยกัน
       form_title: หัวข้อแบบฟอร์ม
       history_of_disability_and_or_illness: ประวัติความพิการและ/หรือความเจ็บป่วย
-      history_of_harm: ความเป็นมาของการถูกทำร้าย 
+      history_of_harm: ความเป็นมาของการถูกทำร้าย
       history_of_high_risk_behaviours: ความเป็นมาของพฤติกรรมที่มีความเสี่ยงสูง
       main_school_contact: ผู้ติดต่อหลักของโรงเรียน
       manage: จัดการ
-      name_of_referee: ชื่อผู้ส่งต่อ 
+      name_of_referee: ชื่อผู้ส่งต่อ
       other_info_of_exit: อื่น ๆ - ข้อมูลเพิ่มเติม
       partner: พาร์ทเนอร์
       partners:
@@ -3210,7 +3210,7 @@ th:
         id: หมายเลขบัตรประชาชน (ID)
         manage: จัดการ
         name: ชื่อ
-        organization_type: ประเภทขององค์กร 
+        organization_type: ประเภทขององค์กร
         partner: พาร์ทเนอร์
         partner_type: ประเภทของพาร์ทเนอร์
         province: จังหวัด
@@ -3230,7 +3230,7 @@ th:
         changelogs: บันทึกการเปลี่ยนแปลง
         child: เด็ก
         date: วันที่
-        goals_addressed: เป้าหมายที่ได้ดำเนินการแล้ว 
+        goals_addressed: เป้าหมายที่ได้ดำเนินการแล้ว
         interventions: การเข้ามาเกี่ยวข้อง
         location: สถานที่
         manage: จัดการ
@@ -3242,18 +3242,18 @@ th:
         view: ดู
       quarterly_reports:
         code: หมายเลขรหัสปรับแต่ง 1
-        fc_name: ชื่อครอบครัวทดแทน 
+        fc_name: ชื่อครอบครัวทดแทน
         general_health_or_appearance: อธิบายสุขภาพ/ลักษณะทั่วไป
         kc_name: ชื่อญาติที่ดูแลแทนพ่อแม่
         staff_information: ข้อมูลสำหรับเจ้าหน้าที่
         visit_date: วันที่เข้าพบ
-      rated_for_id_poor: ลูกค้ามีบัตรสวัสดิการแห่งรัฐหรือไม่ 
+      rated_for_id_poor: ลูกค้ามีบัตรสวัสดิการแห่งรัฐหรือไม่
       reason_for_family_separation: เหตุผลที่ครอบครัวแตกแยกกัน
       rejected_note: หมายเหตุเรื่องการปฏิเสธการส่งต่อ
-      referee_name: ชื่อผู้ส่งต่อ 
-      referee_phone:หมายเลขโทรศัพท์ของผู้ส่งต่อ
-      referee_email:อีเมล์ผู้ส่งต่อ 
-      referee_relationship_to_client: ความสัมพันธ์ของผู้ส่งต่อกับเคส 
+      referee_name: ชื่อผู้ส่งต่อ
+      referee_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
+      referee_email: อีเมล์ผู้ส่งต่อ
+      referee_relationship_to_client: ความสัมพันธ์ของผู้ส่งต่อกับเคส
       referees:
         address_type: ประเภทที่อยู่
         adult: ผู้ใหญ่
@@ -3281,14 +3281,14 @@ th:
         requested_update: อัปเดตที่ขอแล้ว
         street_number: หมายเลขบ้าน
         updated_at: อัปเดตเมื่อ
-        village_id: หมู่ที่ 
+        village_id: หมู่ที่
       select_columns: โทรศัพท์สายด่วน
       show_all: แสดงทั้งหมด
       support_amount: ปริมาณการสนับสนุน
       support_note: บันทึกการสนับสนุน
       time_in_care: เวลาในการดูแล
       time_in_cps: เวลาในโปรแกรม
-      time_in_ngo: เวลาในองค์กร 
+      time_in_ngo: เวลาในองค์กร
       trackings:
         action: การดำเนินการ
         frequency: ความถี่
@@ -3298,7 +3298,7 @@ th:
       type_of_service: ประเภทของบริการ
       users:
         changelogs: บันทึกการเปลี่ยนแปลง
-        clients: เคส 
+        clients: เคส
         current_password: รหัสผ่านปัจจุบัน
         current_password_hint: เราต้องการรหัสผ่านปัจจุบันเพื่อทำการเปลี่ยนแปลง
         date_of_birth: วันเกิด
@@ -3368,7 +3368,7 @@ th:
     distance_in_words:
       about_x_hours: '""'
   default_able_screening_question_fields:
-    alert_manager:แจ้งเตือนผู้จัดการ
+    alert_manager: แจ้งเตือนผู้จัดการ
     mode: โหมด
     question: คำถาม
   default_client_fields:
@@ -3381,7 +3381,7 @@ th:
     birth_province: จังหวัดเกิดของเคส
     brief_note_summary: สรุปบันทึกสั้น ๆ
     cambodia: กัมพูชา
-    case_worker: ผู้จัดการเคส 
+    case_worker: ผู้จัดการเคส
     case_worker_or_staff: ผู้จัดการเคส / เจ้าหน้าที่
     code: หมายเลขรหัสปรับแต่ง 1
     commune: ชุมชน
@@ -3416,7 +3416,7 @@ th:
       rci: RCI
       dormitory: หอพัก
       other: อื่นๆ
-    phone_counselling_summary: Phone Counselling Summary  
+    phone_counselling_summary: Phone Counselling Summary
     phone_owner:
       self: ตัวเอง
       family_member: สมาชิกในครอบครัว
@@ -3425,11 +3425,11 @@ th:
       government_local: รัฐบาล / เจ้าหน้าที่ท้องถิ่น
       other: อื่นๆ
     given_name: ชื่อ (ภาษาอังกฤษ)
-    has_been_in_government_cเคสเคยอยู่ในการดูแลของรัฐ
-    has_been_in_orphanเคสเคยอยู่ในสถานสงเคราะห์เด็ก
+    has_been_in_government_care: เคสเคยอยู่ในการดูแลของรัฐ
+    has_been_in_orphanage: เคสเคยอยู่ในสถานสงเคราะห์เด็ก
     house_number: หมายเลขบ้าน
     id: หมายเลขบัตรประชาชน (ID)
-    id_poor: หมายเลขบัตรสวัสดิการแห่งรัฐ 
+    id_poor: หมายเลขบัตรสวัสดิการแห่งรัฐ
     initial_referral_date: วันที่เริ่มต้นส่งต่อ
     kid_id: หมายเลขรหัสปรับแต่ง 2
     live_with: ชื่อผู้ดูแล
@@ -3438,8 +3438,8 @@ th:
     name: ชื่อ
     province: จังหวัดเกิด
     received_by: ผู้รับการส่งต่อ
-    referral_email:อีเมล์ผู้ส่งต่อ 
-    referral_phone:หมายเลขโทรศัพท์ของผู้ส่งต่อ
+    referral_email: อีเมล์ผู้ส่งต่อ
+    referral_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
     referral_source: แหล่งข้อมูลการส่งต่อ
     reject_note: หมายเหตุเรื่องการปฏิเสธการส่งต่อ
     relevant_referral_information: ข้อมูลที่เกี่ยวข้องเกี่ยวกับการส่งต่อ
@@ -3465,7 +3465,7 @@ th:
     index:
       add_new: เพิ่มใหม่
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
-      available_on: จะเปิดวันที่ 
+      available_on: จะเปิดวันที่
       back: กลับมา
       created_date: วันที่สร้าง
     show:
@@ -3475,7 +3475,7 @@ th:
   default_family_fields:
     address: ที่อยู่
     caregiver_information: ข้อมูลสำหรับผู้ดูแล
-    case_history: ประวัติของเคส 
+    case_history: ประวัติของเคส
     code: รหัสครอบครัว
     contract_date: วันที่ทำสัญญา
     dependable_income: รายได้ที่เชื่อถือได้
@@ -3485,13 +3485,13 @@ th:
       birth_family_only_father:  ครอบครัว(เฉพาะพ่อ)
       birth_family_only_mother: ครอบครัว(เฉพาะแม่)
       child_headed_household: ครอบครัวที่มีเด็กเป็นหัวหน้า
-      domestically_adopted: รับอุปถัมภ์จากภายในประเทศที่เขาเกิด 
-      extended_family_kinship_care: การดูแลโดยเครือญาติ 
-      long_term_foster_care: การดูแลโดยครอบครัวทดแทนระยะยาว 
+      domestically_adopted: รับอุปถัมภ์จากภายในประเทศที่เขาเกิด
+      extended_family_kinship_care: การดูแลโดยเครือญาติ
+      long_term_foster_care: การดูแลโดยครอบครัวทดแทนระยะยาว
       no_family: ไม่มีครอบครัว
       short_term_emergency_foster_care: การดูแลโดยครอบครัวระยะสั้น/ การดูแลฉุกเฉินระยะสั้น
       the_other: อื่นๆ
-    female_adult_count: จำนวนสตรี 
+    female_adult_count: จำนวนสตรี
     female_children_count: จำนวนเด็กหญิง
     household_income: รายได้เฉลี่ยของครัวเรือนต่อเดือน
     id: หมายเลขบัตรประชาชน (ID)
@@ -3505,7 +3505,7 @@ th:
     'yes': 'ใช่'
   default_government_report_fields:
     abandoned: การถูกทอดทิ้ง
-    abuse_and_exploitation: การล่วงละเมิดและการถูกแสวงหาประโยชน์ 
+    abuse_and_exploitation: การล่วงละเมิดและการถูกแสวงหาประโยชน์
     and: และ
     anonymous: ไม่ระบุชื่อ (หากผู้ส่งต่อไม่ต้องการให้ข้อมูลของพวกเขาถูกเก็บไว้ในไฟล์)
     anonymous_form: ไม่ระบุชื่อ (หากผู้ส่งต่อไม่ต้องการให้ข้อมูลของตนถูกเก็บไว้ในไฟล์)
@@ -3551,13 +3551,13 @@ th:
     emotional_abuse: การทำร้ายด้านอารมณ์/จิตใจ
     emotional_health: สุขภาพจิต
     emotional_heath: สุขภาพจิต
-    essential_needs: ความต้องการที่จำเป็น 
+    essential_needs: ความต้องการที่จำเป็น
     every_point: ทั้งหมดที่เกี่ยวข้อง
-    excessive_child_labour: การใช้แรงงานเด็ก 
+    excessive_child_labour: การใช้แรงงานเด็ก
     exist: 'ใช่'
     experience_with_trafficking: ประสบการณ์กับการค้ามนุษย์
     family_changed_home: ครอบครัวย้ายบ้าน
-    family_separation: ครอบครัวแยกกัน 
+    family_separation: ครอบครัวแยกกัน
     family_violence: ความรุนแรงในครอบครัว
     female: หญิง
     first_mission: ปฏิบัติตามขั้นตอนการดูแลเด็กและกรอกแบบฟอร์ม 1304 (ในกรณีที่เด็กเผชิญหรืออยู่ในความเสี่ยงที่จะเผชิญกับอันตรายทันที)
@@ -3578,14 +3578,14 @@ th:
     intervention_plan: การเข้ามาเกี่ยวข้อง
     kingdom_of_cambodia: ราชอาณาจักรกัมพูชา
     male: M
-    mission_obtainable: ขั้นตอนที่สำคัญ 
+    mission_obtainable: ขั้นตอนที่สำคัญ
     missions_which_need_to_be_done: เกี่ยวกับขั้นตอนที่ควรดำเนินการ
     month: เดือน
     name: ชื่อ
     nation_religion_king: ประเทศ ศาสนา พระมหากษัตริย์
     need: ความต้องการ
     negative: 'ไม่'
-    neglect: ละเลย 
+    neglect: ละเลย
     none: ไม่มี (กรณีต้องปิด)
     office: อำเภอ
     or: หรือ
@@ -3594,16 +3594,16 @@ th:
     orphan_lost_both_parents: กำพร้า (สูญเสียแม่และพ่อ)
     orphan_lost_father: กำพร้า (สูญเสียพ่อ)
     orphan_lost_mother: กำพร้า (สูญเสียแม่)
-    parent_carer_disabled:ผู้ดูแลผู้ป่วย
+    parent_carer_disabled: ผู้ดูแลผู้ป่วย
     parent_carer_has_a_criminal_history: ผู้ปกครอง/ผู้ดูแลมีประวัติอาชญากรรม
     parent_carer_has_a_history_of_alcohol_abuse: เด็กมีประวัติการใช้สุรา
     parent_carer_has_a_history_of_drug_use: เด็กมีประวัติการใช้ยาเสพติด
     parent_carer_has_a_history_of_gambling: เด็กมีประวัติการใช้สุรา
     parent_carer_hiv_aids: ผู้ดูแลมีเชื้อเอชไอวี/เอดส์
     parent_carer_hiv_aids_origin: ผู้ดูแลมีเชื้อเอชไอวี/เอดส์
-    parent_carer_ill: ผู้ดูแลป่วย 
-    parent_carer_ill_origin: ผู้ดูแลป่วย 
-    parent_carer_poor_certificate: ใบรับรองผู้ปกครอง/ผู้ดูแลมีบัตรสวัสดิการแห่งรัฐ 
+    parent_carer_ill: ผู้ดูแลป่วย
+    parent_carer_ill_origin: ผู้ดูแลป่วย
+    parent_carer_poor_certificate: ใบรับรองผู้ปกครอง/ผู้ดูแลมีบัตรสวัสดิการแห่งรัฐ
     parent_carer_poor_certificate_origin: ใบรับรองผู้ปกครอง/ผู้ดูแลมีบัตรสวัสดิการแห่งรัฐ
     phone_number: หมายเลขโทรศัพท์
     physical_abuse: การทำร้ายด้านร่างกาย
@@ -3611,15 +3611,15 @@ th:
     position: ตำแหน่ง
     positive: 'ใช่'
     present_situation: สถานการณ์ปัจจุบัน
-    referral_name: ชื่อเคส 
+    referral_name: ชื่อเคส
     second_mission: ปฏิบัติตามขั้นตอนเพื่อรักษาเด็กในครอบครัวและกรอกแบบฟอร์ม 1302 และแบบฟอร์ม 1303
     seen_and_agreed: เห็นและยอมรับ
     sexual_abuse: การล่วงละเมิดทางเพศ
     shelter: ที่พัก
     signature: ลายเซ็นและตราประทับของผู้นำชุมชน/ตำบล
-    street_number: ซอย 
+    street_number: ซอย
     supplies: อาหาร ที่พัก และเสื้อผ้า
-    third_mission:ขั้นตอนการให้ครอบครัวกลับมาอยู่ด้วยกัน กรอกแบบฟอร์ม 1309 และแบบฟอร์ม 1303 (ในกรณีที่มีการแยกครอบครัว/เด็ก) ครบถ้วน
+    third_mission: ขั้นตอนการให้ครอบครัวกลับมาอยู่ด้วยกัน กรอกแบบฟอร์ม 1309 และแบบฟอร์ม 1303 (ในกรณีที่มีการแยกครอบครัว/เด็ก) ครบถ้วน
     transfer_info: แหล่งข้อมูลการส่งต่อ
     village: หมู่บ้าน
     year: ปี
@@ -3630,7 +3630,7 @@ th:
   default_material_fields:
     status: สถานะ
   default_notification_custom_fields:
-    clients: เคส 
+    clients: เคส
     custom_field_notification: แบบฟอร์มที่กำหนดเอง
     families: ครอบครัว
     form: แบบฟอร์ม
@@ -3658,7 +3658,7 @@ th:
     exit_note: หมายเหตุออก
     exit_status: สถานการณ์การที่ออก
     family: ครอบครัว
-    family_preservation:ครอบครัวอยู่ด้วยกัน?
+    family_preservation: ครอบครัวอยู่ด้วยกัน?
     note: หมายเหตุ
     ongoing_partner: พาร์ทเนอร์ที่กำลังดำเนินการ
     province: จังหวัด
@@ -3671,7 +3671,7 @@ th:
     additional_notes: รายละเอียดเพิ่มเติม
     child: เด็ก
     date: วันที่
-    goals_addressed:เป้าหมายที่ได้ดำเนินการแล้ว
+    goals_addressed: เป้าหมายที่ได้ดำเนินการแล้ว
     interventions: การเข้ามาเกี่ยวข้อง
     location: สถานที่
     material: อุปกรณ์/วัสดุ
@@ -3686,7 +3686,7 @@ th:
     description: คำอธิบาย
   default_stage_fields:
     from_age: จากอายุ
-    to_age: ถึงอายุ 
+    to_age: ถึงอายุ
   default_survey_fields:
     care_score: ผู้จัดการเคสของฉันใส่ใจถึงสิ่งที่เกิดขึ้นกับเด็กที่ฉันดูแล
     difficulty_help_score: CIF ได้ช่วยฉันผ่านวิกฤตในชีวิตของฉัน
@@ -3696,9 +3696,9 @@ th:
     problem_solving_score: คำสั่งของฉันช่วยให้ฉันแก้ปัญหาของฉันได้
     support_score: ฉันดีใจกับวิธีที่ CIF และผู้จัดการเคสได้สนับสนุนฉัน
     trust_score: ฉันสามารถเชื่อถือผู้จดการเคสของฉันได้
-    user_id: ชื่อของผู้จัดการเคส 
+    user_id: ชื่อของผู้จัดการเคส
   default_user_fields:
-    clients:เคส
+    clients: เคส
     current_password: รหัสผ่านปัจจุบัน
     current_password_hint: เราต้องการรหัสผ่านปัจจุบันเพื่อทำการเปลี่ยนแปลง
     date_of_birth: วันเกิด
@@ -3739,7 +3739,7 @@ th:
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       changelogs: บันทึกการเปลี่ยนแปลง
       department_names: ชื่อแผนก
-      departments : แผนก 
+      departments : แผนก
       description: คำอธิบาย
       manage: จัดการ
       view: ดู
@@ -3747,7 +3747,7 @@ th:
       title: แผนกใหม่
     update:
       failed_update: การสร้างแผนกล้มเหลว
-      successfully_updated: แผนกได้อัปเดตแล้ว 
+      successfully_updated: แผนกได้อัปเดตแล้ว
     version:
       back: กลับมา
       modification_of: บันทึกการเปลี่ยนแปลงของ
@@ -3806,7 +3806,7 @@ th:
         disable_two_factor_authentication: ปิดใช้งานการตรวจสอบสิทธิ์แบบสองชั้น
         email: อีเมล
         enable: เปิดใช้งาน
-        enable_two_factor_authentication: เปิดใช้งานการรับรองความถูกต้องด้วยสองชั้น 
+        enable_two_factor_authentication: เปิดใช้งานการรับรองความถูกต้องด้วยสองชั้น
         first_name: ชื่อ
         gender: เพศ
         header: ข้อมูลส่วนบุคคล
@@ -3819,7 +3819,7 @@ th:
         password_confirmation: ยืนยันรหัสผ่าน
         pin_number: หมายเลข PIN
         province: จังหวัด
-        referral_notification: การแจ้ง ส่งต่อ 
+        referral_notification: การแจ้ง ส่งต่อ
         save: บันทึก
         staff_performance_notification: ส่งรายงานประสิทธิภาพของเจ้าหน้าที่ให้ฉัน
         start_date: วันที่เริ่มต้น
@@ -3865,18 +3865,18 @@ th:
       failed_delete: การลบอำเภอล้มเหลว.
       successfully_deleted: อำเภอได้ถูกลบเรียบร้อยแล้ว
     edit:
-      title: แก้ไขตำบล 
+      title: แก้ไขตำบล
     form:
       cancel: ยกเลิก
       district: ตำบล
-      name: ชื่อตำบล 
+      name: ชื่อตำบล
       province: จังหวัด
       save: บันทึก
     index:
       add_new_district: เพิ่มตำบลใหม่
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       changelogs: บันทึกการเปลี่ยนแปลง
-      district_name: ชื่อตำบล 
+      district_name: ชื่อตำบล
       districts: ตำบล
       manage: จัดการ
       province_name: จังหวัด
@@ -3903,7 +3903,7 @@ th:
       client_s_involvement_in_community_networks_6b: (การมีส่วนร่วมของลูกค้าในเครือข่ายชุมชน)
       knowledge_of_legal_rights_7a: (ความรู้เรื่องสิทธิกฎหมาย)
     dimension_list:
-      dimensions: หมวดหมู่ 
+      dimensions: หมวดหมู่
     dimension_names:
       a1: ความปลอดภัย
       a2: สุขภาพ
@@ -3938,7 +3938,7 @@ th:
       cancel: ยกเลิก
       description: คำอธิบาย
       domain_group: กลุ่มโดเมน
-      identity: ตัวตน 
+      identity: ตัวตน
       name: ชื่อ
       save: บันทึก
     index:
@@ -3957,7 +3957,7 @@ th:
       successfully_updated: กลุ่มโดเมนได้รับการอัปเดตเรียบร้อยแล้ว
     version:
       back: กลับมา
-      domain_group:กลุ่มโดเมน 
+      domain_group: กลุ่มโดเมน
       modification_of: บันทึกการเปลี่ยนแปลงของ
   domains:
     create:
@@ -3971,11 +3971,11 @@ th:
       successfully_deleted: โดเเมนได้ถูกลบเรียบร้อยแล้ว
     domain_identies:
       care_2b: ดูแล
-      emotional_health_5a: สุขภาพทางจิต 
+      emotional_health_5a: สุขภาพทางจิต
       food_security_1a: ความมั่นคงทางอาหาร
       health_care_services_4b: บริการด้านการดูแลสุขภาพ
       legal_protection_3b: ความคุ้มครองทางกฎหมาย
-      nutrition_and_growth_1b: โภชนาการและการเจริญเติบโต 
+      nutrition_and_growth_1b: โภชนาการและการเจริญเติบโต
       performance_6a: ประสิทธิภาพ
       protection_from_abuse_and_exploitation_3a: การป้องกันการล่วงละเมิดและการหลอกลวง
       shelter_2a: ที่พัก
@@ -4233,7 +4233,7 @@ th:
         prefer_not_to_say: ไม่ต้องการตอบ/ไม่ระบุ
       field_type:
         select_option: เลือกตัวเลือก
-        free_text: ข้อความว่าง 
+        free_text: ข้อความว่าง
       referral_decision:
         meet_intake_criteria: เคสตรงตามเกณฑ์การรับเข้าและจะถูกเรียกให้เข้าร่วม
         not_meet_intake_criteria: เคสไม่ตรงตามเกณฑ์การรับบริการและได้ถูกแนะนำไปใช้บริการอื่นต่อไป ถ้าจำเป็น
@@ -4248,7 +4248,7 @@ th:
       not_found: ไม่พบ
       not_locked: ไม่ได้ล็อก
       not_saved:
-        one: '1 error prohibited this %{resource} from being saved:'
+        one: '1 error prohibited this %{resource} from being saved: '
         other: "1 ข้อผิดพลาดทำให้ %{resource} นี้ไม่สามารถบันทึกได้:"
   existed_event: เหตุการณ์มีอยู่ในปฏิทินแล้ว
   families:
@@ -4264,7 +4264,7 @@ th:
       update:
         successfully_updated: การประเมินได้ถูกอัปเดตเรียบร้อยแล้ว.
     case_history_detail:
-      accepted_date: วันที่NGOยอมรับ 
+      accepted_date: วันที่NGOยอมรับ
       family: ครอบครัว
       family_id: รหัสครอบครัว
       consent_form: แบบฟอร์มการยินยอม
@@ -4276,12 +4276,12 @@ th:
       exit_program_date: วันที่ออกจากโปรแกรม
       exit_reasons: เหตุผลในการออก / การปฏิเสธเคส
       external_referral: วันที่ส่งต่อจากภายนอก
-      initial_referral_date: Value is required and can't be empty
+      initial_referral_date: "Value is required and can't be empty"
       internal_referral: วันที่ส่งต่อภายใน
       name_of_referee: ชื่อผู้ส่งต่อ
       other_info_of_exit: อื่น ๆ - ข้อมูลเพิ่มเติม
       preview_download: ตัวอย่างและดาวน์โหลด
-      referee_phone_number:หมายเลขโทรศัพท์ของผู้ส่งต่อ
+      referee_phone_number: หมายเลขโทรศัพท์ของผู้ส่งต่อ
       referral_reasons: เหตุผลในการส่งต่อ
       referred_from: ส่งต่อจากองค์กรภายนอก
       referred_to: ส่งต่อถึงองค์กรภายนอก
@@ -4327,7 +4327,7 @@ th:
       add_new_member: เพิ่มสมาชิกใหม่
       address: ที่อยู่
       caregiver_information: ข้อมูลสำหรับผู้ดูแล
-      case_history: ประวัติของเคส 
+      case_history: ประวัติของเคส
       children: ผู้ใช้บริการ
       clients: ผู้ใช้บริการ
       code: รหัสครอบครัว
@@ -4335,10 +4335,10 @@ th:
       contract_date: วันที่ทำสัญญา
       custom_forms: แบบฟอร์มเฉพาะ
       dependable_income: รายได้ที่เชื่อถือได้
-      district: ตำบล 
+      district: ตำบล
       family_members:
       family_type: ประเภทครอบครัว
-      female_adult_count: จำนวนสตรี  
+      female_adult_count: จำนวนสตรี
       female_children_count: จำนวนเด็กหญิง
       house: หมายเลขบ้าน
       household_income: รายได้เฉลี่ยของครัวเรือนต่อเดือน
@@ -4380,18 +4380,18 @@ th:
       administrative_info: ข้อมูลทางบริหาร
       referee_info: ข้อมูลที่เกี่ยวข้องเกี่ยวกับผู้ส่งต่อ
       accept: ยอมรับ
-      accepted_date: วันที่NGOยอมรับ 
+      accepted_date: วันที่NGOยอมรับ
       add_form: เพิ่มแบบฟอร์ม
       additional_forms: แบบฟอร์มที่ใช้งานอยู่ของชุมชน
       additional_info: ข้อมูลเพิ่มเติม
       address: ที่อยู่
-      adult_name: ชื่อของสมาชิกที่เป็นผู้ใหญ๋ 
+      adult_name: ชื่อของสมาชิกที่เป็นผู้ใหญ๋
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       assessment: การประเมิน
       care_plan: แผนการดูแล
       view_tasks: งาน
       caregiver_information: ข้อมูลสำหรับผู้ดูแล
-      case_histories: ประวัติของเคส 
+      case_histories: ประวัติของเคส
       case_history: ข้อมูลที่เกี่ยวข้อง
       case_worker_or_staff: ผู้จัดการเคส/เจ้าหน้าที่ที่ได้รับมอบหมาย
       code: คู่มือ
@@ -4406,10 +4406,10 @@ th:
       detail: รายละเอียด
       enrolled_program_streams: ครอบครัวในโปรแกรมทำงานอย่างเต็มประสิทธิภาพ
       exit_date: วันที่ออก NGO
-      exit_ngo_btn: ครอบครัวออกจาก NGO 
+      exit_ngo_btn: ครอบครัวออกจาก NGO
       family_type: ประเภทครอบครัว
-      female_adult_count: จำนวนสมาชิกสตรี 
-      female_children_count: จำนวนสมาชิกเด็กหญิง 
+      female_adult_count: จำนวนสมาชิกสตรี
+      female_children_count: จำนวนสมาชิกเด็กหญิง
       follow_up_date: วันที่ติดตามครั้งแรก
       followed_up_by: ผู้ติดตาม
       gender: เพศ
@@ -4419,8 +4419,8 @@ th:
       household_income: รายได้เฉลี่ยของครัวเรือนต่อเดือน
       id: รหัสครอบครัว
       initial_referral_date: วันที่ส่งต่อ
-      male_adult_count: จำนวนสมาชิกบุรุษ 
-      male_children_count: จำนวนสมาชิกเด็กชาย 
+      male_adult_count: จำนวนสมาชิกบุรุษ
+      male_children_count: จำนวนสมาชิกเด็กชาย
       member_count: จำนวนสมาชิก
       name: ชื่อหัวหน้าครัวเรือน (ภาษาไทย)
       name_en: ชื่อหัวหน้าครัวเรือน (ภาษาอังกฤษ)
@@ -4433,7 +4433,7 @@ th:
       read_more: อ่านเพิ่มเติม
       received_by: รับโดยเจ้าหน้าที่
       refer_family: ส่อต่อครอบครัว
-      referral_fo แบบฟอร์มส่งต่อ
+      referral_form: แบบฟอร์มส่งต่อ
       referred_from: ส่อต่อจาก
       referred_to: ส่งไปยัง
       reject: ปฏิเสธ
@@ -4478,10 +4478,10 @@ th:
     enter_ngos:
       create:
         failed_create: การอัปเดตครอบครัวล้มเหลว
-        successfully_created: ครอบครัวได้รับการอัปเดตเรียบร้อยแล้ว 
+        successfully_created: ครอบครัวได้รับการอัปเดตเรียบร้อยแล้ว
       edit_form:
         accept: ยอมรับ
-        accept_ngo_form:  กรอกแบบฟอร์มNGO 
+        accept_ngo_form:  กรอกแบบฟอร์มNGO
         accepted_date: วันที่ได้รับการยอมรับ
         case_worker_or_staff: ผู้จัดการเคส / เจ้าหน้าที่
       form:
@@ -4503,16 +4503,16 @@ th:
       edit_form:
         case_worker_or_staff: ผู้จัดการเคส / เจ้าหน้าที่
         exit_btn: ออก
-        exit_circumstance: สถานการณ์การออก 
+        exit_circumstance: สถานการณ์การออก
         exit_date: วันที่ออก
-        exit_ngo: ครอบครัวออกจาก NGO 
+        exit_ngo: ครอบครัวออกจาก NGO
         exit_note: หมายเหตุที่ออก
         #Todo
         exit_reason_options:
           agency_lack_resource: หน่วยงานขาดทรัพยากร
           family_died: ครอบครัวเสียชีวิต
-          family_does_not_meet_service_criteria: ครอบครัวไม่ตรงตามเกณฑ์บริการอีกต่อไป 
-          family_does_not_required_support: ครอบครัวไม่ต้องการสนับสนุนแล้ว 
+          family_does_not_meet_service_criteria: ครอบครัวไม่ตรงตามเกณฑ์บริการอีกต่อไป
+          family_does_not_required_support: ครอบครัวไม่ต้องการสนับสนุนแล้ว
           family_move_out_international: ครอบครัวย้ายออกนอกพื้นที่เป้าหมายของNGO (ระหว่างประเทศ)
           family_move_out_within_cambodia: ครอบครัวย้ายออกนอกพื้นที่เป้าหมายของNGO(ในประเทศไทย)
           family_refuse_service: ครอบครัวปฏิเสธบริการ
@@ -4528,10 +4528,10 @@ th:
         exit_btn: ออก
         exit_circumstance: สถานการณ์การออก
         exit_date: วันที่ออก
-        exit_ngo: ครอบครัวออกจากNGo 
+        exit_ngo: ครอบครัวออกจากNGo
         exit_note: หมายเหตุที่ออก
         exit_reason_options:
-          agency_lack_resource: หน่วยงานขาดทรัพยากร 
+          agency_lack_resource: หน่วยงานขาดทรัพยากร
           family_died: ครอบครัวเสียชีวิต
           family_does_not_meet_service_criteria: ครอบครัวไม่ตรงตามเกณฑ์บริการอีกต่อไป
           family_does_not_required_support: ครอบครัวไม่ต้องการการสนับสนุนแล้ว
@@ -4543,7 +4543,7 @@ th:
         exit_status: สถานะการออก
         exiting: ออก...
         other_info_of_exit: อื่น ๆ - ข้อมูลเพิ่มเติม
-        other_option: Value is required and can't be empty
+        other_option: "Value is required and can't be empty"
         reject_family: ปฏิเสธครอบครัว
         rejected_note: บันทึกการปฏิเสธ
       update:
@@ -4552,7 +4552,7 @@ th:
   family_name: นามสกุล
   family_referrals:
     confirm_referral:
-      body_second: ครอบครัวที่จะส่งต่ออยู่ในระบบขององค์กรนั้นแล้ว 
+      body_second: ครอบครัวที่จะส่งต่ออยู่ในระบบขององค์กรนั้นแล้ว
       body_third: คุณได้ทำการส่งต่อครอบครัวครั้งนี้แล้ว โปรดรอการตอบกลับ
       title: คำเตือน
     consent_form_fields:
@@ -4561,63 +4561,63 @@ th:
       failed_create: การสร้างบันทึกส่งต่อไม่สำเร็จ.
       successfully_created: บันทึกการส่งต่อไดด้ถูกสร้างเรียบร้อยแล้ว
     edit:
-      edit_referral: แก้ไขการส่งต่อ 
+      edit_referral: แก้ไขการส่งต่อ
     form:
       consent_form: โปรดอัพโหลดแบบฟอร์มยินยอมการส่งต่อที่ลงชื่อแล้วที่นี่
-      date_of_referral: วันที่ส่งต่อ 
+      date_of_referral: วันที่ส่งต่อ
       external_referral_warning: ครอบครัวที่คุณพยายามส่งต่อไปยังองค์กรนั้น ณ ปัจจุบันไม่ได้ใช้ OSCaR กรุณาพิมพ์สำเนาของแบบฟอร์มส่งต่อนี้เพื่อส่งไปยังองค์กรเป้าหมายของคุณ
       family_id: รหัสครอบครัว
       family_name: ชื่อ
       name_of_referee: เจ้าหน้าที่ดำเนินการส่งต่อ
-      ngo_name: ชื่อNGO 
+      ngo_name: ชื่อNGO
       referral_phone: เบอร์ผู้ติดต่อ
       referral_reason: บันทึกการส่งต่อ
       referred_from: ส่งจาก
-      referred_to: ส่งไปยัง 
+      referred_to: ส่งไปยัง
       save: บันทึก
       save_and_download: บันทึก & ดาวน์โหลด
     index:
-      cannot_edit_referral: คุณไม่สามารถแก้ไขการส่งต่อนี้ได้เนื่องจากองค์กรได้รับแล้ว 
+      cannot_edit_referral: คุณไม่สามารถแก้ไขการส่งต่อนี้ได้เนื่องจากองค์กรได้รับแล้ว
       consent_form: แบบฟอร์มการยินยอม
       date_of_referral: วันที่ส่งต่อ
       detail: รายละเอียด
       edit_btn: แก้ไข
       family_id: รหัสครอบครัว
       family_name: ชื่อ
-      name_of_referee: ชื่อผู้ส่งต่อ 
+      name_of_referee: ชื่อผู้ส่งต่อ
       referral_forms: ส่งต่อ
-      referral_phone:หมายเลขโทรศัพท์ของผู้ส่งต่อ
-      referral_reason: บันทึกการส่งต่อ 
+      referral_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
+      referral_reason: บันทึกการส่งต่อ
       referred_from: ส่งต่อจาก
-      referred_to: ส่งต่อไปยัง 
+      referred_to: ส่งต่อไปยัง
       select_ngos: เลือก NGO
     new:
-      new_referral: เคสส่งต่อคนใหม่ 
+      new_referral: เคสส่งต่อคนใหม่
     show:
-      cannot_edit_referral: คุณไม่สามารถแก้ไขการส่อต่อนี้ได้เนื่องจากองค์กรได้รับแล้ว 
+      cannot_edit_referral: คุณไม่สามารถแก้ไขการส่อต่อนี้ได้เนื่องจากองค์กรได้รับแล้ว
       consent_form: แบบฟอร์มการยินยอม
-      date_of_referral: วันที่ส่งต่อ 
+      date_of_referral: วันที่ส่งต่อ
       download_referral_form: ดาวน์โหลดแบบฟอร์มการส่งต่อ ที่สามารถพิมพ์ได้
       external_referral_warning: ครอบครัวที่คุณพยายามส่งต่อในองค์กรนั้น ณ ปัจจุบันไม่ได้ใช้ OSCaR กรุณาพิมพ์สำเนาของแบบฟอร์มส่งต่อนี้เพื่อส่งไปยังองค์กรเป้าหมายของคุณ
       family_id: รหัสครอบครัว
       family_name: ชื่อ
-      name_of_referee: ผู้จัดการเคสที่ได้ส่งต่อ 
+      name_of_referee: ผู้จัดการเคสที่ได้ส่งต่อ
       ngo_name: ชื่อ NGO
       pdf:
         haml:
           family_id: รหัสครอบครัว
           family_name: นามสกุล
-          date_of_referral: วันที่ส่งต่อ 
+          date_of_referral: วันที่ส่งต่อ
           name_of_referee: ผู้จัดการเคสที่ได้ส่งต่อ
-          referral_phone: เบอร์ผู้ส่งต่อ 
-          referral_reason: บันทึกการส่งต่อ 
-          referred_from: ส่งต่อจาก 
+          referral_phone: เบอร์ผู้ส่งต่อ
+          referral_reason: บันทึกการส่งต่อ
+          referred_from: ส่งต่อจาก
           referred_to: ส่งต่อไปยัง
       preview_download: ตัวอย่างและดาวน์โหลด
-      referral_phone: เบอร์ผู้ส่งต่อ 
-      referral_reason: บันทึกการส่งต่อ  
-      referred_from: ส่งต่อจาก 
-      referred_to: ส่งต่อไปยัง 
+      referral_phone: เบอร์ผู้ส่งต่อ
+      referral_reason: บันทึกการส่งต่อ
+      referred_from: ส่งต่อจาก
+      referred_to: ส่งต่อไปยัง
       type_of_service: ประเภทของบริการ
     update:
       successfully_updated: บันทึกการส่งต่อได้ถูกอัปเดตเรียบร้อยแล้ว
@@ -4667,7 +4667,7 @@ th:
         failed_to_delete: ไม่สามารถลบแบบฟอร์มที่กำหนดเองได้。
         successfully_deleted: แบบฟอร์มที่กำหนดเองถูกลบเรียบร้อยแล้ว
       edit:
-        form_builder: แบบฟอร์มเฉพาะ 
+        form_builder: แบบฟอร์มเฉพาะ
       form:
         copy: คัดลอก
         form_title: หัวข้อแบบฟอร์ม
@@ -4677,7 +4677,7 @@ th:
         type: แนบด้วย
       index:
         all_ngo: แบบฟอร์มเฉพาะ
-        demo_ngo: ตัวอย่างทดลองใช้แบบฟอร์ม 
+        demo_ngo: ตัวอย่างทดลองใช้แบบฟอร์ม
         form_title: หัวข้อแบบฟอร์ม
         frequency: ความถี่
         my_ngo: แบบฟอร์มเฉพาะ
@@ -4705,7 +4705,7 @@ th:
       show:
         back: กลับมา
         copy: คัดลอก
-        copy_to_enrollment: การลงทะเบียนเคส 
+        copy_to_enrollment: การลงทะเบียนเคส
         copy_to_exit_program: คัดลอกไปยังออกจากโปรแกรม
         copy_to_tracking: คัดลอกไปยังการติดตาม
         edit: แก้ไข
@@ -4756,7 +4756,7 @@ th:
       carer_address: ที่อยู่ของผู้ดูแล
       carer_name: ชื่อผู้ดูแล
       case_education: การศึกษา
-      case_information_date: วันที่ส่งต่อ 
+      case_information_date: วันที่ส่งต่อ
       check: โปรดทำเครื่องหมายช่อง
       child_changed_home: เด็กย้ายบ้าน
       child_disabled: เด็กพิการ
@@ -4767,10 +4767,10 @@ th:
       child_has_a_history_of_gambling: เด็กมีประวัติการพนัน
       child_hiv_aids: เด็กมีเชื้อเอชไอวี/เอดส์
       child_ill: เด็กป่วย
-      child_living_independently: เด็กใช้ชีวิตอยู่เพียงลำพัง 
+      child_living_independently: เด็กใช้ชีวิตอยู่เพียงลำพัง
       child_living_on_street: เด็กใช้ชีวิตอยู่ข้างถนน
       child_situation_and_need: สถานการณ์และความต้องการของเด็ก
-      city: ตำบล 
+      city: ตำบล
       client_code: หมายเลขรหัสปรับแต่ง 1
       client_contact: ความสัมพันธ์กับเด็ก
       client_living_with_guardians: เด็กคนนี้อาศัยอยู่กับพ่อแม่หรือผู้ดูแลหรือไม่
@@ -4797,9 +4797,9 @@ th:
       emotional_health_need: สุขภาพร่างกาย (ความต้องการ)
       emotional_health_plan: สุขภาพร่างกาย (แผนการดูแล)
       emotional_heath: สุขภาพจิต
-      essential_needs: ขั้นตอนที่สำคัญ 
+      essential_needs: ขั้นตอนที่สำคัญ
       every_point: ทั้งหมดที่เกี่ยวข้อง
-      excessive_child_labour: เด็กถูกใช้แรงงาน 
+      excessive_child_labour: เด็กถูกใช้แรงงาน
       exist: 'ใช่'
       experience_with_trafficking: ประสบการณ์กับการค้ามนุษย์
       family_changed_home: ครอบครัวย้ายบ้าน
@@ -4813,7 +4813,7 @@ th:
       food: อาหาร
       food_shelter: อาหาร เช่าที่พัก และเสื้อผ้า
       for_children_who_are_in_danger: สำหรับเด็กในสถานการณ์ที่อันตราย
-      found_client_at: สถานที่เจอเด็ก 
+      found_client_at: สถานที่เจอเด็ก
       fourth_mission: ปฏิบัติตามขั้นตอนสำหรับเด็กที่ถูกทอดทิ้งและกรอกแบบฟอร์ม 1307 (ในกรณีที่เด็กถูกทอดทิ้ง)
       gender: เพศ
       health_care_and_medical_treatment: การดูแลสุขภาพและการรักษาทางการแพทย์
@@ -4826,14 +4826,14 @@ th:
       intervention_plan: แผนการเข้ามาเกี่ยวข้อง
       kingdom_of_cambodia: ราชอาณาจักรกัมพูชา
       male: ผู้ชาย
-      mission_obtainable: ขั้นตอนที่สำคัญ 
+      mission_obtainable: ขั้นตอนที่สำคัญ
       missions_which_need_to_be_done: เกี่ยวกับขั้นตอนที่ควรดำเนินการ.
       month: เดือน
       name: ชื่อ
       nation_religion_king: ประเทศ ศาสนา พระมหากษัตริย์
       need: ความต้องการ
       negative: 'ไม่'
-      neglect:ละเลย 
+      neglect: ละเลย
       none: ไม่มี (กรณีต้องปิด)
       office: อำเภอ
       or: หรือ
@@ -4842,17 +4842,17 @@ th:
       orphan_lost_both_parents: กำพร้า (สูญเสียแม่และพ่อ)
       orphan_lost_father: กำพร้า (สูญเสียพ่อ)
       orphan_lost_mother: กำพร้า (สูญเสียแม่)
-      parent_carer_disabled:ผู้ดูแลผู้ป่วย
+      parent_carer_disabled: ผู้ดูแลผู้ป่วย
       parent_carer_has_a_criminal_history: ผู้ปกครอง/ผู้ดูแลมีประวัติอาชญากรรม
       parent_carer_has_a_history_of_alcohol_abuse: ผู้ดูแลมีประวัติการใช้สุรา
       parent_carer_has_a_history_of_drug_use: ผู้ดูแลมีประวัติการใช้ยาเสพติด
-      parent_carer_has_a_history_of_gambling: ผู้ดูแลมีประวัติการพนัน 
+      parent_carer_has_a_history_of_gambling: ผู้ดูแลมีประวัติการพนัน
       parent_carer_hiv_aids: ผู้ดูแลมีเชื้อเอชไอวี/เอดส์
       parent_carer_hiv_aids_origin: ผู้ดูแลมีเชื้อเอชไอวี/เอดส์
-      parent_carer_ill: ผู้ดูแลผู้ป่วย 
+      parent_carer_ill: ผู้ดูแลผู้ป่วย
       parent_carer_ill_origin: ผู้ดูแลผู้ป่วย
-      parent_carer_poor_certificate: หมายเลขบัตรสวัสดิการแห่งรัฐ 
-      parent_carer_poor_certificate_origin: หมายเลขบัตรสวัสดิการแห่งรัฐ 
+      parent_carer_poor_certificate: หมายเลขบัตรสวัสดิการแห่งรัฐ
+      parent_carer_poor_certificate_origin: หมายเลขบัตรสวัสดิการแห่งรัฐ
       phone_number: โทรศัพท์
       physical_abuse: การละเมิดด้านร่างกาย
       physical_health: สุขภาพร่างกาย
@@ -4872,7 +4872,7 @@ th:
       seen_and_agreed: วันที่เห็นด้วยและยอมรับ
       sexual_abuse: การล่วงละเมิดทางเพศ
       shelter: ที่พัก
-      signature: ลายเซ็นและตราประทับของผู้นำชุมชน/ตำบล 
+      signature: ลายเซ็นและตราประทับของผู้นำชุมชน/ตำบล
       society_communication_need: ความสัมพันธ์ในชุมชน) (ความต้องการ)
       society_communication_plan: ความสัมพันธ์ในชุมชน (แผนการดูแล)
       street_number: ถนน
@@ -4900,7 +4900,7 @@ th:
           and: และ
           anonymous: ไม่ระบุชื่อ (หากผู้ไม่ประสงค์ออกนามไม่ต้องการให้ข้อมูลของตนถูกเก็บไว้ในไฟล์)
           anonymous_form: ไม่ระบุชื่อ (หากผู้ไม่ประสงค์​ออกนามไม่ต้องการให้ข้อมูลของตนถูกเก็บไว้ในไฟล์)
-          anonymous_information: ไม่ระบุข้อมูล 
+          anonymous_information: ไม่ระบุข้อมูล
           at: ที่
           capital: เมืองหลวง
           carer_address: ที่อยู่ของผู้ดูแล
@@ -4944,11 +4944,11 @@ th:
           emotional_heath: สุขภาพจิต
           essential_needs: ความต้องการที่สำคัญ
           every_point: ทั้งหมดที่เกี่ยวข้อง
-          excessive_child_labour: การใช้แรงงานเด็ก 
+          excessive_child_labour: การใช้แรงงานเด็ก
           exist: 'ใช่'
           experience_with_trafficking: ประสบการณ์กับการค้ามนุษย์
           family_changed_home: ครอบครัวย้ายบ้าน
-          family_separation: ครอบครัวแตกแยก 
+          family_separation: ครอบครัวแตกแยก
           family_violence: ความรุนแรงในครอบครัว
           female: หญิง
           first_mission: ปฏิบัติตามขั้นตอนการดูแลเด็กและกรอกแบบฟอร์ม 1304 (ในกรณีที่เด็กเผชิญหรืออยู่ในความเสี่ยงจะเผชิญกับอันตรายทันที)
@@ -4956,7 +4956,7 @@ th:
           food: อาหาร
           food_shelter: อาหาร เช่าที่พัก และเสื้อผ้า
           for_children_who_are_in_danger: สำหรับเด็กในสถานการณ์ที่อันตราย
-          found_client_at: ตำแหน่งที่เจอเด็ก 
+          found_client_at: ตำแหน่งที่เจอเด็ก
           fourth_mission: ปฏิบัติตามขั้นตอนสำหรับเด็กที่ถูกทอดทิ้งและกรอกแบบฟอร์ม 1307 (ในกรณีที่เด็กถูกทอดทิ้ง)
           gender: เพศ
           health_care_and_medical_treatment: การดูแลสุขภาพและการรักษาทางการแพทย์
@@ -4967,17 +4967,17 @@ th:
           initial_city: อำเภอ
           initial_commune: สหมัณสังวรณ์
           initial_date: วันที่
-          intervention_plan: แผนการดูแล 
+          intervention_plan: แผนการดูแล
           kingdom_of_cambodia: ราชอาณาจักรกัมพูชา
-          male: ผู้ชาย 
-          mission_obtainable: ขั้นตอนที่สำคัญ 
+          male: ผู้ชาย
+          mission_obtainable: ขั้นตอนที่สำคัญ
           missions_which_need_to_be_done: เกี่ยวกับขั้นตอนที่ควรดำเนินการ.
           month: เดือน
           name: ชื่อ
           nation_religion_king: ประเทศ ศาสนา พระมหากษัตริย์
           need: ความต้องการ
           negative: 'ไม่'
-          neglect: ละเลย 
+          neglect: ละเลย
           none: ไม่มี (กรณีต้องปิด)
           office: อำเภอ
           or: หรือ
@@ -4986,7 +4986,7 @@ th:
           orphan_lost_both_parents: กำพร้า (สูญเสียแม่และพ่อ)
           orphan_lost_father: กำพร้า (สูญเสียพ่อ)
           orphan_lost_mother: กำพร้า (สูญเสียแม่)
-          parent_carer_disabled:ผู้ดูแลผู้ป่วย
+          parent_carer_disabled: ผู้ดูแลผู้ป่วย
           parent_carer_has_a_criminal_history: ผู้ปกครอง/ผู้ดูแลมีประวัติอาชญากรรม
           parent_carer_has_a_history_of_alcohol_abuse: ผู้ดูแลมีประวัติการใช้สุรา
           parent_carer_has_a_history_of_drug_use: ผู้ดูแลมีประวัติการใช้ยาเสพติด
@@ -4994,29 +4994,29 @@ th:
           parent_carer_hiv_aids: ผู้ดูแลมีเชื้อเอชไอวี/เอดส์
           parent_carer_hiv_aids_origin: ผู้ดูแลมีเชื้อเอชไอวี/เอดส์
           parent_carer_ill: ผู้ดูแลผู้ป่วย
-          parent_carer_ill_origin:ผู้ดูแลผู้ป่วย
-          parent_carer_poor_certificate: หมายเลขบัตรสวัสดิการแห่งรัฐ 
-          parent_carer_poor_certificate_origin: หมายเลขบัตรสวัสดิการแห่งรัฐ 
+          parent_carer_ill_origin: ผู้ดูแลผู้ป่วย
+          parent_carer_poor_certificate: หมายเลขบัตรสวัสดิการแห่งรัฐ
+          parent_carer_poor_certificate_origin: หมายเลขบัตรสวัสดิการแห่งรัฐ
           phone_number: โทรศัพท์
           physical_abuse: การละเมิดด้านร่างกาย
-          physical_health: สุขภาพร่างกาย 
+          physical_health: สุขภาพร่างกาย
           position: ตำแหน่ง
           positive: 'ใช่'
           present_situation: สถานการณ์ปัจจุบัน
-          referral_name: บันทึกการส่งต่อ 
+          referral_name: บันทึกการส่งต่อ
           second_mission: ปฏิบัติตามขั้นตอนเพื่อรักษาเด็กในครอบครัวและกรอกแบบฟอร์ม 1302 และแบบฟอร์ม 1303
           seen_and_agreed: เห็นด้วยและยอมรับ
           sexual_abuse: การล่วงละเมิดทางเพศ
           shelter: ที่พัก
-          signature: ลายเซ็นและตราประทับของผู้นำชุมชน/ตำบล 
+          signature: ลายเซ็นและตราประทับของผู้นำชุมชน/ตำบล
           street_number: ถนน
           supplies: อาหาร เช่าที่พัก และเสื้อผ้า
           third_mission: ปฏิบัติตามขั้นตอนครอบครัวกลับมาอยู่ด้วยกัน กรอกแบบฟอร์ม 1309 และแบบฟอร์ม 1303 (ในกรณีที่มีการแยกครอบครัว/เด็ก) ครบถ้วน
-          transfer_info: แหล่งข้อมูลการส่งต่อ 
+          transfer_info: แหล่งข้อมูลการส่งต่อ
           village: หมู่บ้าน
           year: ปี
     update:
-      successfully_updated: ได้บันทึกเรียบร้อยแล้ว 
+      successfully_updated: ได้บันทึกเรียบร้อยแล้ว
   has_been_added_to_calendar: เหตุการณ์นี้ถูกเพิ่มในปฏิทินแล้ว
   id: หมายเลขบัตรประชาชน (ID)
   internal_referrals:
@@ -5024,27 +5024,27 @@ th:
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       attachments: ไฟล์แนบ
       changed_date: วันที่
-      client_id: หมายเลขบัตรประชาชนเคส 
-      client_name: ชื่อเคส 
-      client_representing_problem: ปัญหาที่เคสนำเสนอ 
+      client_id: หมายเลขบัตรประชาชนเคส
+      client_name: ชื่อเคส
+      client_representing_problem: ปัญหาที่เคสนำเสนอ
       client_representing_problem_note: "ปัญหา/ความต้องการที่เคสบอกว่าต้องการความช่วยเหลือในการแก้ปัญหา:"
       emergency_note: "หมายเหตุ: ความต้องการเร่งด่วน/วิกฤต"
       internal_referral: ส่งต่อภายใน
-      internal_referral_edit_duration: ระยะเวลาที่สามารถแก้ไขการส่งต่อภายใน 
-      new_internal_referral: ส่งต่อภายในใหม่ 
-      program_stream_ids: ส่งต่อให้ 
-      referral_date: วันที่ส่อต่อภายใน 
+      internal_referral_edit_duration: ระยะเวลาที่สามารถแก้ไขการส่งต่อภายใน
+      new_internal_referral: ส่งต่อภายในใหม่
+      program_stream_ids: ส่งต่อให้
+      referral_date: วันที่ส่อต่อภายใน
       referral_decision: การตัดสินใจส่งต่อ (ต้องได้รับการอนุมัติจากผู้จัดการเคส)
       crisis_management: "ระบุการจัดการฉุกเฉินหรือการส่งต่อวิกฤต"
       referral_reason: เหตุผลในการส่งต่อและคำแนะนำ
       referral_reason_note: "บันทึกเหตุผลที่ส่งต่อ:"
-      user_id: ส่งต่อจาก 
+      user_id: ส่งต่อจาก
       user_name: ชื่อ
       who_made_change: ใครได้ทำการเปลี่ยนแปลง
     create:
-      successfully_created: การส่งต่อภายในสร้างสำเร็จแล้ว 
+      successfully_created: การส่งต่อภายในสร้างสำเร็จแล้ว
     destroy:
-      successfully_deleted: การส่งต่อภายในถูกลบเรียบร้อยแล้ว 
+      successfully_deleted: การส่งต่อภายในถูกลบเรียบร้อยแล้ว
       successfully_deleted: Internal Referral has been successfully deleted.
     form:
       <<: *INTERNAL_REFERRAL_ATTR
@@ -5058,17 +5058,17 @@ th:
     show:
       <<: *INTERNAL_REFERRAL_ATTR
     update:
-      successfully_updated: บันทึกเคสได้รับการอัพเดตแล้ว 
+      successfully_updated: บันทึกเคสได้รับการอัพเดตแล้ว
   interventions:
     create:
-      failed_create: ไม่สามารถแทรกแซงได้ 
+      failed_create: ไม่สามารถแทรกแซงได้
       successfully_created: สถานที่ได้ถูกสร้างเรียบร้อยแล้วค่ะ.
     destroy:
       failed_delete: ไม่สามารถสร้างสถานที่ได้.
       successfully_deleted: การแทรกแซงได้ด้ถูกลบเรียบร้อยแล้วค่ะ.
       unsuccessfully_deleted: ไม่สามารถลบการแทรกแซงได้。
     edit:
-      edit_intervention: แก้ไขการแทรกแซง 
+      edit_intervention: แก้ไขการแทรกแซง
     form:
       action: การดำเนินการ
       cancel: ยกเลิก
@@ -5076,17 +5076,17 @@ th:
       save: บันทึก
     index:
       action: การดำเนินการ
-      add_new_intervention: เพิ่มการเข้ามาแทรกแซงใหม่ 
+      add_new_intervention: เพิ่มการเข้ามาแทรกแซงใหม่
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       changelogs: บันทึกการเปลี่ยนแปลง
-      intervention: การเข้ามาแทรกแซง 
+      intervention: การเข้ามาแทรกแซง
       manage: จัดการ
       view: ดู
     new:
-      new_intervention: การเข้ามาแทรกแซงใหม่ 
+      new_intervention: การเข้ามาแทรกแซงใหม่
     update:
       failed_update: ไม่สามารถอัพเดตได้.
-      successfully_updated: การแทรกแซงได้อัพเดตแล้ว 
+      successfully_updated: การแทรกแซงได้อัพเดตแล้ว
     version:
       back: กลับมา
       modification_of: บันทึกการเปลี่ยนแปลงของ
@@ -5109,7 +5109,7 @@ th:
         other: คุณมีบันทึกเคส 1 รายการที่ค้างการดำเนินการ
       client_is_about_to_end_ec:
         on e: There is a client is about to exit EC program in %{day_count} days.
-        other: มีลูกค้าที่กำลังจะออกจากโปรแกรม EC ในอีก day_count} วัน ค่ะ.มีลูกค้าที่กำลังจะออกจากโปรแกรม EC ในอีก {day_count} วัน ค่ะ.
+        other: มีลูกค้าที่กำลังจะออกจากโปรแกรม EC ในอีก day_count} วัน ค่ะ.มีลูกค้าที่กำลังจะออกจากโปรแกรม EC ในอีก %{day_count} วัน ค่ะ.
       client_is_end_ec_today:
         one: There is a client is about to exit EC program today.
         other: มีลูกค้าที่กำลังจะออกจากโปรแกรม EC วันนี้.
@@ -5202,13 +5202,13 @@ th:
       communities: ชุมชน/กลุ่ม
       community: CMS สำหรับชุมชน
       custom_fields: แบบฟอร์ม
-      custom_form_limit: แบบฟอร์มเฉพาะ 
+      custom_form_limit: แบบฟอร์มเฉพาะ
       custom_labels: รหัสแบบเฉพาะ
       dashboards: แดชบอร์ด
       default_columns: คอลัมน์เริ่มต้น
-      field_settings: ช่องว่าง 
+      field_settings: ช่องว่าง
       assessments: การประเมิน
-      integration: 
+      integration:
       custom_tools: เครื่องมือแบบเฉพาะ
       modulars: โมดูลาร์
       cms_tools: เครื่องมือ CMS
@@ -5222,14 +5222,14 @@ th:
       en: ภาษาอังกฤษ
       families: ครอบครัว
       family_form: CMS สำหรับครอบครัว
-      interventions: การเข้ามาแทรกแซง 
+      interventions: การเข้ามาแทรกแซง
       km: ខ្មែរ
       locations: สถานที่
       log_in: เข้าสู่ระบบ
       log_out: ออกจากระบบ
       manage: จัดการ
       materials: อุปกรณ์/วัสดุ
-      organization_type: ประเภทขององค์กร 
+      organization_type: ประเภทขององค์กร
       organization_types: ประเภทขององค์กรที่เป็นพันธมิตร
       partners: พันธมิตร
       program_streams: โปรแกรมทำงาน
@@ -5238,10 +5238,10 @@ th:
       provinces: จังหวัด
       quantitative_types: บันทึกการส่งต่อ
       referral_sources: แหล่งข้อมูลการส่งต่อ
-      release_logs: บันทึกการปล่อย 
+      release_logs: บันทึกการปล่อย
       research_module: วิจัย
       settings: การตั้งค่า
-      tracking_form_limit: แบบฟอร์มการติดตาม 
+      tracking_form_limit: แบบฟอร์มการติดตาม
       users: ผู้ใช้
       view_calendar: ดูปฏิทิน
     top_navbar:
@@ -5259,7 +5259,7 @@ th:
       family: ครอบครัว
       successfully_created: "%{entity} ได้ทำการออกจากโปรแกรมเรียบร้อยแล้ว"
     edit:
-      leave_program: แก้ไขการออกโครงการ 
+      leave_program: แก้ไขการออกโครงการ
     form:
       cancel: ยกเลิก
       exit_date: วันที่ออกจาก
@@ -5277,7 +5277,7 @@ th:
     destroy:
       delete_attachment_successfully: ไฟล์แนบได้ถูกลบเรียบร้อยแล้ว.
     edit:
-      leave_program: แก้ไขโปรแกรมออก 
+      leave_program: แก้ไขโปรแกรมออก
     form:
       allow_file_size: ประเภทไฟล์ที่อนุญาต
       cancel: ยกเลิก
@@ -5285,7 +5285,7 @@ th:
       max_file_size: "*ขนาดไฟล์สูงสุด: 5MB/ไฟล์และ 30MB/การอัปโหลด."
       save: บันทึก
     new:
-      new_exit_program: โครงการออกใหม่ 
+      new_exit_program: โครงการออกใหม่
     show:
       back: กลับมา
       exit_date: วันที่ออกจาก
@@ -5329,7 +5329,7 @@ th:
       successfully_created: อุปกรณ์วัสดุได้ถูกสร้างเรียบร้อยแล้ว.
     destroy:
       failed_delete: การลบอุปกรณ์วัสดุล้มเหลว
-      successfully_deleted: อุปกรณ์วัสดุถูกลบเรียบร้อยแล้ว 
+      successfully_deleted: อุปกรณ์วัสดุถูกลบเรียบร้อยแล้ว
       unsuccessfully_deleted: อุปกรณ์วัสดุไม่สามารถลบได้
     edit:
       edit_material: แก้ไขอุปกรณ์วัสดุ
@@ -5339,7 +5339,7 @@ th:
       save: บันทึก
       status: สถานะ
     index:
-      add_new_material: เพิ่มอุปกรณ์วัสดุใหม่ 
+      add_new_material: เพิ่มอุปกรณ์วัสดุใหม่
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       changelogs: บันทึกการเปลี่ยนแปลง
       manage: จัดการ
@@ -5347,7 +5347,7 @@ th:
       status: สถานะ
       view: ดู
     new:
-      new_material: อุปกรณ์วัสดุใหม่ 
+      new_material: อุปกรณ์วัสดุใหม่
     update:
       failed_update: การอัปเดตอุปกรณ์วัสดุล้มเหลว
       successfully_updated: อุปกรณ์วัสดุได้ถูกสร้างเรียบร้อยแล้ว.
@@ -5360,20 +5360,20 @@ th:
         successfully_created: แบบฟอร์มเคสเรียบร้อยแล้ว
       form:
         clients: ผู้ใช้บริการ
-        warning: การกรอกแบบฟอร์มนี้จะบันทึกคำตอบชุดเดียวกันลงในสำเนาแบบฟอร์มแยกสำหรับเคสแต่ละรายที่ระบุไว้ที่นี่ เคสทุกคนจะได้รับคำตอบเหมือนกัน ห้ามใช้แบบฟอร์มนี้แต่ละเคสควรมีคำตอบแตกต่างกัน 
+        warning: การกรอกแบบฟอร์มนี้จะบันทึกคำตอบชุดเดียวกันลงในสำเนาแบบฟอร์มแยกสำหรับเคสแต่ละรายที่ระบุไว้ที่นี่ เคสทุกคนจะได้รับคำตอบเหมือนกัน ห้ามใช้แบบฟอร์มนี้แต่ละเคสควรมีคำตอบแตกต่างกัน
     client_trackings:
       create:
         successfully_created: แบบฟอร์มเคสเรียบร้อยแล้ว
       form:
         clients: ผู้ใช้บริการ
-        warning: การกรอกแบบฟอร์มนี้จะบันทึกคำตอบชุดเดียวกันลงในสำเนาแบบฟอร์มแยกสำหรับเคสแต่ละรายที่ระบุไว้ที่นี่ เคสทุกคนจะได้รับคำตอบเหมือนกัน ห้ามใช้แบบฟอร์มนี้แต่ละเคสควรมีคำตอบแตกต่างกัน 
+        warning: การกรอกแบบฟอร์มนี้จะบันทึกคำตอบชุดเดียวกันลงในสำเนาแบบฟอร์มแยกสำหรับเคสแต่ละรายที่ระบุไว้ที่นี่ เคสทุกคนจะได้รับคำตอบเหมือนกัน ห้ามใช้แบบฟอร์มนี้แต่ละเคสควรมีคำตอบแตกต่างกัน
     client_enrollments:
       create:
         client_not_valid: ลูกค้าไม่ตรงกับเงื่อนไขของโปรแกรม.
         successfully_created: แบบฟอร์มเคสเรียบร้อยแล้ว
       form:
         clients: ผู้ใช้บริการ
-        warning: การกรอกแบบฟอร์มนี้จะบันทึกคำตอบชุดเดียวกันลงในสำเนาแบบฟอร์มแยกสำหรับเคสแต่ละรายที่ระบุไว้ที่นี่ เคสทุกคนจะได้รับคำตอบเหมือนกัน ห้ามใช้แบบฟอร์มนี้แต่ละเคสควรมีคำตอบแตกต่างกัน 
+        warning: การกรอกแบบฟอร์มนี้จะบันทึกคำตอบชุดเดียวกันลงในสำเนาแบบฟอร์มแยกสำหรับเคสแต่ละรายที่ระบุไว้ที่นี่ เคสทุกคนจะได้รับคำตอบเหมือนกัน ห้ามใช้แบบฟอร์มนี้แต่ละเคสควรมีคำตอบแตกต่างกัน
     complete_form:
       agree: 'ใช่'
       disagree: 'ไม่'
@@ -5388,7 +5388,7 @@ th:
   note: หมายเหตุ
   notifications:
     case_note_due_today:
-      client_case_note_due_today:บันทึกของเคสต้องทำวันนี้ 
+      client_case_note_due_today: บันทึกของเคสต้องทำวันนี้
       review_client: เคสต้องได้รับการทบทวน
     case_note_overdue:
       client_case_note_overdue: บันทึกของเคสล่าช้า
@@ -5397,7 +5397,7 @@ th:
       client_enrollment_tracking_notification: แจ้งเตือนการติดตามการลงทะเบียนของเคส
       clients: ผู้ใช้บริการ
     client_enrollment_tracking_overdue:
-      client_enrollment_tracking_notification: แจ้งเตือนการติดตามการลงทะเบียนของเคส 
+      client_enrollment_tracking_notification: แจ้งเตือนการติดตามการลงทะเบียนของเคส
       clients: ผู้ใช้บริการ
     custom_field_due_today:
       clients: ผู้ใช้บริการ
@@ -5458,7 +5458,7 @@ th:
       organization_types: ประเภทขององค์กร
       view: ดู
     new:
-      title: ประเภทใหม่ 
+      title: ประเภทใหม่
     update:
       failed_update: ไม่สามารถอัพเดตประเภทองค์กรได้.
       successfully_updated: ประเภทองค์กรได้ถูกอัพเดตเรียบร้อยแล้ว.
@@ -5498,12 +5498,12 @@ th:
       province: จังหวัด
       start_date: วันที่เริ่มต้น
     index:
-      add_new_partner: เพิ่มพันธมิตรใหม่ 
+      add_new_partner: เพิ่มพันธมิตรใหม่
       export_xls: ส่งออกเป็น XLS
       report_builder: โปรแกรมสร้างรายงาน
       results: ผลลัพธ์
     new:
-      new_partner_title: พันธมิตรใหม่ 
+      new_partner_title: พันธมิตรใหม่
     partner_advanced_searches:
       advanced_search:
         add_new_filter: เพิ่มตัวกรองใหม่
@@ -5522,7 +5522,7 @@ th:
         filter_option: โปรดเลือกตัวเลือกคำถามของคุณด้านล่าง
     show:
       add_form: เพิ่มแบบฟอร์ม
-      additional_forms: แบบฟอร์มที่ใช้งานอยู่ของพันธมิตร 
+      additional_forms: แบบฟอร์มที่ใช้งานอยู่ของพันธมิตร
       additional_info: ข้อมูลเพิ่มเติม
       address: ที่อยู่
       affiliation: สังกัด
@@ -5532,10 +5532,10 @@ th:
       contact_mobile: โทรศัพท์เคลื่อนที่
       contact_name: ชื่อผู้ติดต่อ
       engagement: การว่าจ้าง
-      general_info: เกี่ยวกับพันธมิตร 
+      general_info: เกี่ยวกับพันธมิตร
       id: รหัสประจำตัว (ID)
       name: ชื่อ
-      organization_type: ประเภทขององค์กร 
+      organization_type: ประเภทขององค์กร
       province: จังหวัด
       start_date: วันที่เริ่มต้น
     update:
@@ -5583,7 +5583,7 @@ th:
       all_ngos_custom_fields: แบบฟอร์มที่กำหนดเองขององค์กร์NGO
       custom_fields: แบบฟอร์มเฉพาะ
       demo_ngo_custom_fields: ตัวอย่างแบบฟอร์มที่กำหนดเองขององค์กรNGO
-      my_ngo_custom_fields:แบบฟอร์มที่กำหนดเองขององค์กร 
+      my_ngo_custom_fields: แบบฟอร์มที่กำหนดเองขององค์กร
     demo_ngo_custom_fields:
       next: ถัดไป
       previous: ก่อนหน้า
@@ -5604,11 +5604,11 @@ th:
       edit: แก้ไข
       edit_program_stream: โปรแกรมทำงานอย่างเต็มประสิทธิภาพ
     enrollment:
-      custom_fields: แบบฟอร์มที่กำหนดเอง 
+      custom_fields: แบบฟอร์มที่กำหนดเอง
       enrollment_form: ลงทะเบียน
       note: 'หมายเหตุ: ช่องวันที่ออกจากระบบถูกเพิ่มโดยอัตโนมัติลงในแบบฟอร์มการลงทะเบียนนี้ ดังนั้นคุณไม่จำเป็นต้องเพิ่มมันเอง'
     exit_field:
-      custom_fields: แบบฟอร์มที่กำหนดเอง 
+      custom_fields: แบบฟอร์มที่กำหนดเอง
       exit_form: แบบฟอร์มการออกจาก
       note: 'หมายเหตุ: ช่องวันที่ออกจากระบบถูกเพิ่มโดยอัตโนมัติลงในแบบฟอร์มการลงทะเบียนนี้ ดังนั้นคุณไม่จำเป็นต้องเพิ่มมันเอง'
     form:
@@ -5617,15 +5617,15 @@ th:
       previous: ก่อนหน้า
       save: บันทึก
     index:
-      attached_with_client: แนบด้วยเคส 
+      attached_with_client: แนบด้วยเคส
       attached_with_community: แนบกับชุมชน
       attached_with_family: แนบด้วยครอบครัว
       current_ngo: โปรแกรมทำงานขององค์กรซึ่งฉันเป็นสมาชิก
-      demo_programs: ตัวอย่างโปรแกรมสตรีม 
+      demo_programs: ตัวอย่างโปรแกรมสตรีม
       name: ชื่อ
       new_program: เพิ่มโปรแกรมใหม่
-      ngo_programs: โปรแกรมสตรีมขององค์กร NGO ทั้งหมด 
-      program_list: รายการโปรแกรมสตรีม 
+      ngo_programs: โปรแกรมสตรีมขององค์กร NGO ทั้งหมด
+      program_list: รายการโปรแกรมสตรีม
       search: ค้นหา
     my_ngo_custom_fields:
       next: ถัดไป
@@ -5668,7 +5668,7 @@ th:
       back: กลับมา
       copy: คัดลอก
       domain: โดเมนที่เกี่ยวข้อง
-      maximum: จำนวนสูงสุดที่ลงทะเบียนในโปกรแกรม 
+      maximum: จำนวนสูงสุดที่ลงทะเบียนในโปกรแกรม
       name: ชื่อ
       no_results: ไม่พบผลลัพธ์
       organization: องค์กร
@@ -5685,7 +5685,7 @@ th:
       exit_program: ออกจากโปรแกรม
       maximum: จำนวนสูงสุดที่ลงทะเบียนในโปกรแกรม
       mutual_dependence: โปรแกรมที่ต้องมีก่อน
-      not_require_tracking: โปรแกรมสตรีมนี้ไม่ต้องการแบบฟอร์มการติดตามใด ๆ 
+      not_require_tracking: โปรแกรมสตรีมนี้ไม่ต้องการแบบฟอร์มการติดตามใด ๆ
       program_exclusive: ไม่สามารถใช้ร่วมกับ
       quantity: ปริมาณ
       rules: เงื่อนไขสำหรับการลงทะเบียน
@@ -5693,7 +5693,7 @@ th:
     tracking:
       add_tracking: เพิ่มแบบฟอร์มติดตามอีกหนึ่งรายการ
       complete_tracking: โปรดกรอกแบบฟอร์มติดตามให้ครบถ้วน
-      not_require_tracking: โปรแกรมสตรีมนี้ไม่ต้องการแบบฟอร์มการติดตามใด ๆ 
+      not_require_tracking: โปรแกรมสตรีมนี้ไม่ต้องการแบบฟอร์มการติดตามใด ๆ
       tracking_form: การติดตามความก้าวหน้า
     tracking_fields:
       custom_fields: แบบฟอร์มที่กำหนดเอง
@@ -5707,12 +5707,12 @@ th:
       successfully_updated: แบบฟอร์มที่กำหนดเองได้สร้างเรียบร้อยแล้ว
   progress_note_types:
     create:
-      failed_create: การสร้างประเภทบันทึกล้มเหลว 
-      successfully_created: ประเภทบันทึกสร้างเรียบร้อยแล้ว 
+      failed_create: การสร้างประเภทบันทึกล้มเหลว
+      successfully_created: ประเภทบันทึกสร้างเรียบร้อยแล้ว
     destroy:
-      failed_delete: ลบประเภทการบันทึก 
-      successfully_deleted: ประเภทบันทึกลบเรียนร้อยแล้ว 
-      unsuccessfully_deleted: ไม่สามารถลบประเภทบันทึกได้ 
+      failed_delete: ลบประเภทการบันทึก
+      successfully_deleted: ประเภทบันทึกลบเรียนร้อยแล้ว
+      unsuccessfully_deleted: ไม่สามารถลบประเภทบันทึกได้
     edit:
       edit_progress_note_type: แก้ไขประเภทบันทึก
     form:
@@ -5721,7 +5721,7 @@ th:
       progress_note_type: ประเภทของบันทึก
       save: บันทึก
     index:
-      add_new_progress_note_type: เพิี่มประเภทของบันทึกใหม่ 
+      add_new_progress_note_type: เพิี่มประเภทของบันทึกใหม่
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       changelogs: บันทึกการเปลี่ยนแปลง
       manage: จัดการ
@@ -5729,10 +5729,10 @@ th:
       progress_note_type: ประเภทของบันทึก
       view: ดู
     new:
-      new_progress_note_type: ประเภทของบันทึกใหม่ 
+      new_progress_note_type: ประเภทของบันทึกใหม่
     update:
-      failed_update: แก้ไขประเภทบันทึกล้มเหลว 
-      successfully_updated:ประเภทบันทึกได้ถูกอัพเดตเรียบร้อยแล้ว 
+      failed_update: แก้ไขประเภทบันทึกล้มเหลว
+      successfully_updated: ประเภทบันทึกได้ถูกอัพเดตเรียบร้อยแล้ว
     version:
       back: กลับมา
       modification_of: บันทึกการเปลี่ยนแปลงของ
@@ -5742,10 +5742,10 @@ th:
     attachment_fields:
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       delete_attachment: ลบไฟล์แนบ
-    create
-      successfully_created: การบันทึกความก้าวหน้าได้ถูกสร้างเรียบร้อยแล้ว 
+    create:
+      successfully_created: การบันทึกความก้าวหน้าได้ถูกสร้างเรียบร้อยแล้ว
     destroy:
-      successfully_deleted: การบันทึกความก้าวหน้าได้ถูกลบเรียบร้อยแล้ว 
+      successfully_deleted: การบันทึกความก้าวหน้าได้ถูกลบเรียบร้อยแล้ว
     edit:
       edit_progress_note: บันทึกความก้าวหน้า
     form:
@@ -5766,8 +5766,8 @@ th:
       save: บันทึก
       staff: ชื่อเจ้าหน้าที่ ABLE / ABLE
     index:
-      add_new_progress_note: เพิ่มบันทึกความก้าวหน้าใหม่ 
-      additional_notes: บันทึกเพิ่มเติม 
+      add_new_progress_note: เพิ่มบันทึกความก้าวหน้าใหม่
+      additional_notes: บันทึกเพิ่มเติม
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       back: กลับมา
       child: เด็ก
@@ -5785,7 +5785,7 @@ th:
       results: ผลลัพธ์
       staff: ชื่อเจ้าหน้าที่ ABLE / ABLE
     new:
-      new_progress_note: บันทึกความก้าวหน้าใหม่ 
+      new_progress_note: บันทึกความก้าวหน้าใหม่
     show:
       additional_notes: รายละเอียดเพิ่มเติม
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
@@ -5812,14 +5812,14 @@ th:
       progress_note: บันทึกความก้าวหน้า
   provinces:
     create:
-      failed_create: การสร้างจังหวัดล้มเหลว 
+      failed_create: การสร้างจังหวัดล้มเหลว
       successfully_created: จังหวัดได้ถูกสร้างเรียบร้อยแล้ว
     destroy:
-      alert: ไม่สามารถลบจังหวัดได้。 
+      alert: ไม่สามารถลบจังหวัดได้。
       failed_delete: การสร้างจัวหวัดล้มเหลว.
       successfully_deleted: จังหวัดได้ถูกลบเรียบร้อยแล้ว
     edit:
-      title: แก้ไขจังหวัด 
+      title: แก้ไขจังหวัด
     form:
       cancel: ยกเลิก
       name: ชื่อ
@@ -5837,7 +5837,7 @@ th:
       title: จังหวัดใหม่
     update:
       failed_update: การอัพเดตจังหวัดล้มเหลว.
-      successfully_updated: จังหวัดได้ถูกอัพเดตเรียบร้อยแล้ว 
+      successfully_updated: จังหวัดได้ถูกอัพเดตเรียบร้อยแล้ว
     version:
       back: กลับมา
       modification_of: บันทึกการเปลี่ยนแปลงของ
@@ -5867,14 +5867,14 @@ th:
     destroy:
       alert: ไม่สามารถลบข้อมูลการส่งต่อที่กำหนดเองได้。
       failed_delete: การลบข้อมูลการส่งต่อที่กำหนดเองล้มเหลว
-      successfully_deleted: ข้อมูลการส่งต่อได้ถูกลบเรียบร้อยแล้ว 
+      successfully_deleted: ข้อมูลการส่งต่อได้ถูกลบเรียบร้อยแล้ว
     edit:
-      title: แก้ไขข้อมูลการส่งต่อที่กำหนดเอง 
+      title: แก้ไขข้อมูลการส่งต่อที่กำหนดเอง
     form:
       add_quantitative_data: เพิ่มตัวเลือกข้อมูลการส่งต่อที่เฉพาะเจาะจง
       cancel: ยกเลิก
       is_multi_select: เลือกหลายอัน
-      is_required: จำเป็นไหม 
+      is_required: จำเป็นไหม
       name: ชื่อ
       hint: ตัวช่วย
       field_type: ประเภทฟิลด์
@@ -5882,7 +5882,7 @@ th:
       save: บันทึก
     index:
       add_new_quantitative_type: เพิ่มข้อมูลการส่งต่อใหม่ที่กำหนดเอง
-      add_quantitative_data: ตัวเลือกข้อมูลการส่งต่อที่กำหนดเอง 
+      add_quantitative_data: ตัวเลือกข้อมูลการส่งต่อที่กำหนดเอง
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       quantitative_types: ข้อมูลการส่งต่อที่กำหนดเอง
       view_changelog: ดูบันทึกการเปลี่ยนแปลง
@@ -5923,7 +5923,7 @@ th:
     province_id: จังหวัด
     requested_update: อัปเดตที่ขอแล้ว
     street_number: หมายเลขถนน
-    updated_at: อัปเดตที่ 
+    updated_at: อัปเดตที่
     village_id: หมู่บ้าน
   referees:
     index:
@@ -5936,70 +5936,70 @@ th:
       failed_create: การสร้างแหล่งข้อมูลการส่งต่อไม่สำเร็จ
       successfully_created: แหล่งข้อมูลการส่ต่อได้ถูกสร้างเรียบร้อยแล้ว
     destroy:
-      alert: ไม่สามารถลบแหล่งข้อมูลการส่งต่อได้ 
+      alert: ไม่สามารถลบแหล่งข้อมูลการส่งต่อได้
       failed_delete: ลบแหล่งข้อมูลการส่งต่อไม่สำเร็จ
       successfully_deleted: ลบแหล่งข้อมูลการส่งต่อเรียบร้อยแล้ว
     edit:
-      title: แก้ไขแหล่งข้อมูลการส่งต่อ 
+      title: แก้ไขแหล่งข้อมูลการส่งต่อ
     form:
       ancestry: ประเภท
       cancel: ยกเลิก
       description: คำอธิบาย
       name: ชื่อ
-      referral_source: แหล่งข้อมูลการส่งต่อ 
+      referral_source: แหล่งข้อมูลการส่งต่อ
       save: บันทึก
     index:
-      add_new_referral_source: เพิ่มแหล่งข้อมูลการส่งต่อใหม่ 
+      add_new_referral_source: เพิ่มแหล่งข้อมูลการส่งต่อใหม่
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       changelogs: บันทึกการเปลี่ยนแปลง
       description: คำอธิบาย
       manage: จัดการ
-      referral_source_category: หมวดหมู่แหล่งข้อมูลการส่งต่อ 
-      referral_source_name: ชื่อแหล่งข้อมูลการส่งต่อ 
-      referral_sources: แหล่งข้อมูลการส่งต่อ 
+      referral_source_category: หมวดหมู่แหล่งข้อมูลการส่งต่อ
+      referral_source_name: ชื่อแหล่งข้อมูลการส่งต่อ
+      referral_sources: แหล่งข้อมูลการส่งต่อ
       view: ดู
     new:
-      title: แหล่งข้อมูลการส่งต่อใหม่ 
-    update 
-      failed_update: แหล่งข้อมูลการส่งต่ออัปเดตไม่สำเร็จ 
+      title: แหล่งข้อมูลการส่งต่อใหม่
+    update:
+      failed_update: แหล่งข้อมูลการส่งต่ออัปเดตไม่สำเร็จ
       successfully_updated: แหล่งข้อมูลการส่งต่อได้ถูกอัปเดตเรียบร้อยแล้ว
     version:
       back: กลับมา
       modification_of: บันทึกการเปลี่ยนแปลงของ
   referrals:
     confirm_referral:
-      body_second: เคสที่คุณต้องการส่งต่อไปยังองค์กรอื่น มีชื่ออยู่ในระบบองค์กรนั้นแล้ว 
+      body_second: เคสที่คุณต้องการส่งต่อไปยังองค์กรอื่น มีชื่ออยู่ในระบบองค์กรนั้นแล้ว
       body_third: เคสนี้คุณได้ส่งต่อไปแล้ว โปรดรอการตอบกลับ
       title: คำเตือน
     confirm_repeat_referral:
-      body_first: องค์กรที่เราได้ส่งต่อมีการปฏิเสธเมื่อวันที่ <<date>> คุณได้ยืนยันว่าเขาจะรับการส่งต่ออีกครั้งหรือไม่? หากว่าไม่ กรุณาติดต่อพวกเขาโดยตรง เพื่อพูดคุยสถานการณ์ของเคส 
-      cancel: ฉันจะติดต่อพวกเขาก่อนที่จะส่งต่อ 
+      body_first: องค์กรที่เราได้ส่งต่อมีการปฏิเสธเมื่อวันที่ <<date>> คุณได้ยืนยันว่าเขาจะรับการส่งต่ออีกครั้งหรือไม่? หากว่าไม่ กรุณาติดต่อพวกเขาโดยตรง เพื่อพูดคุยสถานการณ์ของเคส
+      cancel: ฉันจะติดต่อพวกเขาก่อนที่จะส่งต่อ
       confirm_box: ฉันได้พูดคุยเกี่ยวกับสถานการณ์กับพวกเขาแล้ว
       title: คำเตือน
     consent_form_fields:
       consent_form: แบบฟอร์มการยินยอม
     create:
-      failed_create: การสร้างบันทึกการส่งต่อล้มเหลว 
+      failed_create: การสร้างบันทึกการส่งต่อล้มเหลว
       successfully_created: บันทึกการส่อต่อได้ถูกสร้างเรียบร้อยแล้ว
     edit:
-      edit_referral: แก้ไขการส่งต่อ 
+      edit_referral: แก้ไขการส่งต่อ
     form:
       client_id: รหัสผู้ใช้บริการ
-      client_name: ชื่อเคส 
+      client_name: ชื่อเคส
       consent_form: โปรดอัพโหลดแบบฟอร์มยินยอมการส่งต่อที่ลงนามแล้วที่นี่
-      date_of_referral: วันที่ส่งต่อ 
+      date_of_referral: วันที่ส่งต่อ
       external_referral_warning: องค์กรที่คุณพยายามจะส่งต่อเคสของคุณ ณ ปัจจุบันไม่ได้ใช้ OSCaR กรุณาปริ๊นสำเนาของแบบฟอร์มการส่งต่อนี้เพื่อส่งไปยังองค์กรเป้าหมายของคุณ.
-      name_of_referee: ชื่อเจ้าหน้าที่ผู้ส่งต่อ 
+      name_of_referee: ชื่อเจ้าหน้าที่ผู้ส่งต่อ
       ngo_name: ชื่อ NGO
       referral_phone: เบอร์ผู้ส่งต่อ
-      referral_reason: บันทึกการส่งต่อ 
+      referral_reason: บันทึกการส่งต่อ
       referred_from: ส่งต่อจาก
-      referred_to: ส่งต่อถึง 
+      referred_to: ส่งต่อถึง
       save: บันทึก
       save_and_download: บันทึก & ดาวน์โหลด
       type_of_service: ประเภทของบริการ
     index:
-      cannot_edit_referral: คุณไม่สามารถแก้ไขการส่งต่อนี้ได้เนื่องจากองค์กรยอมรับแล้ว 
+      cannot_edit_referral: คุณไม่สามารถแก้ไขการส่งต่อนี้ได้เนื่องจากองค์กรยอมรับแล้ว
       client_id: รหัสผู้ใช้บริการ
       client_name: ชื่อเคส
       consent_form: แบบฟอร์มการยินยอม
@@ -6007,63 +6007,63 @@ th:
       detail: รายละเอียด
       edit_btn: แก้ไข
       name_of_referee: ชื่อผู้ส่งต่อ
-      referral_email:อีเมล์ผู้ส่งต่อ 
-      referral_foแบบฟอร์มส่งต่อ
-      referral_phone:หมายเลขโทรศัพท์ของผู้ส่งต่อ
+      referral_email: อีเมล์ผู้ส่งต่อ
+      referral_forms: แบบฟอร์มส่งต่อ
+      referral_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
       referral_reason: บันทึกการส่งต่อ
       referred_from: ส่งต่อจาก
-      referred_to: ส่งต่อถึง 
+      referred_to: ส่งต่อถึง
       select_ngos: เลือก NGO
     level_of_risk: สรุประดับความเสี่ยง
     new:
-      new_referral: ส่งต่อใหม่ 
-    referral_fแบบฟอร์มส่งต่อ
-    referral_status: สถานะการส่งต่อ 
+      new_referral: ส่งต่อใหม่
+    referral_forms: แบบฟอร์มส่งต่อ
+    referral_status: สถานะการส่งต่อ
     show:
-      cannot_edit_referral: คุณไม่สามารถแก้ไขการส่งต่อนี้ได้เนื่องจากองค์กรยอมรับแล้ว 
+      cannot_edit_referral: คุณไม่สามารถแก้ไขการส่งต่อนี้ได้เนื่องจากองค์กรยอมรับแล้ว
       client_id: รหัสผู้ใช้บริการ
       client_name: ชื่อเคส
       consent_form: แบบฟอร์มการยินยอม
-      date_of_referral: วันที่ส่งต่อ 
-      download_referral_form: ดาวน์โหลดแบบฟอร์มการส่งต่อที่สามารถปริ๊นได้ 
+      date_of_referral: วันที่ส่งต่อ
+      download_referral_form: ดาวน์โหลดแบบฟอร์มการส่งต่อที่สามารถปริ๊นได้
       external_referral_warning: องค์กรที่คุณพยายามจะส่งต่อเคสของคุณ ณ ปัจจุบันไม่ได้ใช้ OSCaR กรุณาปริ๊นสำเนาของแบบฟอร์มการส่งต่อนี้เพื่อส่งไปยังองค์กรเป้าหมายของคุณ.
-      go_to_client: ไปที่เคส 
+      go_to_client: ไปที่เคส
       name_of_referee: ชื่อเจ้าหน้าที่ผู้ส่งต่อ
       ngo_name: ชื่อ NGO
       pdf:
         haml:
           client_id: รหัสผู้ใช้บริการ
-          client_name: ชื่อเคส 
-          date_of_referral: วันที่ส่งต่อ 
+          client_name: ชื่อเคส
+          date_of_referral: วันที่ส่งต่อ
           name_of_referee: ชื่อเจ้าหน้าที่ผู้ส่งต่อ
-          referral_email:อีเมล์ผู้ส่งต่อ 
+          referral_email: อีเมล์ผู้ส่งต่อ
           referral_phone: เบอร์ผู้ส่งต่อ
-          referral_reason: บันทึกการส่งต่อ 
+          referral_reason: บันทึกการส่งต่อ
           referred_from: ส่งต่อจาก
-          referred_to: ส่งต่อถึง 
+          referred_to: ส่งต่อถึง
       preview_download: ตัวอย่างและดาวน์โหลด
-      referral_email:อีเมล์ผู้ส่งต่อ 
+      referral_email: อีเมล์ผู้ส่งต่อ
       referral_phone: เบอร์ผู้ส่งต่อ
-      referral_reason: บันทึกการส่งต่อ 
+      referral_reason: บันทึกการส่งต่อ
       referred_from: ส่งต่อจาก
-      referred_to: ส่งต่อถึง 
+      referred_to: ส่งต่อถึง
       type_of_service: ประเภทของบริการ
     update:
       successfully_updated: บันทึกการส่วต่อได้ถูกอัปเดตเรียบร้อยแล้ว
   reports:
     form:
-      case_statistic: สถิติของเคส 
+      case_statistic: สถิติของเคส
       csi_domain_scores: คะแนนโดเมน CSI
       end_date: วันที่สิ้นสุด
       search: ค้นหา
       start_date: วันที่เริ่มต้น
     index:
-      case_statistics: สถิติเคส 
+      case_statistics: สถิติเคส
       client_amount: ผู้ใช้บริการ
       csi_domain_scores: คะแนนโดเมน CSI
       domain_score: คะแนนโดเมน
   review_problem: 'โปรดตรวจสอบปัญหาด้านล่าง:'
-  rules_has_been_modified: ไม่สามารถเปลี่ยนหรือเพิ่มเติมกฎได้ 
+  rules_has_been_modified: ไม่สามารถเปลี่ยนหรือเพิ่มเติมกฎได้
   save: บันทึก
   saving: กำลังบันทึก...
   sessions:
@@ -6085,7 +6085,7 @@ th:
       max_assessment: เวลาสูงสุดระหว่างการประเมิน
       min_assessment: เวลาขั้นต่ำระหว่างการประเมินครั้งที่ 1 และครั้งที่ 2
       name: ชื่อ
-      new_client_assessment: การประเมินของเคสใหม่ 
+      new_client_assessment: การประเมินของเคสใหม่
       noted: 'หมายเหตุ: USAID ขอให้ไม่ใช้คำว่า CSI สำหรับการประเมินที่กำหนดเอง'
       screening_assessment: การประเมินครบถ้วน
       show_prev_assessment: แสดงการประเมินก่อนหน้าขณะที่กำลังทำการประเมินใหม่
@@ -6094,11 +6094,11 @@ th:
       case_note: เวลาสูงสุดระหว่างการบันทึกเคส
       case_note_edit_limit: ข้อจำกัดในการแก้ไขบันทึกเคส
       disable_future_completion_date: ไม่อนุญาตให้
-      disabled_add_service_received: ปิดการสร้างบริการที่ได้รับ 
+      disabled_add_service_received: ปิดการสร้างบริการที่ได้รับ
       max_case_note: สูงสุด
     client_forms:
       hotline: เบอร์โทรศัพท์ฉุกเฉิน
-      client_forms: แบบฟอร์มเคส 
+      client_forms: แบบฟอร์มเคส
       'yes': 'ใช่'
       'no': 'ไม่'
     country:
@@ -6132,18 +6132,18 @@ th:
         custom_id1_local: หมายเลขรหัสปรับแต่ง 1 (ซวาฮิลี)
         custom_id2_local: หมายเลขรหัสปรับแต่ง 2 (ซวาฮิลี)
     customize_case_note:
-      case_note_tools: เครื่องมือบันทึกเคส 
+      case_note_tools: เครื่องมือบันทึกเคส
     default_columns:
       client_default_columns: ผู้ใช้บริการ
       default_columns: คอลัมน์เริ่มต้น
       family_default_columns: ครอบครัว
       partner_default_columns: พันธมิตร
     display_task_date_field:
-      case_note_tasks: งานบันทึกเคส 
+      case_note_tasks: งานบันทึกเคส
       disabled_task_date_field: ปิดใช้งานฟิลด์วันที่ของงาน
     family_case_management:
-      family_case_management: การจัดการเคสครอบครัว 
-      hide_family_case_management_tool: ซ่อนข้อมูลทางการบริหารและเครื่องมือการจัดการเคส 
+      family_case_management: การจัดการเคสครอบครัว
+      hide_family_case_management_tool: ซ่อนข้อมูลทางการบริหารและเครื่องมือการจัดการเคส
     header_count:
       title: จำนวนสมาชิก
       warning: คำเตือน! เมื่อเปิดคุณลักษณะนี้ เราจะมีผลต่อความเร็วในการโหลดของโปรแกรมสร้างรายงาน
@@ -6155,7 +6155,7 @@ th:
       ratanak_csi_tools: เครื่องมือการประเมิน
     integration:
       integration_label: แชร์ข้อมูลเคสกับระบบภายนอกหรือไม่?
-      successfully_updated:อัปเดตสำเร็จแล้ว 
+      successfully_updated: อัปเดตสำเร็จแล้ว
       title: การรวมตัวกันระบบภายนอก
     navigation:
       country: ประเทศ
@@ -6171,7 +6171,7 @@ th:
       delete_incomplete_assessment: ลบการประเมินที่ไม่สมบูรณ์หลังจากช่วงเวลาบางระยะเวลา
       previous_care_plan: แผนดูแลก่อนหน้า %{care_plan}
       use_previous_care_plan: แผนดูแลก่อนหน้า %{care_plan}
-    test_client: เคสตัวอย่าง 
+    test_client: เคสตัวอย่าง
     update:
       successfully_updated: การตั้งค่าได้รับการอัปเดตเรียบร้อยแล้ว
   field_settings:
@@ -6187,12 +6187,14 @@ th:
       service_delivery: บริการการจัดส่ง
       service_provided: ให้บริการ
       service_received: ได้รับบริการ
-      task_completed_date: วันที่เสร็จสิ้น 
+      task_completed_date: วันที่เสร็จสิ้น
     create:
       successfully_created: การบริจาคได้ถูกสร้างเรียบร้อยแล้ว
     destroy:
       alert: ไม่สามารถลบการบริจาคได้
       successfully_deleted: การบริจาคได้ถูกลบเรียบร้อยแล้ว
+    disable:
+      successfully_disabled: Service has been successfully disabled.
     form:
      <<: *SERVICE_DELIVERY_ATTR
     index:
@@ -6200,21 +6202,21 @@ th:
     new:
       <<: *SERVICE_DELIVERY_ATTR
     update:
-      successfully_updated: การบริจาคได้ถูกสร้างเรียบร้อยแล้ว 
-  referral_details: รายละเอียดการส่งต่อ 
+      successfully_updated: การบริจาคได้ถูกสร้างเรียบร้อยแล้ว
+  referral_details: รายละเอียดการส่งต่อ
   results: ผลลัพธ์
   risk_assessments:
     _attr:
-      assessment_date: วันที่ประเมินความเสี่่ยง 
+      assessment_date: วันที่ประเมินความเสี่่ยง
       category: ประเภท
       child_wellbeing: "ความเป็นอยู่ที่ดีของเด็ก"
       client_perspective: "มุมมองของเคสเกี่ยวกับปัญหาและความต้องการของพวกเขา"
-      client_status_index: ดัชนีสถานะของเคส 
+      client_status_index: ดัชนีสถานะของเคส
       current_level_of_risk: ระดับความเสี่ยงปัจจุบัน
       description: คำอธิบาย
       guidance: คำแนะนำ
       has_disability: เคสมีความพิการหรือไม่?
-      has_hiv_or_aid: เคสมี เชื้อเอชไอวี/เอดส์ไหม? 
+      has_hiv_or_aid: เคสมี เชื้อเอชไอวี/เอดส์ไหม?
       has_known_chronic_disease: เคสมีโรคประจำตัวที่รู้จักหรือไม่?
       history_of_disability_id: ประวัติความพิการ/หรือความเจ็บป่วย
       history_of_harm_id: ความเป็นมาของความเสียหาย
@@ -6231,10 +6233,10 @@ th:
         no_action: ไม่มีการดำเนินการ
       no_date: ไม่มีวันที่
       no_protection_concern: ไม่ความกังวลเกี่ยวกับการปกป้องคุ้มครอง
-      overall_client_wellbeing_score: คะแนนสุขภาพทั่วไปของเคส 
+      overall_client_wellbeing_score: คะแนนสุขภาพทั่วไปของเคส
       pending_assessment: รอการประเมิน
       protection_concern: ความกังวลเกี่ยวกับการปกป้องคุ้มครอง
-      relevant_referral_information: ข้อมูลที่เกี่ยวข้องเกี่ยวกับการส่งต่อ 
+      relevant_referral_information: ข้อมูลที่เกี่ยวข้องเกี่ยวกับการส่งต่อ
       risk: ความเสี่ยง
       risk_assessment: แบบประเมินความเสี่ยง
       risk_level_history: ประวัติระดับความเสี่ยง
@@ -6245,19 +6247,19 @@ th:
       add_new: + การประเมินใหม่
       add_task: เพิ่มงาน
       assessment_date: วันที่การประเมิน
-      assessment_on: แบบประเมินสำหรับ 
+      assessment_on: แบบประเมินสำหรับ
       attachments: ไฟล์แนบ
-      back_to_clients: กลับไปที่เคส 
-      based_on: ขึ้นอยู่กับการประเมิน 
+      back_to_clients: กลับไปที่เคส
+      based_on: ขึ้นอยู่กับการประเมิน
       cb_dmat: เครื่องมือคัดกรอง CB-DMAT
       cb_dmat_assessment: งานประเมิน CB-DMAT
-      client_age: ชื่อเคส 
-      client_milestone_age: ระดับการพัฒนาตามอายุ  
-      client_name: ชื่อเคส 
+      client_age: ชื่อเคส
+      client_milestone_age: ระดับการพัฒนาตามอายุ
+      client_name: ชื่อเคส
       created_by: สร้างโดย
       note: หมายเหตุ
       on_date: วันที่กำหนด
-      refer_to_specialist: ส่งต่อไปยังผู้เชี่ยวชาญเฉพาะทาง 
+      refer_to_specialist: ส่งต่อไปยังผู้เชี่ยวชาญเฉพาะทาง
       screening_assessment: การประเมินครบถ้วน
       screening_assessment_date: วันที่ประเมินครบถ้วน
       tasks: งาน
@@ -6320,7 +6322,7 @@ th:
         date_deleted: วันที่
         no_modification: ไม่มีบันทึกการเปลี่ยนแปลง
         'on': 'บน'
-        organisation_type: ประเภทขององค์กร 
+        organisation_type: ประเภทขององค์กร
         value_of: ค่าของ
       common:
         able_screening_question: คำถามคัดกรองที่สามารถตอบได้
@@ -6328,15 +6330,15 @@ th:
         agency: หน่วยงาน
         assessment: การประเมิน
         before: ก่อน
-        case: เคส 
-        case_cote: บันทึกเคส 
-        case_note: ประเภทบันทึกเคส 
+        case: เคส
+        case_cote: บันทึกเคส
+        case_note: ประเภทบันทึกเคส
         change:
-        changelog: แก้ไขบันทึกการปล่อย 
+        changelog: แก้ไขบันทึกการปล่อย
         client: ผู้ใช้บริการ
-        client_custom_field: แบบฟอร์มเคสที่กำหนดเอง 
+        client_custom_field: แบบฟอร์มเคสที่กำหนดเอง
         create: สร้าง
-        custom_field: แบบฟอร์มที่กำหนดเอง 
+        custom_field: แบบฟอร์มที่กำหนดเอง
         date_deleted: วันที่ลบ
         delete: ลบ
         department: หน่วยงาน
@@ -6352,16 +6354,16 @@ th:
         material: อุปกรณ์/วัสดุ
         no_modification: ไม่มีบันทึกการเปลี่ยนแปลง
         'on': 'บน'
-        organisation_type: ประเภทขององค์กร 
-        organization_type: ประเภทขององค์กร 
+        organisation_type: ประเภทขององค์กร
+        organization_type: ประเภทขององค์กร
         partner: พันธมิตร
-        partner_custom_field: แบบฟอร์มเฉพาะสำหรับพันธมิตร 
-        progress_note: บันทึกความก้าวหน้า 
+        partner_custom_field: แบบฟอร์มเฉพาะสำหรับพันธมิตร
+        progress_note: บันทึกความก้าวหน้า
         progress_note_type: ประเภทของบันทึก
         province: จังหวัด
         quantitative_case: ตัวเลือกข้อมูลส่งต่อเฉพาะเจาะจง
         quantitative_type: ข้อมูลส่งต่อที่กำหนดเอง
-        referral_source: แหล่งการส่งต่อ 
+        referral_source: แหล่งการส่งต่อ
         stage: ขั้นตอน
         survey: การสำรวจ
         task: งาน
@@ -6392,11 +6394,11 @@ th:
     required:
       mark: "*"
       text: ที่จำเป็น
-    save: บันทึก 
+    save: บันทึก
     'yes': 'ใช่'
   stages:
     able_screening_question_fields:
-      alert_manager:แจ้งเตือนผู้จัดการ
+      alert_manager: แจ้งเตือนผู้จัดการ
       are_you_sure: ลบคำถามที่มีผลกระทบต่อคำตอบของเคส คุณแน่ใจหรือไม่ว่าต้องการลบ?
       group: กลุ่ม
       mode: โหมด
@@ -6413,7 +6415,7 @@ th:
       edit_stage: แก้ไขขั้นตอน
     form:
       add_question: เพิ่มคำถาม
-      alert_manager:แจ้งเตือนผู้จัดการ
+      alert_manager: แจ้งเตือนผู้จัดการ
       from_age: จากอายุ (เป็นปี)
       group: กลุ่ม
       mode: โหมด
@@ -6453,7 +6455,7 @@ th:
     form:
       care_score: CCW ของฉันใส่ใจถึงสิ่งที่เกิดขึ้นกับเด็กที่ฉันดูแล
       difficulty_help_score: CIF ได้ช่วยฉันผ่านวิกฤตในชีวิตของฉัน
-      family_need_score: ค่าเบี้ยประจำช่วยให้ฉัน พอใช้เพื่อการตอบสนองต่อความต้องการของครอบครัวของฉัน 
+      family_need_score: ค่าเบี้ยประจำช่วยให้ฉัน พอใช้เพื่อการตอบสนองต่อความต้องการของครอบครัวของฉัน
       getting_in_touch_score: บัตร CCW ของฉันรู้จักบริการและกลุ่มคนอื่น ๆ ที่สามารถช่วยฉัน และช่วยฉันติดต่อกับพวกเขา
       listening_score: ฉันรู้สึกว่า CCW ของฉันฟังฉันเมื่อฉันพูด
       note: หมายเหตุ
@@ -6476,7 +6478,7 @@ th:
       back: กลับมา
       care_score: CCW ของฉันใส่ใจถึงสิ่งที่เกิดขึ้นกับเด็กที่ฉันดูแล
       difficulty_help_score: CIF ได้ช่วยฉันผ่านวิกฤตในชีวิตของฉัน
-      family_need_score: ค่าเบี้ยประจำช่วยให้ฉัน พอใช้เพื่อการตอบสนองต่อความต้องการของครอบครัวของฉัน 
+      family_need_score: ค่าเบี้ยประจำช่วยให้ฉัน พอใช้เพื่อการตอบสนองต่อความต้องการของครอบครัวของฉัน
       getting_in_touch_score: บัตร CCW ของฉันรู้จักบริการและกลุ่มคนอื่น ๆ ที่สามารถช่วยฉัน และช่วยฉันติดต่อกับพวกเขา
       listening_score: ฉันรู้สึกว่า CCW ของฉันฟังฉันเมื่อฉันพูด
       problem_solving_score: คำสั่งของฉันช่วยให้ฉันแก้ปัญหาของฉันได้
@@ -6703,7 +6705,7 @@ th:
     case_note_permission:
       can_edit: สามารถแก้ไข
       can_view: สามารถดู
-      case_notes: บันทึกเคส 
+      case_notes: บันทึกเคส
     clients:
       clients: ผู้ใช้บริการ
       read_less: อ่านน้อยลง
@@ -6763,7 +6765,7 @@ th:
       manager: ผู้จัดการ
       manager_id: ผู้จัดการ
       mobile: โทรศัพท์มือถือ
-      overdue_summary: สรุปงานที่ค้าง 
+      overdue_summary: สรุปงานที่ค้าง
       password: รหัสผ่าน
       password_confirmation: ยืนยันรหัสผ่าน
       password_hint: ไม่ต้องระบุหากคุณไม่ต้องการเปลี่ยนรหัสผ่าน
@@ -6786,10 +6788,10 @@ th:
     multi_factor_authentication:
       verify_disabled:
         two_factor_authentication_could_not_be_disabled: ไม่สามารถปิดการใช้งานการยืนยันสองขั้นตอนได้
-        two_factor_authentication_disabled: ปิดใช้งานการยืนยันสองขั้นตอน 
+        two_factor_authentication_disabled: ปิดใช้งานการยืนยันสองขั้นตอน
       verify_enable:
         two_factor_authentication_could_not_be_enabled: ไม่สามารถปิดการใช้งานการยืนยันสองขั้นตอนได้
-        two_factor_authentication_enabled: เปิดใช้งานการยืนยันสองขั้นตอน 
+        two_factor_authentication_enabled: เปิดใช้งานการยืนยันสองขั้นตอน
     new:
       clients: ผู้ใช้บริการ
       current_password: รหัสผ่านปัจจุบัน
