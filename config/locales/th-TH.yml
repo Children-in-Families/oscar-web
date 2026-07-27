@@ -502,7 +502,7 @@ th:
       exit_reasons: เหตุผลที่ออก
       family: ครอบครัว
       family_basic_fields: ไฟล์พื้นฐานของครอบครัว
-      common_searches:
+      common_searches: คำค้นหาทั่วไป
       family_id: ทะเบียนบ้าน
       family_name: นามสกุล (ภาษาอังกฤษ)
       follow_up_by: ติดตามครั้งแรกโดย
@@ -529,9 +529,8 @@ th:
       name: ชื่อ
       name_of_referee: ชื่อผู้ส่งต่อ
       ngo_accepted_date: วันที่NGOตอบรับ
-      no_case_note_date: ไม่มีวันที่บันทึกเคส
       ngo_exit_date: วันที่ออกจาก NGO
-      no_case_note_date:
+      no_case_note_date: ไม่มีวันที่บันทึกเคส
       number_client_referred_gatekeeping: จำนวนเคสทั้งหมดที่ได้รับการส่งต่อ
       number_client_billable: จำนวนเคสที่คิดค่าบริการ (เดือน)
       other_info_of_exit: อื่น ๆ - ข้อมูลเพิ่มเติม
@@ -545,7 +544,7 @@ th:
       quantitative: ข้อมูลรับการส่งต่อเคส
       rated_for_id_poor: ผู้รับบริการมีบัตรสวัสดิการแห่งรัฐไหม?
       received_by: ผู้รับเคส
-      received_by_id:
+      received_by_id: รับสมาชิกพนักงาน
       referral_email: อีเมลผู้ส่งต่อ
       referral_phone: หมายเลขโทรศัพท์ของผู้ส่งต่อ
       referral_source: แหล่งข้อมูลการส่งต่อ
@@ -555,7 +554,6 @@ th:
       referred_in: จำนวนที่รับการส่งต่อ
       referred_out: จำนวนที่ส่งต่อ
       referred_to: ส่งต่อไปที่
-      referred_out:
       referee: ผู้ส่งต่อ
       referee_relationship: ความสัมพันธ์ของผู้ส่อต่อกับผู้รับบริการ
       referee_name: ชื่อผู้ส่งต่อ
@@ -898,8 +896,8 @@ th:
       successfully_updated: การโทรได้ถูกอัปเดตเรียบร้อยแล้ว.
   cancel: ยกเลิก
   cannot_be_blank: จำเป็นต้องกรอกช่องนี้
-  cannot_be_greater: ต้องไม่มากกว่า %{count}
-  cannot_be_lower: ต้องไม่น้อยกว่า %{count}
+  cannot_be_greater: "ต้องไม่มากกว่า %{count}"
+  cannot_be_lower: "ต้องไม่น้อยกว่า %{count}"
   cannot_remove: ไม่สามารถเอาออกได้
   cannot_remove_or_update: "ไม่สามารถถูกลบ/อัพเดตเนื่องจากมันถูกใช้แล้ว\n"
   care_plans:
@@ -984,7 +982,7 @@ th:
         what_is_my_plan_for_the_next_visit_to_the_client: แผนของฉันสำหรับการเยี่ยมเยียนผู้รับบริการครั้งถัดไปคืออะไร?
         with_id: พร้อม ID
   case_conferences:
-    case_conference_attr:
+    case_conference_attr: &CASE_CONFERENCE_ATTR
       add: เพิ่ม
       allow_file_size: ประเภทไฟล์ที่อนุญาต
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
@@ -1020,15 +1018,15 @@ th:
       attachments: ไฟล์แนบ
       attendants: เจ้าหน้าที่
       back: กลับมา
-      begin_now:
+      begin_now: เพิ่มใหม่
       case_conference: การประชุมเคส
-      case_conference_edit_duration:
-      initial_assessment:
-      next_review:
-      no_custom_domains_available:
-      please_add_custom_domains:
-      three_month_assessment:
-      view_report:
+      case_conference_edit_duration: การประชุมเคส ระยะเวลาที่สามารถแก้ไขได้
+      initial_assessment: "การประเมินเบื้องต้นเกี่ยวกับ"
+      next_review: การทบทวนครั้งถัดไปเมื่อ
+      no_custom_domains_available: ไม่มีโดเมนที่กำหนดเองให้ใช้งาน
+      please_add_custom_domains: คุณอาจต้องการเพิ่มโดเมนที่กำหนดเองก่อนที่จะสามารถดำเนินการนี้ได้.
+      three_month_assessment: "การประเมินราย 3 เดือน"
+      view_report: ดูรายงาน
     show:
       <<: *CASE_CONFERENCE_ATTR
     update:
@@ -1258,7 +1256,7 @@ th:
         failed_update: การอัปเดตผู้รับบริการล้มเหลว
         successfully_updated: ผู้รับบริการได้รับการอัปเดตสำเร็จแล้ว
     exit_ngos:
-      attr_exit_reason:
+      attr_exit_reason: &EXIT_REASON_ATTR
         exit_reason_options:
           agency_lack_resource: หน่วยงานขาดทรัพยากรที่เพียงพอ
           client_died: ผู้รับบริการเสียชีวิต
@@ -2176,7 +2174,7 @@ th:
       close: ปิด
       warning: คำเตือน
     custom_fields:
-    ​​​  form_name: Form Name
+      form_name: Form Name
     archive:
       successfully_archived: เคสได้ถูกลบออกและถูกย้ายไปยังถังขยะเรียบร้อยแล้ว
     restore:
@@ -2249,7 +2247,7 @@ th:
         '10': เด็กและพ่อแม่ที่อาศัยอยู่บนถนน.
         '11': พิการ
         '12': อื่น ๆ
-      client_able_answers:
+      client_able_answers: ผู้รับบริการ สามารถ ตอบได้
       client_global_identity: เอกสารประจำตัวของเคสทั่วโลก
       code: หมายเลขรหัสปรับแต่ง 1
       commune: ชุมชน
@@ -4295,7 +4293,7 @@ th:
     family_advanced_searches:
       advanced_search:
         add_new_filter: เพิ่มตัวกรองใหม่
-        add_new_group:
+        add_new_group: เพิ่มกลุ่ม
         advanced_search: โปรแกรมสร้างรายงาน
         custom_form_column: คอลัมน์แบบกำหนดเอง
         delete_group: ลบ
@@ -4336,7 +4334,6 @@ th:
       custom_forms: แบบฟอร์มเฉพาะ
       dependable_income: รายได้ที่เชื่อถือได้
       district: ตำบล
-      family_members:
       family_type: ประเภทครอบครัว
       female_adult_count: จำนวนสตรี
       female_children_count: จำนวนเด็กหญิง
@@ -4507,7 +4504,6 @@ th:
         exit_date: วันที่ออก
         exit_ngo: ครอบครัวออกจาก NGO
         exit_note: หมายเหตุที่ออก
-        #Todo
         exit_reason_options:
           agency_lack_resource: หน่วยงานขาดทรัพยากร
           family_died: ครอบครัวเสียชีวิต
@@ -5020,7 +5016,7 @@ th:
   has_been_added_to_calendar: เหตุการณ์นี้ถูกเพิ่มในปฏิทินแล้ว
   id: หมายเลขบัตรประชาชน (ID)
   internal_referrals:
-    internal_referral_attr:
+    internal_referral_attr: &INTERNAL_REFERRAL_ATTR
       are_you_sure: คุณแน่ใจหรือว่าต้องการลบ?
       attachments: ไฟล์แนบ
       changed_date: วันที่
@@ -5208,7 +5204,7 @@ th:
       default_columns: คอลัมน์เริ่มต้น
       field_settings: ช่องว่าง
       assessments: การประเมิน
-      integration:
+      integration: ความสามารถในการทำงานร่วมกัน
       custom_tools: เครื่องมือแบบเฉพาะ
       modulars: โมดูลาร์
       cms_tools: เครื่องมือ CMS
@@ -5896,36 +5892,36 @@ th:
     version:
       back: กลับมา
       modification_of: บันทึกการเปลี่ยนแปลงของ
-  referee_attr:
-    address_type: ประเภทที่อยู่
-    address_types:
-      business: ธุรกิจ
-      dormitory: หอพัก
-      home: บ้าน
-      other: อื่น ๆ
-      rci: สถานสงเคราะห์
-    adult: ผู้ใหญ่
-    anonymous: ไม่ระบุชื่อ
-    answered_call: รับโทรศัพท์
-    called_before: เคยโทรแล้ว
-    commune_id: สหมัณสังวรณ์
-    created_at: สร้างที่
-    current_address: ที่อยู่ปัจจุบัน
-    district_id: อำเภอ
-    email: อีเมล
-    gender: เพศ
-    house_number: หมายเลขบ้าน
-    id: หมายเลขบัตรประชาชน(ID)
-    name: ชื่อ
-    outside: ระหว่างประเทศ
-    outside_address: ที่อยู่อื่น ๆ
-    phone: โทรศัพท์
-    province_id: จังหวัด
-    requested_update: อัปเดตที่ขอแล้ว
-    street_number: หมายเลขถนน
-    updated_at: อัปเดตที่
-    village_id: หมู่บ้าน
   referees:
+    referee_attr: &REFEREE_ATTR
+      address_type: ประเภทที่อยู่
+      address_types:
+        business: ธุรกิจ
+        dormitory: หอพัก
+        home: บ้าน
+        other: อื่น ๆ
+        rci: สถานสงเคราะห์
+      adult: ผู้ใหญ่
+      anonymous: ไม่ระบุชื่อ
+      answered_call: รับโทรศัพท์
+      called_before: เคยโทรแล้ว
+      commune_id: สหมัณสังวรณ์
+      created_at: สร้างที่
+      current_address: ที่อยู่ปัจจุบัน
+      district_id: อำเภอ
+      email: อีเมล
+      gender: เพศ
+      house_number: หมายเลขบ้าน
+      id: หมายเลขบัตรประชาชน(ID)
+      name: ชื่อ
+      outside: ระหว่างประเทศ
+      outside_address: ที่อยู่อื่น ๆ
+      phone: โทรศัพท์
+      province_id: จังหวัด
+      requested_update: อัปเดตที่ขอแล้ว
+      street_number: หมายเลขถนน
+      updated_at: อัปเดตที่
+      village_id: หมู่บ้าน
     index:
     <<: *REFEREE_ATTR
     show:
@@ -6178,7 +6174,7 @@ th:
     update:
       successfully_updated: การตั้งค่าได้รับการอัปเดตเรียบร้อยแล้ว
   service_deliveries:
-    _attr:
+    _attr: &SERVICE_DELIVERY_ATTR
       add_new_service_delivery: เพิ่มการส่งมอบบริการใหม่
       category: ประเภท
       done_by: ดำเนินการโดย
@@ -6243,7 +6239,7 @@ th:
       score: คะแนน
       select_assessment_tool: "เลือกเครื่องมือประเมินสำหรับสุขภาพอย่างมีประสิทธิภาพของเคส"
   screening_assessments:
-    _attr:
+    _attr: &SA_ATTR
       add_new: + การประเมินใหม่
       add_task: เพิ่มงาน
       assessment_date: วันที่การประเมิน
@@ -6333,7 +6329,7 @@ th:
         case: เคส
         case_cote: บันทึกเคส
         case_note: ประเภทบันทึกเคส
-        change:
+        change: เปลี่ยนแปลงดังต่อไปนี้
         changelog: แก้ไขบันทึกการปล่อย
         client: ผู้ใช้บริการ
         client_custom_field: แบบฟอร์มเคสที่กำหนดเอง
@@ -6442,7 +6438,7 @@ th:
     stage: ขั้นตอน
     update:
       successfully_updated: เคสได้ถูกอัปเดตเรียบร้อยแล้ว
-  successfully_created: "%{klass} ได้ถูกสร้างเรียบร้อยแล้ว.""
+  successfully_created: "%{klass} ได้ถูกสร้างเรียบร้อยแล้ว."
   successfully_deleted: "%{klass} ได้ถูกลบเรียบร้อยแล้ว."
   successfully_updated: "%{klass} ได้ถูกอัปเดตเรียบร้อยแล้ว."
   surveys:
@@ -6553,7 +6549,6 @@ th:
       post_deleted_notice: โพสต์ถูกลบ
       posts_content_changed_since_moderation_html: |-
         เนื้อหาของ <a href="%{post_url}">โพสต์</a> มีการเปลี่ยนแปลงตั้งแต่ได้รับการตรวจสอบ ด้านล่างนี้คือเนื้อหาในขณะที่ได้รับการตรวจสอบ
-                time it was moderated.
       search_users:
         form_label: ค้นหาผู้ใช้
         form_placeholder: ค้นหาผู้ใช้
@@ -6563,7 +6558,7 @@ th:
       all_messageboards: บอร์ดข้อความทั้งหมด
       edit_messageboard: แก้ไขบอร์ดข้อความ
       edit_post: แก้ไขโพสต์
-      edit_private_topic:
+      edit_private_topic: Edit Private Topic
       edit_topic: แก้ไขหัวข้อ
       home: บ้าน
       mark_all_read: ทำเครื่องหมายว่าอ่านทั้งหมดแล้ว
