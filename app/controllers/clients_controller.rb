@@ -475,7 +475,7 @@ class ClientsController < AdminController
         @carer_subdistricts = client.carer&.district_id.present? ? client.carer.district.cached_subdistricts : []
       end
     else
-      @current_provinces = Province.cached_order_name
+      @current_provinces = Province.cached_order_name(client)
       @districts = client.province_id.present? ? client.province.cached_districts : []
       @communes = client.district_id.present? ? client.district.cached_communes : []
       @villages = client.commune_id.present? ? client.commune.cached_villages : []

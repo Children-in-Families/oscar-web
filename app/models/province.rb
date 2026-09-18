@@ -61,8 +61,14 @@ class Province < ActiveRecord::Base
     Rails.cache.fetch([Apartment::Tenant.current, 'Province', id]) { find(id) }
   end
 
-  def self.cached_order_name
-    Rails.cache.fetch([Apartment::Tenant.current, 'Province', 'cached_order_name']) { order(:name).to_a }
+  def self.cached_order_name(related_object = nil)
+    if related_object.present? && related_object.respond_to?(:province)
+      Rails.cache.fetch([Apartment::Tenant.current, 'Province', 'cached_order_name', related_object.class.name, related_object.id]) do
+        order(:name).to_a.select { |province| province.country == related_object.province&.country }
+      end
+    else
+      Rails.cache.fetch([Apartment::Tenant.current, 'Province', 'cached_order_name']) { order(:name).to_a }
+    end
   end
 
   def cached_districts
