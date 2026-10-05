@@ -1,7 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'bundler',                '1.17.3'
-gem 'rails',                  '4.2.5'
+# Stage 1 of the Rails upgrade: 4.2 -> 5.2 baseline.
+# This is the first step toward the eventual Rails 7 migration.
+
+gem 'bundler',                '>= 1.17.3', '< 3.0'
+gem 'rails',                  '~> 5.2.8'
 gem 'pg',                     '~> 0.18.4'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -11,7 +14,7 @@ gem 'coffee-rails',           '~> 4.1.0'
 gem 'jbuilder',               '~> 2.0'
 gem 'simple_form',            '~> 3.2'
 gem 'bootstrap-sass',         '~> 3.3.5'
-gem 'devise',                 '~> 3.5', '>= 3.5.2'
+gem 'devise',                 '~> 4.8', '>= 4.8.1'
 gem 'haml-rails',             '~> 0.9'
 gem 'dotenv-rails',           '~> 2.0.2'
 gem 'roo',                    '~> 2.8.3'
