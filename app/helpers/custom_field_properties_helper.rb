@@ -65,7 +65,7 @@ module CustomFieldPropertiesHelper
 
   def display_custom_formable_name(klass_object)
     case klass_object.class.name.downcase
-    when 'family', 'community'
+    when 'family', 'community', 'partner'
       klass_object.display_name
     when 'user', 'partner'
       klass_object.name
